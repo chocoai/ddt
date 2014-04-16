@@ -4,12 +4,32 @@
  */
 package com.ddt.web.realm;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ddt.core.common.SessionVariable;
+import com.ddt.core.constants.Constants;
+import com.ddt.core.enums.State;
+import com.ddt.core.meta.Group;
+import com.ddt.core.meta.User;
+import com.ddt.core.service.UserService;
+import com.ddt.core.utils.CollectionUtil;
+import com.google.common.collect.Lists;
 
 
 /**
@@ -20,19 +40,89 @@ import org.apache.shiro.subject.PrincipalCollection;
  * @since      1.0
  */
 public class JdbcAuthenticationRealm extends AuthorizingRealm {
-
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(
-			PrincipalCollection principals) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	@Autowired
+	private UserService userService;
+	
+	private List<String> defaultRole = Lists.newArrayList();
+	
+	/**
+	 * 
+	 * 当用户进行访问链接时的授权方法
+	 * 
+	 */
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        
+        SessionVariable model = (SessionVariable) principals.getPrimaryPrincipal();
+        
+        long id = model.getUser().getId();
+        
+        //加载用户的组信息和资源信息
+//        List<Resource> authorizationInfo = merchantService.getUserResources(id);
+        List<Group> groupsList = userService.getUserGroups(id);
+//        List<Resource> resourcesList = merchantService.mergeResourcesToParent(authorizationInfo, ResourceType.Security);
+        
+//        model.setAuthorizationInfo(authorizationInfo);
+        model.setGroupsList(groupsList);
+//        model.setMenusList(resourcesList);
+        
+        //添加用户拥有的permission
+//        addPermissions(info,authorizationInfo);
+        //添加用户拥有的role
+        addRoles(info,groupsList);
+        
+        SecurityUtils.getSubject().getSession().setAttribute(Constants.USER_SESSION_KEY, model);
+        
+        return info;
 	}
-
+	
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken token) throws AuthenticationException {
-		// TODO Auto-generated method stub
-		return null;
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
+
+        String username = usernamePasswordToken.getUsername();
+        
+        if (username == null) {
+            throw new AccountException("用户名不能为空");
+        }
+        
+        User user = userService.getUserByName(username);
+        
+        if (user == null) {
+            throw new UnknownAccountException("用户不存在");
+        }
+        
+        if (user.getState() == State.Disable.getValue()) {
+        	 throw new DisabledAccountException("你的账户已被禁用,请联系管理员开通.");
+        }
+        
+        SessionVariable model = new SessionVariable(user);
+        
+        return new SimpleAuthenticationInfo(model, user.getPassword(), getName());
+	}
+	
+	/**
+	 * 通过组集合，将集合中的role字段内容解析后添加到SimpleAuthorizationInfo授权信息中
+	 * 
+	 * @param info SimpleAuthorizationInfo
+	 * @param groupsList 组集合
+	 */
+	private void addRoles(SimpleAuthorizationInfo info, List<Group> groupsList) {
+		
+		//解析当前用户组中的role
+        List<String> roles = CollectionUtil.extractToList(groupsList, "name", true);
+//        List<String> roles = getValue(temp,"roles\\[(.*?)\\]");
+       
+        //添加默认的roles到roels
+        if (CollectionUtils.isNotEmpty(defaultRole)) {
+        	CollectionUtils.addAll(roles, defaultRole.iterator());
+        }
+        
+        //将当前用户拥有的roles设置到SimpleAuthorizationInfo中
+        info.addRoles(roles);
+		
 	}
 
 }
