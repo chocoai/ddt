@@ -22,4 +22,6 @@ public interface UserService {
 
 	List<Group> getUserGroups(long id);
 
+	void insertUser(User user);
+
 }

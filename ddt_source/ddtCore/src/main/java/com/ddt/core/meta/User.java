@@ -19,6 +19,11 @@ public class User {
 	private long id;
 	
 	/**
+	 * 微信名称
+	 */
+	private String wxName;
+	
+	/**
 	 * 登录邮箱
 	 */
 	private String email;
@@ -174,6 +179,14 @@ public class User {
 
 	public void setZipcode(int zipcode) {
 		this.zipcode = zipcode;
+	}
+
+	public String getWxName() {
+		return wxName;
+	}
+
+	public void setWxName(String wxName) {
+		this.wxName = wxName;
 	}
 
 	public String getHomepage() {

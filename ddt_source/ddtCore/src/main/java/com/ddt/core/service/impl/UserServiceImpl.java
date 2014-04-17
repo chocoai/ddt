@@ -21,14 +21,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByName(String username) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Group> getUserGroups(long id) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void insertUser(User user) {
+		
 	}
 
 }
