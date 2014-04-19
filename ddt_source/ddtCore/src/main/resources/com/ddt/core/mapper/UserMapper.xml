@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ddt.core.mapper.UserMapper">
+    
+    <sql id="user_ext_info_column">
+          user_id				userId
+		, up_cart_num 			upCartNum
+		, wup_cart_num_time		wupCartNumTime
+		, mup_cart_time			mupCartTime   
+		, marital_status		maritalStatus     
+		, edu_level             eduLevel
+		, profession            profession
+		, birth_condition       birthCondition
+		, remarks         		remarks    
+		, vip_level    			vipLevel       
+		, is_vip_freeze         isVipFreeze
+		, direct_refund_count 	directRefundCount
+		, username              username
+		, email                 email
+		, zipcode               zipcode 
+		, state  				state            
+		, city     				city           
+		, street     			street         
+		, tel    				tel             
+		, mobile   				mobile          
+		, last_login_time 		lastLoginTime   
+		, ip 					ip               
+		, company    			company        
+		, birth_year     		birthYear    
+		, birth_month   		birthMonth      
+		, birth_day   			birthDay       
+		, realname   			realname      
+		, gender    			gender          
+		, section 				section           
+		, nickname				nickname
+		, extinfo   			extinfo
+    </sql>
+    
+    <select id="getUserByName" resultType="User" parameterType="string">
+        
+    </select>
+    
+    <insert id="insertUser" parameterType="User"></insert>
+    
+    <select id="getUserByOrderId" parameterType="java.util.Map" resultType="User">
+        SELECT	  b.id	id
+        		, b.wx_name	wxName
+        		, b.wx_number	wxNumber
+        FROM	  wxg_order	a
+        		, wxg_user b
+        WHERE	a.user_id = b.id
+        		AND a.id = #{orderId}
+    </select>
+    
+    <select id="getExtinfoByUserId" parameterType="java.util.Map" resultType="UserExtInfo">
+        SELECT
+        <include refid="user_ext_info_column"/>
+        FROM 	wxg_user_extinfo
+        WHERE	user_id = #{userId}
+    </select>
+</mapper>

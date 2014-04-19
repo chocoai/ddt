@@ -24,9 +24,9 @@ public class User {
 	private String wxName;
 	
 	/**
-	 * 登录邮箱
+	 * 用户名
 	 */
-	private String email;
+	private String userName;
 	
 	/**
 	 * 登录密码
@@ -34,48 +34,9 @@ public class User {
 	private String password;
 	
 	/**
-	 * 公司名称
-	 */
-	private String companyName;
-	
-	/**
-	 * 联系人
-	 */
-	private String contacts;
-	
-	/**
 	 * 手机号码
 	 */
-	private String phoneNumber;
-	
-	/**
-	 * 固定电话
-	 */
-	private String telephone;
-	
-	/**
-	 * 传真
-	 */
-	private String fax;
-	
-	/**
-	 * 公司类型
-	 */
-	private int companyType;
-	
-	/**
-	 * 地址
-	 */
-	private String address;
-	
-	/**
-	 * qq号
-	 */
-	private long qq;
-	
-	private int zipcode;
-	
-	private String homepage;
+	private String mobile;
 	
 	
 	/**
@@ -93,12 +54,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -109,76 +70,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getCompanyName() {
-		return companyName;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public String getContacts() {
-		return contacts;
-	}
-
-	public void setContacts(String contacts) {
-		this.contacts = contacts;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-
-	public int getCompanyType() {
-		return companyType;
-	}
-
-	public void setCompanyType(int companyType) {
-		this.companyType = companyType;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public long getQq() {
-		return qq;
-	}
-
-	public void setQq(long qq) {
-		this.qq = qq;
-	}
-
-	public int getZipcode() {
-		return zipcode;
-	}
-
-	public void setZipcode(int zipcode) {
-		this.zipcode = zipcode;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getWxName() {
@@ -187,14 +84,6 @@ public class User {
 
 	public void setWxName(String wxName) {
 		this.wxName = wxName;
-	}
-
-	public String getHomepage() {
-		return homepage;
-	}
-
-	public void setHomepage(String homepage) {
-		this.homepage = homepage;
 	}
 
 	public String getDescription() {
