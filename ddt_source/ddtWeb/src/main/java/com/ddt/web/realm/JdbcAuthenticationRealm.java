@@ -12,7 +12,6 @@ import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ddt.core.common.SessionVariable;
 import com.ddt.core.constants.Constants;
-import com.ddt.core.enums.State;
 import com.ddt.core.meta.Group;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
@@ -60,16 +58,10 @@ public class JdbcAuthenticationRealm extends AuthorizingRealm {
         long id = model.getUser().getId();
         
         //加载用户的组信息和资源信息
-//        List<Resource> authorizationInfo = merchantService.getUserResources(id);
         List<Group> groupsList = userService.getUserGroups(id);
-//        List<Resource> resourcesList = merchantService.mergeResourcesToParent(authorizationInfo, ResourceType.Security);
         
-//        model.setAuthorizationInfo(authorizationInfo);
         model.setGroupsList(groupsList);
-//        model.setMenusList(resourcesList);
         
-        //添加用户拥有的permission
-//        addPermissions(info,authorizationInfo);
         //添加用户拥有的role
         addRoles(info,groupsList);
         
@@ -92,10 +84,6 @@ public class JdbcAuthenticationRealm extends AuthorizingRealm {
         
         if (user == null) {
             throw new UnknownAccountException("用户不存在");
-        }
-        
-        if (user.getState() == State.Disable.getValue()) {
-        	 throw new DisabledAccountException("你的账户已被禁用,请联系管理员开通.");
         }
         
         SessionVariable model = new SessionVariable(user);

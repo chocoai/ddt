@@ -44,8 +44,6 @@ public class User {
 	 */
 	private String description;
 	
-	private int state;
-
 	public long getId() {
 		return id;
 	}
@@ -92,13 +90,5 @@ public class User {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public int getState() {
-		return state;
-	}
-
-	public void setState(int state) {
-		this.state = state;
 	}
 }

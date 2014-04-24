@@ -4,8 +4,13 @@
  */
 package com.ddt.core.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ddt.core.mapper.UserMapper;
 import com.ddt.core.meta.Group;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
@@ -17,21 +22,25 @@ import com.ddt.core.service.UserService;
  * @version    1.0 2014-4-15
  * @since      1.0
  */
+@Service
 public class UserServiceImpl implements UserService {
-
+	
+	@Autowired
+	private UserMapper userMapper;
+	
 	@Override
 	public User getUserByName(String username) {
-		return null;
+		return userMapper.getUserByName(Collections.singletonMap("username", (Object) username));
 	}
 
 	@Override
 	public List<Group> getUserGroups(long id) {
-		return null;
+		return userMapper.getUserGroups(Collections.singletonMap("id", (Object) id));
 	}
 
 	@Override
 	public void insertUser(User user) {
-		
+		userMapper.insertUser(user);
 	}
 
 }

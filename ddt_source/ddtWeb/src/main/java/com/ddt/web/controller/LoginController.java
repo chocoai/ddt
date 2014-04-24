@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ddt.core.common.SessionVariable;
 import com.ddt.core.constants.StatusCode;
-import com.ddt.core.enums.State;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
 import com.google.code.kaptcha.Constants;
@@ -73,11 +72,6 @@ public class LoginController {
 			if (c == null) {
 				view.addObject("status", StatusCode.USER_NAME_NOT_EXISTS);
 				view.addObject("result", "用户名不存在");
-				return view;
-			}
-			
-			if (c.getState() == State.Inactive.getValue()) {
-				view.addObject("status", StatusCode.USER_IS_INACTIVE);
 				return view;
 			}
 			
