@@ -14,14 +14,32 @@ import java.util.Date;
  * @since      1.0
  */
 public class RollBookUser {
+	private long id;
 	
 	private long bookId;
 	
+	/**
+	 * 上传名单名字
+	 */
+	private String rollname;
+	
+	/**
+	 * 上传名单的用户id
+	 */
 	private long userId;
 	
 	private Date rollTime;
 	
 	private String rollInfo;
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public long getBookId() {
 		return bookId;
@@ -31,12 +49,12 @@ public class RollBookUser {
 		this.bookId = bookId;
 	}
 
-	public long getUserId() {
-		return userId;
+	public String getRollname() {
+		return rollname;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setRollname(String rollname) {
+		this.rollname = rollname;
 	}
 
 	public Date getRollTime() {
@@ -54,5 +72,12 @@ public class RollBookUser {
 	public void setRollInfo(String rollInfo) {
 		this.rollInfo = rollInfo;
 	}
-	
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 }
