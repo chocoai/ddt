@@ -57,16 +57,16 @@ public class LoginController {
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = new ModelAndView("info");
 		
-		String imageCode = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "imgCode", ""));
-		
-		if (!validateImageCode(request, imageCode)) {
-			view.addObject("status", StatusCode.VALID_CODE_ERROR);
-			view.addObject("result", "验证码错误");
-			return view;
-		}
+//		String imageCode = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "imgCode", ""));
+//		
+//		if (!validateImageCode(request, imageCode)) {
+//			view.addObject("status", StatusCode.VALID_CODE_ERROR);
+//			view.addObject("result", "验证码错误");
+//			return view;
+//		}
 		
 		String username = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "username", ""));
-		String password = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "password", ""));
+		String password = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "userpass", ""));
 		try {
 			User c = userService.getUserByName(username);
 			if (c == null) {
