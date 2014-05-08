@@ -60,8 +60,6 @@
 				/login = anon
 				/logout = anon
 				/admin/** = roles[admin]
-				/merchant/** = roles[user]
-				/qiniu/** = roles[user]
 				/** = anon
 			</value>
 		</property>
