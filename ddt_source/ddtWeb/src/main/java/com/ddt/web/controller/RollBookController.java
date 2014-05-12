@@ -37,7 +37,7 @@ public class RollBookController extends BaseController {
 	
 	@RequestMapping("list")
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+		ModelAndView view = getBaseView("main");
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
@@ -46,10 +46,11 @@ public class RollBookController extends BaseController {
 		long userId = getUserId();
 		
 		List<RollBook> rollBooks = rollBookService.getRollBookList(userId, limit, offset);
+		int count = rollBookService.getRollBookCount(userId);
 		
 		view.addObject("rollBooks", rollBooks);
 		view.addObject("page", page);
-		
+		view.addObject("totalPage", (int) Math.round(count * 1.0 / limit));
 		return view;
 	}
 	

@@ -5,11 +5,12 @@
     version="3.0">
 
   <display-name>ddtweb</display-name>
-
+ 
 	<!-- Context Configuration locations for Spring XML files -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
+		    classpath:applicationContext-core-db.xml
 			classpath:application*Context*.xml
 		</param-value>
 	</context-param>

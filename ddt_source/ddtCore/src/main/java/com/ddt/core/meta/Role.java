@@ -7,9 +7,9 @@ package com.ddt.core.meta;
  * @author roy
  *
  */
-public class Group {
+public class Role {
 
-	public static final String UserGroups = "userGroups";
+	public static final String USERROLE = "userRole";
 	
 	private long id;
 	
@@ -21,7 +21,7 @@ public class Group {
 	/**
 	 * 构造方法
 	 */
-	public Group() {
+	public Role() {
 		
 	}
 

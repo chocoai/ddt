@@ -104,7 +104,13 @@
 			<artifactId>freemarker</artifactId>
 			<version>2.3.19</version>
 		</dependency>
-
+	
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		
 		<!-- AOP begin -->
 		<dependency>
 			<groupId>org.aspectj</groupId>

@@ -66,7 +66,7 @@ public class LoginController {
 //		}
 		
 		String username = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "username", ""));
-		String password = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "userpass", ""));
+		String password = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "password", ""));
 		try {
 			User c = userService.getUserByName(username);
 			if (c == null) {

@@ -4,42 +4,19 @@
 
 <mapper namespace="com.ddt.core.mapper.UserMapper">
     
-    <sql id="user_ext_info_column">
-          user_id				userId
-		, up_cart_num 			upCartNum
-		, wup_cart_num_time		wupCartNumTime
-		, mup_cart_time			mupCartTime   
-		, marital_status		maritalStatus     
-		, edu_level             eduLevel
-		, profession            profession
-		, birth_condition       birthCondition
-		, remarks         		remarks    
-		, vip_level    			vipLevel       
-		, is_vip_freeze         isVipFreeze
-		, direct_refund_count 	directRefundCount
-		, username              username
-		, email                 email
-		, zipcode               zipcode 
-		, state  				state            
-		, city     				city           
-		, street     			street         
-		, tel    				tel             
-		, mobile   				mobile          
-		, last_login_time 		lastLoginTime   
-		, ip 					ip               
-		, company    			company        
-		, birth_year     		birthYear    
-		, birth_month   		birthMonth      
-		, birth_day   			birthDay       
-		, realname   			realname      
-		, gender    			gender          
-		, section 				section           
-		, nickname				nickname
-		, extinfo   			extinfo
+    <sql id="user_base_column">
+          user_id	id
+        , user_name	userName
+        , password	password
+        , wx_number	wxName
+        , mobile	mobile
     </sql>
     
     <select id="getUserByName" resultType="User" parameterType="string">
-        
+        SELECT
+        <include refid="user_base_column"/>
+        FROM	ddt_user
+        WHERE	user_name = #{username}
     </select>
     
     <insert id="insertUser" parameterType="User"></insert>
@@ -54,10 +31,12 @@
         		AND a.id = #{orderId}
     </select>
     
-    <select id="getExtinfoByUserId" parameterType="java.util.Map" resultType="UserExtInfo">
-        SELECT
-        <include refid="user_ext_info_column"/>
-        FROM 	wxg_user_extinfo
-        WHERE	user_id = #{userId}
+    <select id="getUserRoles" parameterType="java.util.Map" resultType="Role">
+        SELECT	  a.id	id
+        		, a.name	name
+        FROM	  ddt_role a
+        		, ddt_user_role b
+        WHERE	a.id = b.role_id
+        		AND b.user_id = #{id}
     </select>
 </mapper>

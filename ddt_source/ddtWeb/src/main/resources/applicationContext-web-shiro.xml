@@ -20,8 +20,12 @@
 				<property name="hashAlgorithmName" value="MD5" />
 			</bean>
 		</property>
-		<property name="defaultPermissionString" value="" />
     	<property name="authorizationCacheName" value="shiroAuthorizationCache" />
+    	<property name="defaultRole">
+    	    <list>
+    	        <value>user</value>
+    	    </list>
+    	</property>
 	</bean>
 	
 	<!-- shiro 的缓存管理,使用spring的ehCacheManagerFactory,
@@ -51,7 +55,7 @@
 		<!-- shiro的核心安全接口 -->
     	<property name="securityManager" ref="securityManager" />
 	    <property name="loginUrl" value="/login" />
-	    <property name="successUrl" value="/merchant/index" />
+	    <property name="successUrl" value="/rollbook/list" />
 	   <!-- 默认的连接配置 -->
 		<property name="filterChainDefinitions">
 			<value>
@@ -60,6 +64,7 @@
 				/login = anon
 				/logout = anon
 				/admin/** = roles[admin]
+				/rollbook/** = roles[user]
 				/** = anon
 			</value>
 		</property>

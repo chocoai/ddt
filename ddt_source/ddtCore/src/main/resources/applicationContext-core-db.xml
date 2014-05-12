@@ -77,7 +77,7 @@
     </bean>
 
     <!-- enable component scanning (beware that this does not enable mapper scanning!) -->    
-    <context:component-scan base-package="com.ddt.core.aop"/> 
+    <context:component-scan base-package="com.ddt.core.aop,com.ddt.core.service"/> 
     
     <!-- 启用Aop AspectJ注解 -->
     <aop:aspectj-autoproxy/>

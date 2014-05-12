@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ddt.core.common.SessionVariable;
 import com.ddt.core.constants.Constants;
-import com.ddt.core.meta.Group;
+import com.ddt.core.meta.Role;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
 import com.ddt.core.utils.CollectionUtil;
@@ -58,12 +58,12 @@ public class JdbcAuthenticationRealm extends AuthorizingRealm {
         long id = model.getUser().getId();
         
         //加载用户的组信息和资源信息
-        List<Group> groupsList = userService.getUserGroups(id);
+        List<Role> roleList = userService.getUserRoles(id);
         
-        model.setGroupsList(groupsList);
+        model.setRolesList(roleList);
         
         //添加用户拥有的role
-        addRoles(info,groupsList);
+        addRoles(info, roleList);
         
         SecurityUtils.getSubject().getSession().setAttribute(Constants.USER_SESSION_KEY, model);
         
@@ -95,12 +95,12 @@ public class JdbcAuthenticationRealm extends AuthorizingRealm {
 	 * 通过组集合，将集合中的role字段内容解析后添加到SimpleAuthorizationInfo授权信息中
 	 * 
 	 * @param info SimpleAuthorizationInfo
-	 * @param groupsList 组集合
+	 * @param roleList 组集合
 	 */
-	private void addRoles(SimpleAuthorizationInfo info, List<Group> groupsList) {
+	private void addRoles(SimpleAuthorizationInfo info, List<Role> roleList) {
 		
 		//解析当前用户组中的role
-        List<String> roles = CollectionUtil.extractToList(groupsList, "name", true);
+        List<String> roles = CollectionUtil.extractToList(roleList, "name", true);
 //        List<String> roles = getValue(temp,"roles\\[(.*?)\\]");
        
         //添加默认的roles到roels
@@ -111,6 +111,14 @@ public class JdbcAuthenticationRealm extends AuthorizingRealm {
         //将当前用户拥有的roles设置到SimpleAuthorizationInfo中
         info.addRoles(roles);
 		
+	}
+
+	public List<String> getDefaultRole() {
+		return defaultRole;
+	}
+
+	public void setDefaultRole(List<String> defaultRole) {
+		this.defaultRole = defaultRole;
 	}
 
 }

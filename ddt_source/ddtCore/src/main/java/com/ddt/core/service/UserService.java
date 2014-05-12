@@ -6,7 +6,7 @@ package com.ddt.core.service;
 
 import java.util.List;
 
-import com.ddt.core.meta.Group;
+import com.ddt.core.meta.Role;
 import com.ddt.core.meta.User;
 
 /**
@@ -20,7 +20,7 @@ public interface UserService {
 
 	User getUserByName(String username);
 
-	List<Group> getUserGroups(long id);
+	List<Role> getUserRoles(long id);
 
 	void insertUser(User user);
 

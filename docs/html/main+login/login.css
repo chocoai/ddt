@@ -1,0 +1,42 @@
+html,body{margin:0;padding:0;height: 100%;}
+*{margin:0;padding:0;}
+.bodywrap{min-width: 960px;height: 100%;background: #dfdfdf;}
+.wrap{width: 100%;min-width:960px;margin:0 auto;background: #fff;}
+.header{width: 100%;height: 100px;}
+.logo,.bannerwrap{float: left;}
+.bannerwrap{width: 100%;margin-left: -200px;}
+.logo{width: 200px;height: 100px;background: #9c0;}
+.banner{margin-left: 200px;height: 100px;background: #90c;}
+
+
+#footer {
+ height: 50px;
+ background: #6c3;
+ width:100%;
+ margin: -50px auto 0;
+}
+
+.main{position: relative;width: 100%;height:72%;margin-top: 25px;clear: both;padding-bottom: 50px;}
+.main .loginbox{
+	margin: 50px auto;
+	width: 418px;
+	height: 303px;
+	border: 1px solid #ccc;
+}
+.main .lgnform{margin: 0 auto;width: 270px;height: 150px;margin-top: 55px;}
+.lgnform fieldset{border:0;padding: 0;}
+.lgnform p{margin-top: 15px;}
+.lgnForm .inputTxt{width: 258px;height: 38px;border: 1px solid #ccc;border-radius: 2px;padding-left: 10px;font-size: 14px;color: #999;}
+.lgnForm .inputBtn{
+	width: 110px;
+	height: 33px;
+	background-color: #6c3;
+	border: 1px solid #3c0;
+	border-radius: 2px;
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	line-height: 33px;
+	cursor: pointer;
+}

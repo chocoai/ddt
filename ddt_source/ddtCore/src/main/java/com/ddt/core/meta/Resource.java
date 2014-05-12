@@ -27,7 +27,7 @@ public class Resource {
 	//资源类型
 	private String type;
 	//资源所对应的组集合
-	private List<Group> groupsList = new ArrayList<Group>();
+	private List<Role> groupsList = new ArrayList<Role>();
 	//shiro permission 字符串
 	private String permission;
 	//图标
@@ -187,7 +187,7 @@ public class Resource {
 	 * 
 	 * @return List
 	 */
-	public List<Group> getGroupsList() {
+	public List<Role> getGroupsList() {
 		return groupsList;
 	}
 
@@ -196,7 +196,7 @@ public class Resource {
 	 * 
 	 * @param groupsList 组集合
 	 */
-	public void setGroupsList(List<Group> groupsList) {
+	public void setGroupsList(List<Role> groupsList) {
 		this.groupsList = groupsList;
 	}
 

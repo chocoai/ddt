@@ -33,8 +33,8 @@
 					<form name="lgnForm" class="lgnForm" id="lgnForm">
 			            <fieldset>
 			                <legend>登录</legend>
-			                <p><input type="text" name="username" id="uname" class="inputTxt" value="用户名"></p>
-			                <p><input type="text" name="userpass" id="upwd" class="inputTxt" value="密码"></p>
+			                <p><input type="text" name="username" id="uname" class="inputTxt" placeholder="用户名"></p>
+			                <p><input type="password" name="userpass" id="upwd" class="inputTxt" placeholder="密码"></p>
 			                <p><input type="button" class="inputBtn" value="登录" id="btn-login"></p>
 			            </fieldset>
 	        		</form>

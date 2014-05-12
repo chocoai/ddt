@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ddt.core.mapper.UserMapper;
-import com.ddt.core.meta.Group;
+import com.ddt.core.meta.Role;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
 
@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Group> getUserGroups(long id) {
-		return userMapper.getUserGroups(Collections.singletonMap("id", (Object) id));
+	public List<Role> getUserRoles(long id) {
+		return userMapper.getUserRoles(Collections.singletonMap("id", (Object) id));
 	}
 
 	@Override

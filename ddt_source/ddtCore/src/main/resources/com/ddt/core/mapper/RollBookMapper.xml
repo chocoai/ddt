@@ -4,4 +4,30 @@
 
 <mapper namespace="com.ddt.core.mapper.RollBookMapper">
     
+    <sql id="roll_book_base_column">
+          id	id
+        , user_id	userId
+        , name		name
+        , valid_start_time	validStartTime
+        , valid_end_time	validEndTime
+        , roll_start_time	rollStartTime
+        , roll_end_time		rollEndTime
+        , roll_code			rollCode   
+    </sql>
+    
+    <select id="getRollBookList" parameterType="java.util.Map" resultType="RollBook">
+        SELECT
+        <include refid="roll_book_base_column"/>
+        FROM	ddt_roll_book
+        WHERE	user_id = #{userId}
+        <if test="limit > 0">
+            LIMIT #{offset}, #{limit}
+        </if>
+    </select>
+    
+    <select id="getRollBookCount" parameterType="java.util.Map" resultType="int">
+        SELECT	COUNT(*)
+       	FROM	ddt_roll_book
+       	WHERE	user_id = #{userId}
+    </select>
 </mapper>

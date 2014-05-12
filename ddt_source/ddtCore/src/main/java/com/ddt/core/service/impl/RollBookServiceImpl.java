@@ -74,4 +74,11 @@ public class RollBookServiceImpl implements RollBookService {
 		params.put("offset", offset);
 		return rollBookMapper.getUserRollInfoList(params);
 	}
+
+	@Override
+	public int getRollBookCount(long userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		return rollBookMapper.getRollBookCount(params);
+	}
 }

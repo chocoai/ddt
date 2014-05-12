@@ -3,7 +3,7 @@ package com.ddt.core.common;
 import java.io.Serializable;
 import java.util.List;
 
-import com.ddt.core.meta.Group;
+import com.ddt.core.meta.Role;
 import com.ddt.core.meta.Resource;
 import com.ddt.core.meta.User;
 
@@ -20,7 +20,7 @@ public class SessionVariable implements Serializable {
 	private User user;
 
 	// 当前用户所在的组集合
-	private List<Group> groupsList;
+	private List<Role> rolesList;
 
 	// 当前用户的授权资源集合
 	private List<Resource> authorizationInfo;
@@ -36,9 +36,9 @@ public class SessionVariable implements Serializable {
 		this.user = user;
 	}
 
-	public SessionVariable(User user, List<Group> groupsList,List<Resource> authorizationInfo, List<Resource> menusList) {
+	public SessionVariable(User user, List<Role> groupsList,List<Resource> authorizationInfo, List<Resource> menusList) {
 		this.user = user;
-		this.groupsList = groupsList;
+		this.rolesList = groupsList;
 		this.authorizationInfo = authorizationInfo;
 		this.menusList = menusList;
 	}
@@ -56,17 +56,17 @@ public class SessionVariable implements Serializable {
 	 * 
 	 * @return List
 	 */
-	public List<Group> getGroupsList() {
-		return groupsList;
+	public List<Role> getRolesList() {
+		return rolesList;
 	}
 
 	/**
 	 * 设置当前用户所在的组集合
 	 * 
-	 * @param groupsList 组集合
+	 * @param rolesList 组集合
 	 */
-	public void setGroupsList(List<Group> groupsList) {
-		this.groupsList = groupsList;
+	public void setRolesList(List<Role> rolesList) {
+		this.rolesList = rolesList;
 	}
 
 	/**

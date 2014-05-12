@@ -28,4 +28,6 @@ public interface RollBookService {
 
 	List<UserRollInfo> getUserRollInfoList(long userId, long rollInfoId, int limit, int offset);
 
+	int getRollBookCount(long userId);
+
 }

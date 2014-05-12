@@ -29,4 +29,6 @@ public interface RollBookMapper {
 
 	List<UserRollInfo> getUserRollInfoList(Map<String, Object> params);
 
+	int getRollBookCount(Map<String, Object> params);
+
 }
