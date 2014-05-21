@@ -8,18 +8,7 @@
 </head>
 <body>
 <div id="wrapper">
-    <div class="header">
-        <div class="info_bar">
-           <p class="exit"><a href="/logout">退出</a></p>
-          <p class="uname"><#if userSession??>${userSession.userName!''}</#if></p>
-
-        </div>
-        <div class="logo"></div>
-        <div class="bannerwrap">
-            <div class="banner"></div>
-        </div>
-        
-    </div>
+     <#include "/common/head.ftl">
     <div id="out-content">
         <div id="content-box">
             <div class="content">
@@ -34,7 +23,7 @@
                         </p>
                         <span class="new"></span> 
                     </form> 
-                    <div class="newfile"><a href="">新增</a></div>
+                    <div class="newfile"><a href="/rollbook/view">新增</a></div>
                 </div>
                 <div class="query_res">
                   <input type="hidden" id="cur_page">
@@ -45,15 +34,26 @@
                             <th style="width:10%">名称</th>
                             <th style="width:16%">开始时间</th>
                             <th style="width:16%">结束时间</th>
-                            <th style="width:16%">最后点名时间</th>
                             <th style="width:11%">总人数</th>
-                            <th style="width:11%">未点名人数</th>
-                            <th style="width:20%" colspan=2>操作</th>
+                            <th style="width:20%" colspan=3>操作</th>
                         </tr>
                     </thead>
                     <tbody id="content_table">
+                    <#if rollBooks?? && rollBooks?size &gt; 0>
+                    	<#list rollBooks as rollBook>
+                    		<tr>
+	                            <td>${rollBook.name!''}</td>
+	                            <td>${rollBook.validStartTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td>${rollBook.validEndTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td>${rollBook.userCount!'0'}</td>
+	                            <td><a href="/rollbook/userlist?rid=${rollBook.id}">名单</a></td>
+	                            <td><a href="/rollbook/view?rid=${rollBook.id}">查看</a></td>
+	                            <td><a href="/rollbook/rolllist?rid=${rollBook.id}">点名历史</a></td>
+	                            <td><a href="/rollbook/del?rid=${rollBook.id}&page=${page}">删除</a></td>
+                        	</tr>
+                    	</#list>
+                    </#if>
                         <tr>
-                            <td>1</td>
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
@@ -63,7 +63,6 @@
                             <td>1</td>
                         </tr>
                         <tr>
-                            <td>1</td>
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
@@ -87,23 +86,11 @@
             </div>
     
         </div>
-        <div class="leftside">
-            <ul class="leftul">
-                <li>
-                  <a href="">我的点名册</a>
-                </li>
-                <li>
-                  <a href="">我的积分</a>
-                </li>
-                <li>
-                  <a href="">我的</a>
-                </li>
-            </ul>
-        </div>
+         <#include "/common/sidebar.ftl">
     </div>
 </div>
 <div id="footer">
-    <h3>footer</h3>
+     <#include "/common/footer.ftl">
 </div>
 <script type="text/javascript" src="./jQuery.js"></script>
 <script type="text/javascript">

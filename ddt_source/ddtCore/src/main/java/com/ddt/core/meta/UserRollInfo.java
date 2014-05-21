@@ -4,6 +4,8 @@
  */
 package com.ddt.core.meta;
 
+import java.util.Date;
+
 /**
  * UserRollInfo.java
  *
@@ -12,29 +14,15 @@ package com.ddt.core.meta;
  * @since      1.0
  */
 public class UserRollInfo {
-	private long id;
 	
-	private long rollInfoId;
+	private long rollBookInfoId;
 	
 	private long userId;
 	
+	private Date rollTime;
+	
 	private String info;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getRollInfoId() {
-		return rollInfoId;
-	}
-
-	public void setRollInfoId(long rollInfoId) {
-		this.rollInfoId = rollInfoId;
-	}
 
 	public long getUserId() {
 		return userId;
@@ -50,5 +38,21 @@ public class UserRollInfo {
 
 	public void setInfo(String info) {
 		this.info = info;
+	}
+
+	public long getRollBookInfoId() {
+		return rollBookInfoId;
+	}
+
+	public void setRollBookInfoId(long rollBookInfoId) {
+		this.rollBookInfoId = rollBookInfoId;
+	}
+
+	public Date getRollTime() {
+		return rollTime;
+	}
+
+	public void setRollTime(Date rollTime) {
+		this.rollTime = rollTime;
 	}
 }

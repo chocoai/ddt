@@ -7,7 +7,7 @@ package com.ddt.core.meta;
 import java.util.Date;
 
 /**
- * RollBook.java
+ * RollBook.java 点名册
  *
  * @author     <A HREF="mailto:ruan635@163.com">Roy</A>
  * @version    1.0 2014-4-19
@@ -29,6 +29,8 @@ public class RollBook {
 	private Date rollEndTime;
 	
 	private String rollCode;
+	
+	private int userCount;
 
 	public long getId() {
 		return id;
@@ -92,5 +94,13 @@ public class RollBook {
 
 	public void setRollCode(String rollCode) {
 		this.rollCode = rollCode;
+	}
+
+	public int getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(int userCount) {
+		this.userCount = userCount;
 	}
 }

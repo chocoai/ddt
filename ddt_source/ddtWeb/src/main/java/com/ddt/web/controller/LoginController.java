@@ -23,7 +23,6 @@ import com.ddt.core.common.SessionVariable;
 import com.ddt.core.constants.StatusCode;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
-import com.google.code.kaptcha.Constants;
 
 /**
  * LoginController.java
@@ -120,19 +119,5 @@ public class LoginController {
 	private void login(Subject subject, String username, String password) {
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		subject.login(token);
-	}
-	
-	/**
-	 * 验证code
-	 * @param request
-	 * @param imageCode
-	 * @return
-	 */
-	private boolean validateImageCode(HttpServletRequest request, String imageCode) {
-		String value = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		if (StringUtils.isBlank(imageCode) || !imageCode.equalsIgnoreCase(value)) {
-			return false;
-		}
-		return true;
 	}
 }

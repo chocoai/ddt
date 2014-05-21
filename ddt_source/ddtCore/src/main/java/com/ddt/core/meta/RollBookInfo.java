@@ -7,13 +7,13 @@ package com.ddt.core.meta;
 import java.util.Date;
 
 /**
- * RollInfo.java
+ * RollInfo.java 点名册的点名情况
  *
  * @author     <A HREF="mailto:ruan635@163.com">Roy</A>
  * @version    1.0 2014-4-19
  * @since      1.0
  */
-public class RollInfo {
+public class RollBookInfo {
 	
 	private long id;
 	
@@ -22,6 +22,8 @@ public class RollInfo {
 	private long rollBookId;
 	
 	private Date rollTime;
+	
+	private int rollUserCount;
 
 	public long getId() {
 		return id;
@@ -53,5 +55,13 @@ public class RollInfo {
 
 	public void setRollTime(Date rollTime) {
 		this.rollTime = rollTime;
+	}
+
+	public int getRollUserCount() {
+		return rollUserCount;
+	}
+
+	public void setRollUserCount(int rollUserCount) {
+		this.rollUserCount = rollUserCount;
 	}
 }

@@ -12,7 +12,8 @@
         , valid_end_time	validEndTime
         , roll_start_time	rollStartTime
         , roll_end_time		rollEndTime
-        , roll_code			rollCode   
+        , roll_code			rollCode
+        , user_count		userCount
     </sql>
     
     <select id="getRollBookList" parameterType="java.util.Map" resultType="RollBook">
@@ -29,5 +30,13 @@
         SELECT	COUNT(*)
        	FROM	ddt_roll_book
        	WHERE	user_id = #{userId}
+    </select>
+    
+    <select id="getRollBookById" parameterType="java.util.Map" resultType="RollBook">
+        SELECT
+        <include refid="roll_book_base_column"/>
+        FROM	ddt_roll_book
+        WHERE	id = #{id}
+        		AND user_id = #{userId}
     </select>
 </mapper>

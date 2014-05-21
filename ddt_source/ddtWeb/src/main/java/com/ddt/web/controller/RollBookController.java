@@ -4,22 +4,33 @@
  */
 package com.ddt.web.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.ddt.core.meta.RollBook;
-import com.ddt.core.meta.RollInfo;
+import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
 import com.ddt.core.service.RollBookService;
+import com.ddt.core.utils.DateUtils;
 
 /**
  * RollBookController.java
@@ -37,7 +48,7 @@ public class RollBookController extends BaseController {
 	
 	@RequestMapping("list")
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = getBaseView("main");
+		ModelAndView view = getBaseView("rollbook/main");
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
@@ -55,14 +66,14 @@ public class RollBookController extends BaseController {
 	}
 	
 	/**
-	 * 点名的用户列表
+	 * 查看点名册名单
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("rolluser")
-	public ModelAndView rollUser(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+	@RequestMapping("userlist")
+	public ModelAndView userList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = getBaseView("rollbook/userlist");
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
@@ -77,6 +88,84 @@ public class RollBookController extends BaseController {
 		view.addObject("page", page);
 		
 		return view;
+	}
+	
+	/**
+	 * 查看点名册名单
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("view")
+	public ModelAndView view(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = getBaseView("rollbook/view");
+		
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "roll_book_id", 0);
+		
+		long userId = getUserId();
+		
+		RollBook rollBook = rollBookService.getRollBookById(rollBookId, userId);
+		
+		view.addObject("rollBook", rollBook);
+		
+		return view;
+	}
+	
+	/**
+	 * 保存点名册
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("save")
+	public ModelAndView save(HttpServletRequest request, HttpServletResponse response) {
+		
+		long rid = ServletRequestUtils.getLongParameter(request, "id", 0);
+		String name = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "name", ""));
+		String validStartDate = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "validStartDate", ""));
+		String validEndDate = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "validEndDate", ""));
+		int userCount = ServletRequestUtils.getIntParameter(request, "userCount", 0);
+		
+		long userId = getUserId();
+		
+		boolean isAdd = false;
+		
+		RollBook rollBook = rollBookService.getRollBookById(rid, userId);
+		if (rollBook == null) {
+			rollBook = new RollBook();
+			isAdd = true;
+		}
+		
+		rollBook.setName(name);
+		rollBook.setUserCount(userCount);
+		rollBook.setUserId(userId);
+		rollBook.setRollStartTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, validStartDate));
+		rollBook.setRollEndTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, validEndDate));
+		
+		if (isAdd) {
+			rollBookService.addRollBook(rollBook);
+		} else {
+			rollBookService.updateRollBook(rollBook);
+		}
+		
+		return new ModelAndView(new RedirectView("/rollbook/list"));
+	}
+	
+	/**
+	 * 删除点名册
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("del")
+	public ModelAndView del(HttpServletRequest request, HttpServletResponse response) {
+		
+		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		
+		rollBookService.deleteRollBook(rid);
+		
+		return new ModelAndView(new RedirectView("/rollbook/list?page=" + page));
 	}
 	
 	/**
@@ -96,7 +185,7 @@ public class RollBookController extends BaseController {
 		
 		long userId = getUserId();
 		
-		List<RollInfo> rollInfos = rollBookService.getRollInfoList(userId, rollBookId, limit, offset);
+		List<RollBookInfo> rollInfos = rollBookService.getRollInfoList(userId, rollBookId, limit, offset);
 		
 		view.addObject("rollInfos", rollInfos);
 		view.addObject("page", page);
@@ -124,5 +213,28 @@ public class RollBookController extends BaseController {
 		view.addObject("page", page);
 		
 		return view;
+	}
+	
+	/**
+	 * 模板下载
+	 */
+	@RequestMapping("template")
+	public ResponseEntity<byte[]> template(HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			File f = new File(RollBookController.class.getClassLoader().getResource("template.xlsx").toURI());
+			
+			HttpHeaders headers = new HttpHeaders();    
+	        headers.setContentDispositionFormData("attachment", "template.xlsx");   
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(f),    
+	                                          headers, HttpStatus.CREATED);
+			
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

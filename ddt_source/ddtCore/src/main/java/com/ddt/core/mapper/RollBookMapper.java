@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ddt.core.meta.RollBook;
-import com.ddt.core.meta.RollInfo;
+import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
 
@@ -25,10 +25,24 @@ public interface RollBookMapper {
 
 	List<User> getRollBookUserList(Map<String, Object> params);
 
-	List<RollInfo> getRollInfoList(Map<String, Object> params);
+	List<RollBookInfo> getRollInfoList(Map<String, Object> params);
 
 	List<UserRollInfo> getUserRollInfoList(Map<String, Object> params);
 
 	int getRollBookCount(Map<String, Object> params);
+
+	boolean deleteRollBook(Map<String, Object> params);
+
+	boolean deleteRollBookInfo(Map<String, Object> params);
+
+	boolean deleteUserRollInfo(Map<String, Object> params);
+
+	boolean deleteRollBookUser(Map<String, Object> params);
+
+	RollBook getRollBookById(Map<String, Object> params);
+
+	void addRollBook(RollBook rollBook);
+
+	void updateRollBook(RollBook rollBook);
 
 }
