@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * IndexController.java
  *
- * @author     <A HREF="mailto:hzruanhy@corp.netease.com">Roy</A>
+ * @author     <A HREF="mailto:ruan635@163.com">Roy</A>
  * @since      1.0
  */
 @Controller

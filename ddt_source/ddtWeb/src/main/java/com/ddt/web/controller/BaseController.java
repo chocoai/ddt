@@ -15,7 +15,7 @@ import com.ddt.core.meta.User;
 /**
  * BaseController.java
  *
- * @author     <A HREF="mailto:hzruanhy@corp.netease.com">Roy</A>
+ * @author     <A HREF="mailto:ruan635@163.com">Roy</A>
  * @version    1.0 2013-10-30
  * @since      1.0
  */
