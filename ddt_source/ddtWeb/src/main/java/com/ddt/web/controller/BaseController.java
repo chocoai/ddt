@@ -1,7 +1,7 @@
 /*
  * @(#)BaseController.java 2013-10-30
  *
- * Copyright 2013 Netease, Inc. All rights reserved.
+ * Copyright 2013 ddt, Inc. All rights reserved.
  */
 package com.ddt.web.controller;
 
