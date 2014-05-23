@@ -27,7 +27,7 @@ import com.ddt.core.service.UserService;
 /**
  * LoginController.java
  *
- * @author     <A HREF="mailto:hzruanhy@corp.mircobuy.com">Roy</A>
+ * @author     <A HREF="mailto:ruan635@163.com">Roy</A>
  * @version    1.0 2013-10-23
  * @since      1.0
  */
