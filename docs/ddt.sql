@@ -18,6 +18,29 @@ USE `ddt`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `ddt_role`
+--
+
+DROP TABLE IF EXISTS `ddt_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ddt_role` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ddt_role`
+--
+
+LOCK TABLES `ddt_role` WRITE;
+/*!40000 ALTER TABLE `ddt_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ddt_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ddt_roll_book`
 --
 
@@ -33,6 +56,7 @@ CREATE TABLE `ddt_roll_book` (
   `roll_start_time` timestamp NULL DEFAULT NULL,
   `roll_end_time` timestamp NULL DEFAULT NULL,
   `roll_code` varchar(45) DEFAULT NULL,
+  `user_count` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,6 +71,31 @@ LOCK TABLES `ddt_roll_book` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ddt_roll_book_info`
+--
+
+DROP TABLE IF EXISTS `ddt_roll_book_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ddt_roll_book_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `roll_book_id` bigint(20) NOT NULL,
+  `roll_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='点名册点名情况，什么时候点名的';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ddt_roll_book_info`
+--
+
+LOCK TABLES `ddt_roll_book_info` WRITE;
+/*!40000 ALTER TABLE `ddt_roll_book_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ddt_roll_book_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ddt_roll_book_user`
 --
 
@@ -56,8 +105,6 @@ DROP TABLE IF EXISTS `ddt_roll_book_user`;
 CREATE TABLE `ddt_roll_book_user` (
   `book_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `roll_time` timestamp NULL DEFAULT NULL,
-  `roll_info` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`book_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -72,31 +119,6 @@ LOCK TABLES `ddt_roll_book_user` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `ddt_roll_info`
---
-
-DROP TABLE IF EXISTS `ddt_roll_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ddt_roll_info` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `roll_book_id` bigint(20) NOT NULL,
-  `roll_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ddt_roll_info`
---
-
-LOCK TABLES `ddt_roll_info` WRITE;
-/*!40000 ALTER TABLE `ddt_roll_info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ddt_roll_info` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ddt_user`
 --
 
@@ -104,13 +126,14 @@ DROP TABLE IF EXISTS `ddt_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ddt_user` (
-  `user_id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `wx_number` varchar(255) DEFAULT NULL,
   `mobile` varchar(45) DEFAULT NULL,
   `user_name` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `group_id` bigint(20) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +142,56 @@ CREATE TABLE `ddt_user` (
 
 LOCK TABLES `ddt_user` WRITE;
 /*!40000 ALTER TABLE `ddt_user` DISABLE KEYS */;
+INSERT INTO `ddt_user` VALUES (1,NULL,'13616519396','13616519396','e10adc3949ba59abbe56e057f20f883e',1),(4,NULL,NULL,'张三',NULL,4),(5,NULL,NULL,'李四',NULL,4),(6,NULL,NULL,'张三',NULL,6),(7,NULL,NULL,'李四',NULL,6),(8,NULL,NULL,'张三',NULL,8),(9,NULL,NULL,'李四',NULL,8),(10,NULL,NULL,'张三',NULL,10),(11,NULL,NULL,'李四',NULL,10),(12,NULL,NULL,'张三',NULL,12),(13,NULL,NULL,'李四',NULL,12);
 /*!40000 ALTER TABLE `ddt_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ddt_user_role`
+--
+
+DROP TABLE IF EXISTS `ddt_user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ddt_user_role` (
+  `role_id` int(11) NOT NULL,
+  `user_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`role_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ddt_user_role`
+--
+
+LOCK TABLES `ddt_user_role` WRITE;
+/*!40000 ALTER TABLE `ddt_user_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ddt_user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ddt_user_roll_info`
+--
+
+DROP TABLE IF EXISTS `ddt_user_roll_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ddt_user_roll_info` (
+  `roll_book_info_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `roll_time` timestamp NULL DEFAULT NULL,
+  `roll_info` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`roll_book_info_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户点名情况';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ddt_user_roll_info`
+--
+
+LOCK TABLES `ddt_user_roll_info` WRITE;
+/*!40000 ALTER TABLE `ddt_user_roll_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ddt_user_roll_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -156,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-23 21:29:07
+-- Dump completed on 2014-05-30 21:34:59
