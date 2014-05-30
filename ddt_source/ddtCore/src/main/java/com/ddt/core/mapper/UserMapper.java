@@ -24,4 +24,6 @@ public interface UserMapper {
 	List<Role> getUserRoles(Map<String, Object> params);
 
 	void insertUser(User user);
+
+	void updateUser(User u);
 }

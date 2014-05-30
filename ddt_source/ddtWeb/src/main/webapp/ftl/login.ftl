@@ -5,10 +5,6 @@
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/comm.js"></script>
 <script type="text/javascript">
-	$(function(){
-		indexLoad();
-	})
-	
 	document.onkeydown = function(e) {  
 	    // 兼容FF和IE和Opera  
 	    var theEvent = e || window.event;  

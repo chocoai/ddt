@@ -24,4 +24,6 @@ public interface UserService {
 
 	void insertUser(User user);
 
+	void updateUser(User u);
+
 }

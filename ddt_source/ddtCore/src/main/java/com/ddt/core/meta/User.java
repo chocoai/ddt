@@ -44,6 +44,8 @@ public class User {
 	 */
 	private String description;
 	
+	private long groupId;
+	
 	public long getId() {
 		return id;
 	}
@@ -90,5 +92,13 @@ public class User {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		this.groupId = groupId;
 	}
 }

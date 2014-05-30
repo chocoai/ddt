@@ -31,6 +31,8 @@ public class RollBook {
 	private String rollCode;
 	
 	private int userCount;
+	
+	private long groupId;
 
 	public long getId() {
 		return id;
@@ -102,5 +104,13 @@ public class RollBook {
 
 	public void setUserCount(int userCount) {
 		this.userCount = userCount;
+	}
+
+	public long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		this.groupId = groupId;
 	}
 }

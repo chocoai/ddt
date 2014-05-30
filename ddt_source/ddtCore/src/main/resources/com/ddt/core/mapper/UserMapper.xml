@@ -5,11 +5,12 @@
 <mapper namespace="com.ddt.core.mapper.UserMapper">
     
     <sql id="user_base_column">
-          user_id	id
+          id	id
         , user_name	userName
         , password	password
         , wx_number	wxName
         , mobile	mobile
+        , group_id	groupId
     </sql>
     
     <select id="getUserByName" resultType="User" parameterType="string">
@@ -19,17 +20,13 @@
         WHERE	user_name = #{username}
     </select>
     
-    <insert id="insertUser" parameterType="User"></insert>
-    
-    <select id="getUserByOrderId" parameterType="java.util.Map" resultType="User">
-        SELECT	  b.id	id
-        		, b.wx_name	wxName
-        		, b.wx_number	wxNumber
-        FROM	  wxg_order	a
-        		, wxg_user b
-        WHERE	a.user_id = b.id
-        		AND a.id = #{orderId}
-    </select>
+    <insert id="insertUser" parameterType="User" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long">
+			SELECT LAST_INSERT_ID() AS id FROM dual
+		</selectKey>
+		INSERT INTO ddt_user(id, user_name, password, wx_number, mobile, group_id)
+		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId})
+    </insert>
     
     <select id="getUserRoles" parameterType="java.util.Map" resultType="Role">
         SELECT	  a.id	id
@@ -39,4 +36,14 @@
         WHERE	a.id = b.role_id
         		AND b.user_id = #{id}
     </select>
+    
+    <update id="updateUser" parameterType="User">
+        UPDATE	  ddt_user
+        SET		  user_name = #{userName}
+        		, password = #{password}
+		        , wx_number = #{wxName}
+		        , mobile = #{mobile}
+		        , group_id = #{groupId}
+		WHERE	id = #{id}
+    </update>
 </mapper>
