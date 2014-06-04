@@ -23,8 +23,8 @@
             <div class="content">
                 <div class="form">
                     <form class="fixform" action="/rollbook/save" name="roll_book_form">
-                    	<input type="hidden" name="" value="<#if rollBook??>${rollBook.id}</#if>">
-                    	<input type="hidden" name="" id="groupId" value="<#if rollBook??>${rollBook.groupId}</#if>">
+                    	<input type="hidden" name="id" value="<#if rollBook??>${rollBook.id}</#if>">
+                    	<input type="hidden" name="groupId" id="groupId" value="<#if rollBook??>${rollBook.groupId}</#if>">
                         <fieldset>
                             <legend>编辑</legend>
                             <p><span>名称：</span><input type="text" name="name" id="name" value="<#if rollBook??>${rollBook.name}</#if>"></p>

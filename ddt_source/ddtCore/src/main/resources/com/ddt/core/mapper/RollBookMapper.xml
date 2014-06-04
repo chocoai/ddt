@@ -39,4 +39,22 @@
         WHERE	id = #{id}
         		AND user_id = #{userId}
     </select>
+    
+    <insert id="addRollBook" parameterType="RollBook" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long">
+            SELECT LAST_INSERT_ID() AS id FROM DUAL
+        </selectKey>
+        INSERT INTO ddt_roll_book(id, user_id, name, valid_start_time, valid_end_time, user_count, group_id)
+        VALUES(#{id}, #{userId}, #{name}, #{validStartTime}, #{validEndTime}, #{userCount}, #{groupId})
+    </insert>
+    
+    <update id="updateRollBook" parameterType="RollBook">
+        UPDATE 	  ddt_roll_book
+        SET		  name = #{name}
+        		, valid_start_time = #{validStartTime}
+        		, valid_end_time = #{validEndTime}
+        		, user_count = #{userCount}
+        WHERE	id = #{id}
+        		AND user_id = #{userId}
+    </update>
 </mapper>
