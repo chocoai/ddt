@@ -4,6 +4,8 @@
  */
 package com.ddt.core.meta;
 
+import java.util.Date;
+
 
 /**
  * User.java
@@ -45,6 +47,8 @@ public class User {
 	private String description;
 	
 	private long groupId;
+	
+	private Date createTime;
 	
 	public long getId() {
 		return id;
@@ -100,5 +104,13 @@ public class User {
 
 	public void setGroupId(long groupId) {
 		this.groupId = groupId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }

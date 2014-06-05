@@ -26,4 +26,10 @@ public interface UserService {
 
 	void updateUser(User u);
 
+	List<User> getRollBookUserList(long groupId, int limit, int offset);
+
+	void deleteUserById(long uid);
+
+	void insertWxUser(User user);
+
 }

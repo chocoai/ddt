@@ -32,6 +32,7 @@ import com.ddt.core.utils.DocumentUtils;
 import com.ddt.core.utils.EncryptUtils;
 import com.ddt.mobile.enums.EventType;
 import com.ddt.mobile.enums.MsgType;
+import com.ddt.mobile.msg.TextMsg;
 
 /**
  * EntranceController.java
@@ -95,7 +96,7 @@ public class EntranceController {
 				Document document = DocumentUtils.buildDocument(is);
 				XPath xpath = DocumentUtils.buildXpath();
 				//解析xml获取消息类型
-//				String toUserName = xpath.evaluate("/ToUserName", document);
+				String toUserName = xpath.evaluate("/ToUserName", document);
 				String fromUserName = xpath.evaluate("/FromUserName", document);
 				String msgType = xpath.evaluate("/MsgType", document);
 				String eventType = xpath.evaluate("/Event", document);
@@ -105,14 +106,22 @@ public class EntranceController {
 				if (user == null) {
 					user = new User();
 					user.setWxName(fromUserName);
-					userService.insertUser(user);
+					userService.insertWxUser(user);
 				}
 				
 				if (MsgType.EVENT.getValue().equals(msgType)) {
 					if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
 						return null;
 					} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
-						view = new ModelAndView("msg/reply.news");
+						view = new ModelAndView("msg/reply.text");
+						TextMsg textMsg = new TextMsg();
+						textMsg.setContent("欢迎使用爱点名！");
+						textMsg.setCreateTime(System.currentTimeMillis());
+						textMsg.setFromUser(toUserName);
+						textMsg.setMsgType(MsgType.TEXT);
+						textMsg.setToUser(fromUserName);
+						
+						view.addObject("textMsg", textMsg);
 						
 					} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
 						view = new ModelAndView("msg/reply.text");
@@ -130,6 +139,26 @@ public class EntranceController {
 				} else if (MsgType.TEXT.getValue().equals(msgType)) {
 					view = new ModelAndView("msg/reply.text");
 					String content = xpath.evaluate("/Content", document);
+					
+					if (StringUtils.isBlank(content)) {
+						return view;
+					}
+					String[] contentArray = content.split("+");
+					if (contentArray == null || contentArray.length < 2) {
+						return view;
+					}
+					
+					String userName = null;
+					String mobile = null;
+					String recommendName = null;
+					if (contentArray.length >= 2) {
+						userName = contentArray[0];
+						mobile = contentArray[1];
+						if (contentArray.length == 3) {
+							recommendName = contentArray[2];
+						}
+					}
+					
 					
 				} else if (MsgType.VIDEO.getValue().equals(msgType)) {
 					view = new ModelAndView("msg/reply.text");
@@ -158,7 +187,7 @@ public class EntranceController {
 				}
 			}
 		}
-		return null;
+		return view;
 	}
 	
 	/**

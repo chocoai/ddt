@@ -30,6 +30,7 @@ import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
 import com.ddt.core.service.RollBookService;
+import com.ddt.core.service.UserService;
 import com.ddt.core.utils.DateUtils;
 
 /**
@@ -45,6 +46,9 @@ public class RollBookController extends BaseController {
 	
 	@Autowired
 	private RollBookService rollBookService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("list")
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
@@ -77,15 +81,22 @@ public class RollBookController extends BaseController {
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
-		long rollBookId = ServletRequestUtils.getLongParameter(request, "roll_book_id", 0);
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		int offset = (page - 1) * limit;
 		
 		long userId = getUserId();
 		
-		List<User> users = rollBookService.getRollBookUserList(userId, rollBookId, limit, offset);
+		RollBook rollBook = rollBookService.getRollBookById(rollBookId, userId);
+		if (rollBook == null) {
+			return null;
+		}
+		
+		List<User> users = userService.getRollBookUserList(rollBook.getGroupId(), limit, offset);
 		
 		view.addObject("users", users);
 		view.addObject("page", page);
+		view.addObject("rid", rollBookId);
+		
 		
 		return view;
 	}
@@ -100,7 +111,7 @@ public class RollBookController extends BaseController {
 	public ModelAndView view(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = getBaseView("rollbook/view");
 		
-		long rollBookId = ServletRequestUtils.getLongParameter(request, "roll_book_id", 0);
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		
 		long userId = getUserId();
 		
@@ -212,6 +223,46 @@ public class RollBookController extends BaseController {
 		List<UserRollInfo> userRollInfos = rollBookService.getUserRollInfoList(userId, rollInfoId, limit, offset);
 		
 		view.addObject("userRollInfos", userRollInfos);
+		view.addObject("page", page);
+		
+		return view;
+	}
+	
+	/**
+	 * 增加点名册用户
+	 */
+	@RequestMapping("useradd")
+	public ModelAndView userAdd(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView();
+		
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
+		long rollInfoId = ServletRequestUtils.getLongParameter(request, "roll_info_id", 0);
+		int offset = (page - 1) * limit;
+		
+		long userId = getUserId();
+		
+		List<UserRollInfo> userRollInfos = rollBookService.getUserRollInfoList(userId, rollInfoId, limit, offset);
+		
+		view.addObject("userRollInfos", userRollInfos);
+		view.addObject("page", page);
+		
+		return view;
+	}
+	
+	
+	/**
+	 * 删除点名册用户
+	 */
+	@RequestMapping("userdel")
+	public ModelAndView userDel(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView();
+		
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		long uid = ServletRequestUtils.getLongParameter(request, "uid", 0);
+		
+		userService.deleteUserById(uid);
+		
 		view.addObject("page", page);
 		
 		return view;
