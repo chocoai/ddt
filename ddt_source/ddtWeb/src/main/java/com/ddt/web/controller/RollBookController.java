@@ -54,16 +54,18 @@ public class RollBookController extends BaseController {
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = getBaseView("rollbook/main");
 		
+		String queryValue = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "query", ""));
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
 		int offset = (page - 1) * limit;
 		
 		long userId = getUserId();
 		
-		List<RollBook> rollBooks = rollBookService.getRollBookList(userId, limit, offset);
-		int count = rollBookService.getRollBookCount(userId);
+		List<RollBook> rollBooks = rollBookService.getRollBookList(userId, queryValue, limit, offset);
+		int count = rollBookService.getRollBookCount(userId, queryValue);
 		
 		view.addObject("rollBooks", rollBooks);
+		view.addObject("query", queryValue);
 		view.addObject("page", page);
 		view.addObject("totalPage", (int) Math.round(count * 1.0 / limit));
 		return view;
@@ -97,6 +99,27 @@ public class RollBookController extends BaseController {
 		view.addObject("page", page);
 		view.addObject("rid", rollBookId);
 		
+		
+		return view;
+	}
+	
+	/**
+	 * 查看点名册名单
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("roll")
+	public ModelAndView roll(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = getBaseView("rollbook/roll");
+		
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "rid", 0);
+		
+		long userId = getUserId();
+		
+		RollBook rollBook = rollBookService.getRollBookById(rollBookId, userId);
+		
+		view.addObject("rollBook", rollBook);
 		
 		return view;
 	}
@@ -165,6 +188,37 @@ public class RollBookController extends BaseController {
 	}
 	
 	/**
+	 * 保存点名册
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("saveinfo")
+	public ModelAndView saveInfo(HttpServletRequest request, HttpServletResponse response) {
+		
+		long rid = ServletRequestUtils.getLongParameter(request, "id", 0);
+		String rollStartTime = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "rollStartTime", ""));
+		String rollEndTime = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "rollEndTime", ""));
+		String rollCode = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "rollCode", ""));
+		int userCount = ServletRequestUtils.getIntParameter(request, "userCount", 0);
+		
+		long userId = getUserId();
+		
+		RollBookInfo rollBookInfo = new RollBookInfo();
+		
+		rollBookInfo.setRollUserCount(userCount);
+		rollBookInfo.setUserId(userId);
+		rollBookInfo.setRollStartTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, rollStartTime));
+		rollBookInfo.setRollEndTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, rollEndTime));
+		rollBookInfo.setRollBookId(rid);
+		rollBookInfo.setRollCode(rollCode);
+
+		rollBookService.addRollBookInfo(rollBookInfo);
+		
+		return new ModelAndView(new RedirectView("/rollbook/rollinfo?roll_book_id=" + rid));
+	}
+	
+	/**
 	 * 删除点名册
 	 * @param request
 	 * @param response
@@ -176,7 +230,9 @@ public class RollBookController extends BaseController {
 		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		
-		rollBookService.deleteRollBook(rid);
+		long userId = getUserId();
+		
+		rollBookService.deleteRollBook(rid, userId);
 		
 		return new ModelAndView(new RedirectView("/rollbook/list?page=" + page));
 	}

@@ -22,6 +22,9 @@
         <include refid="roll_book_base_column"/>
         FROM	ddt_roll_book
         WHERE	user_id = #{userId}
+        <if test="queryValue != null and queryValue != ''">
+            AND name LIKE '%${queryValue}%'
+        </if>
         <if test="limit > 0">
             LIMIT #{offset}, #{limit}
         </if>
@@ -31,6 +34,9 @@
         SELECT	COUNT(*)
        	FROM	ddt_roll_book
        	WHERE	user_id = #{userId}
+       	<if test="queryValue != null and queryValue != ''">
+            AND name LIKE '%${queryValue}%'
+        </if>
     </select>
     
     <select id="getRollBookById" parameterType="java.util.Map" resultType="RollBook">
@@ -49,6 +55,18 @@
         VALUES(#{id}, #{userId}, #{name}, #{validStartTime}, #{validEndTime}, #{userCount}, #{groupId})
     </insert>
     
+    <insert id="addRollBookUser" parameterType="RollBookUser">
+        INSERT INTO ddt_roll_book_user(book_id, user_id) VALUES(#{bookId}, #{userId})
+    </insert>
+    
+    <insert id="addRollBookInfo" parameterType="RollBookInfo" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long">
+            SELECT LAST_INSERT_ID() AS id FROM DUAL
+        </selectKey>
+        INSERT INTO ddt_roll_book_info(id, user_id, roll_book_id, roll_start_time, roll_end_time, roll_code, user_count)
+        VALUES(#{id}, #{userId}, #{rollBookId}, #{rollStartTime}, #{rollEndTime}, #{rollCode}, #{rollUserCount})
+    </insert>
+    
     <update id="updateRollBook" parameterType="RollBook">
         UPDATE 	  ddt_roll_book
         SET		  name = #{name}
@@ -59,4 +77,20 @@
         		AND user_id = #{userId}
     </update>
     
+    <delete id="deleteRollBookInfo" parameterType="java.util.Map">
+        DELETE FROM ddt_roll_book_info
+        WHERE	roll_book_id = #{rollBookId}
+        		AND user_id = #{userId}
+    </delete>
+    
+    <delete id="deleteRollBookUser" parameterType="java.util.Map">
+        DELETE FROM	ddt_roll_book_user
+        WHERE	book_id = #{rollBookId}
+    </delete>
+    
+    <delete id="deleteRollBook" parameterType="java.util.Map">
+        DELETE FROM	ddt_roll_book
+        WHERE	id = #{rollBookId}
+        		AND user_id = #{userId}
+    </delete>
 </mapper>

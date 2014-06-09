@@ -20,7 +20,7 @@ import com.ddt.core.meta.UserRollInfo;
  */
 public interface RollBookService {
 
-	List<RollBook> getRollBookList(long userId, int limit, int offset);
+	List<RollBook> getRollBookList(long userId, String queryValue, int limit, int offset);
 
 	List<User> getRollBookUserList(long userId, long rollBookId, int limit, int offset);
 
@@ -28,20 +28,22 @@ public interface RollBookService {
 
 	List<UserRollInfo> getUserRollInfoList(long userId, long rollInfoId, int limit, int offset);
 
-	int getRollBookCount(long userId);
+	int getRollBookCount(long userId, String queryValue);
 
-	boolean deleteRollBook(long rid);
+	boolean deleteRollBook(long rid, long userId);
 	
-	boolean deleteRollBookInfo(long rid);
+	boolean deleteRollBookInfo(long rid, long userId);
 	
-	boolean deleteUserRollInfo(long rid);
+	boolean deleteUserRollInfo(long rid, long userId);
 	
-	boolean deleteRollBookUser(long rid);
+	boolean deleteRollBookUser(long rid, long userId);
 
 	RollBook getRollBookById(long rollBookId, long userId);
 
 	void addRollBook(RollBook rollBook);
 
 	void updateRollBook(RollBook rollBook);
+
+	void addRollBookInfo(RollBookInfo rollBookInfo);
 
 }

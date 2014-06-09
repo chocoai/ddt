@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.ddt.core.meta.RollBook;
 import com.ddt.core.meta.RollBookInfo;
+import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
 
@@ -44,5 +45,9 @@ public interface RollBookMapper {
 	void addRollBook(RollBook rollBook);
 
 	void updateRollBook(RollBook rollBook);
+
+	void addRollBookUser(RollBookUser rollBookUser);
+
+	void addRollBookInfo(RollBookInfo rollBookInfo);
 
 }

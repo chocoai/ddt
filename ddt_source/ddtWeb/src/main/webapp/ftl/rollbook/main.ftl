@@ -13,9 +13,9 @@
         <div id="content-box">
             <div class="content">
                 <div class="querydiv">
-                    <form class="search_form" method="post" action="#"> 
+                    <form class="search_form" method="post" action="/rollbook/list"> 
                         <p class="input">
-                          <input type="text" name="query" class="query_value" /> 
+                          <input type="text" name="query" class="query_value" value="<#if query??>${query!''}</#if>"/> 
                           <label for="query" id="for_query" class="keyword">查询条件</label>
                         </p>
                         <p class="query_btn">
@@ -36,7 +36,7 @@
                             <th style="width:16%">开始时间</th>
                             <th style="width:16%">结束时间</th>
                             <th style="width:11%">总人数</th>
-                            <th style="width:20%" colspan=4>操作</th>
+                            <th style="width:20%" colspan=5>操作</th>
                         </tr>
                     </thead>
                     <tbody id="content_table">
@@ -49,6 +49,7 @@
 	                            <td>${rollBook.userCount!'0'}</td>
 	                            <td><a href="/rollbook/userlist?rid=${rollBook.id}">名单</a></td>
 	                            <td><a href="/rollbook/view?rid=${rollBook.id}" style="font:">查看</a></td>
+	                            <td><a href="/rollbook/roll?rid=${rollBook.id}">点名</a></td>
 	                            <td><a href="/rollbook/rolllist?rid=${rollBook.id}">点名历史</a></td>
 	                            <td><a href="/rollbook/del?rid=${rollBook.id}&page=${page}">删除</a></td>
                         	</tr>

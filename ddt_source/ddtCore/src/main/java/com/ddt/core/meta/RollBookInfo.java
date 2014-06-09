@@ -21,7 +21,11 @@ public class RollBookInfo {
 	
 	private long rollBookId;
 	
-	private Date rollTime;
+	private Date rollStartTime;
+	
+	private Date rollEndTime;
+	
+	private String rollCode;
 	
 	private int rollUserCount;
 
@@ -49,12 +53,29 @@ public class RollBookInfo {
 		this.rollBookId = rollBookId;
 	}
 
-	public Date getRollTime() {
-		return rollTime;
+
+	public Date getRollStartTime() {
+		return rollStartTime;
 	}
 
-	public void setRollTime(Date rollTime) {
-		this.rollTime = rollTime;
+	public void setRollStartTime(Date rollStartTime) {
+		this.rollStartTime = rollStartTime;
+	}
+
+	public Date getRollEndTime() {
+		return rollEndTime;
+	}
+
+	public void setRollEndTime(Date rollEndTime) {
+		this.rollEndTime = rollEndTime;
+	}
+
+	public String getRollCode() {
+		return rollCode;
+	}
+
+	public void setRollCode(String rollCode) {
+		this.rollCode = rollCode;
 	}
 
 	public int getRollUserCount() {

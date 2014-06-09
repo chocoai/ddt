@@ -41,7 +41,7 @@ public class LoginController {
 	 * 主界面如果
 	 * @return
 	 */
-	@RequestMapping("login")
+	@RequestMapping({"", "login"})
 	public String index() {
 		return "login";
 	}
