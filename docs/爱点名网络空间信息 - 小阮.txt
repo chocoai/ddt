@@ -1,0 +1,8 @@
+http://www.aliyun.com/
+账号：liwanqing@hdu.edu.cn
+密码：ps123456789
+
+云服务器公网IP：114.215.181.171
+用户名：root
+密码：57f9256a
+
