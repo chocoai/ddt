@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `ddt` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ddt`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
--- Host: 127.0.0.1    Database: ddt
+-- Host: localhost    Database: ddt
 -- ------------------------------------------------------
--- Server version	5.6.14
+-- Server version	5.6.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `ddt_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ddt_role` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -57,8 +57,11 @@ CREATE TABLE `ddt_roll_book` (
   `roll_end_time` timestamp NULL DEFAULT NULL,
   `roll_code` varchar(45) DEFAULT NULL,
   `user_count` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `group_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_idx` (`user_id`),
+  KEY `group_id_idx` (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +70,7 @@ CREATE TABLE `ddt_roll_book` (
 
 LOCK TABLES `ddt_roll_book` WRITE;
 /*!40000 ALTER TABLE `ddt_roll_book` DISABLE KEYS */;
+INSERT INTO `ddt_roll_book` VALUES (1,1,'éç£æ¨è','2014-06-03 16:00:00','2014-06-29 16:00:00',NULL,NULL,NULL,2,4);
 /*!40000 ALTER TABLE `ddt_roll_book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,8 +136,9 @@ CREATE TABLE `ddt_user` (
   `user_name` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `group_id` bigint(20) DEFAULT '0',
+  `create_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +147,7 @@ CREATE TABLE `ddt_user` (
 
 LOCK TABLES `ddt_user` WRITE;
 /*!40000 ALTER TABLE `ddt_user` DISABLE KEYS */;
-INSERT INTO `ddt_user` VALUES (1,NULL,'13616519396','13616519396','e10adc3949ba59abbe56e057f20f883e',1),(4,NULL,NULL,'张三',NULL,4),(5,NULL,NULL,'李四',NULL,4),(6,NULL,NULL,'张三',NULL,6),(7,NULL,NULL,'李四',NULL,6),(8,NULL,NULL,'张三',NULL,8),(9,NULL,NULL,'李四',NULL,8),(10,NULL,NULL,'张三',NULL,10),(11,NULL,NULL,'李四',NULL,10),(12,NULL,NULL,'张三',NULL,12),(13,NULL,NULL,'李四',NULL,12);
+INSERT INTO `ddt_user` VALUES (1,NULL,'13616519396','13616519396','e10adc3949ba59abbe56e057f20f883e',0,'2014-06-05 16:00:00'),(2,NULL,NULL,'张三',NULL,2,'2014-06-05 16:00:00'),(3,NULL,NULL,'李四',NULL,2,'2014-06-05 16:00:00'),(4,NULL,NULL,'张三',NULL,4,'2014-06-05 16:00:00'),(5,NULL,NULL,'李四',NULL,4,'2014-06-05 16:00:00'),(6,NULL,NULL,NULL,NULL,0,'2014-06-05 16:00:00');
 /*!40000 ALTER TABLE `ddt_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,28 +200,29 @@ LOCK TABLES `ddt_user_roll_info` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `ddt_user_tmp`
+-- Table structure for table `ddt_wx_user`
 --
 
-DROP TABLE IF EXISTS `ddt_user_tmp`;
+DROP TABLE IF EXISTS `ddt_wx_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ddt_user_tmp` (
+CREATE TABLE `ddt_wx_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(45) DEFAULT NULL,
   `mobile` varchar(45) DEFAULT NULL,
   `wx_number` varchar(45) DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ddt_user_tmp`
+-- Dumping data for table `ddt_wx_user`
 --
 
-LOCK TABLES `ddt_user_tmp` WRITE;
-/*!40000 ALTER TABLE `ddt_user_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ddt_user_tmp` ENABLE KEYS */;
+LOCK TABLES `ddt_wx_user` WRITE;
+/*!40000 ALTER TABLE `ddt_wx_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ddt_wx_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -228,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-30 21:34:59
+-- Dump completed on 2014-06-08 11:12:29

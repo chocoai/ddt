@@ -1,7 +1,7 @@
  <xml>
- 	<ToUserName><![CDATA[${toUser}]></ToUserName>
- 	<FromUserName><![CDATA[${fromUser}]></FromUserName> 
- 	<CreateTime>${createTime}</CreateTime>
+ 	<ToUserName><![CDATA[${textMsg.toUser}]></ToUserName>
+ 	<FromUserName><![CDATA[${textMsg.fromUser}]></FromUserName> 
+ 	<CreateTime>${textMsg.createTime}</CreateTime>
  	<MsgType><![CDATA[text]]></MsgType>
- 	<Content><![CDATA[${content}]]></Content>
+ 	<Content><![CDATA[${textMsg.content}]]></Content>
  </xml>

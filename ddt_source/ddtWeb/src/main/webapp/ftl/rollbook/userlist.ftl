@@ -12,18 +12,10 @@
     <div id="out-content">
         <div id="content-box">
             <div class="content">
-                <div class="querydiv">
-                    <form class="search_form" method="post" action="#"> 
-                        <p class="input">
-                          <input type="text" name="query" class="query_value" /> 
-                          <label for="query" id="for_query" class="keyword">查询条件</label>
-                        </p>
-                        <p class="query_btn">
-                          <input type="submit" id="go" alt="Search" title="Search" value="查询"/>
-                        </p>
-                        <span class="new"></span> 
-                    </form> 
-                    <div class="newfile"><a href="/rollbook/new">新增</a></div>
+            	<div class="querydiv">
+                    <span class="new">
+                    	<p class="query_btn"><a href="/rollbook/useradd?rid=${rid}"><input type="button" value="新增"></a></p>
+                    </span>
                 </div>
                 <div class="query_res">
                   <input type="hidden" id="cur_page">
@@ -31,46 +23,25 @@
                   <table class="tableData">
                     <thead>
                         <tr class="">
-                            <th style="width:10%">名称</th>
-                            <th style="width:16%">开始时间</th>
-                            <th style="width:16%">结束时间</th>
-                            <th style="width:11%">总人数</th>
-                            <th style="width:20%" colspan=3>操作</th>
+                            <th style="width:10%">微信号</th>
+                            <th style="width:16%">用户名</th>
+                            <th style="width:16%">手机号</th>
+                            <th style="width:11%">创建时间</th>
+                            <th style="width:20%">操作</th>
                         </tr>
                     </thead>
                     <tbody id="content_table">
-                    <#if rollBooks?? && rollBooks?size &gt; 0>
-                    	<#list rollBooks as rollBook>
+                    <#if users?? && users?size &gt; 0>
+                    	<#list users as user>
                     		<tr>
-	                            <td>${rollBook.name!''}</td>
-	                            <td>${rollBook.validStartTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td>${rollBook.validEndTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td>${rollBook.userCount!'0'}</td>
-	                            <td><a href="/rollbook/userlist?rid=${rollBook.id}">名单</a></td>
-	                            <td><a href="/rollbook/view?rid=${rollBook.id}">查看</a></td>
-	                            <td><a href="/rollbook/rolllist?rid=${rollBook.id}">点名历史</a></td>
-	                            <td><a href="/rollbook/del?rid=${rollBook.id}&page=${page}">删除</a></td>
+	                            <td>${user.wxName!''}</td>
+	                            <td>${user.userName!''}</td>
+	                            <td>${user.mobile!''}</td>
+	                            <td>${user.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td><a href="/rollbook/userdel?uid=${user.id}&page=${page}">删除</a></td>
                         	</tr>
                     	</#list>
                     </#if>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
                     </tbody>
                   </table>
                   <div id="page_nav">

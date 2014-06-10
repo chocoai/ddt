@@ -11,6 +11,7 @@
         , wx_number	wxName
         , mobile	mobile
         , group_id	groupId
+        , create_time	createTime
     </sql>
     
     <select id="getUserByName" resultType="User" parameterType="string">
@@ -24,8 +25,16 @@
         <selectKey keyProperty="id" resultType="long">
 			SELECT LAST_INSERT_ID() AS id FROM dual
 		</selectKey>
-		INSERT INTO ddt_user(id, user_name, password, wx_number, mobile, group_id)
-		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId})
+		INSERT INTO ddt_user(id, user_name, password, wx_number, mobile, group_id, create_time)
+		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId}, NOW())
+    </insert>
+    
+     <insert id="insertWxUser" parameterType="User" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long">
+			SELECT LAST_INSERT_ID() AS id FROM dual
+		</selectKey>
+		INSERT INTO ddt_user(id, user_name, wx_number, mobile, create_time)
+		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId}, NOW())
     </insert>
     
     <select id="getUserRoles" parameterType="java.util.Map" resultType="Role">
@@ -46,4 +55,19 @@
 		        , group_id = #{groupId}
 		WHERE	id = #{id}
     </update>
+    
+    <select id="getRollBookUserList" parameterType="java.util.Map" resultType="User">
+        SELECT
+        <include refid="user_base_column"/>
+        FROM	ddt_user
+        WHERE	group_id = #{groupId}
+        <if test="limit > 0">
+            LIMIT #{limit}
+            OFFSET	#{offset}
+        </if>
+    </select>
+    
+    <delete id="deleteUserById" parameterType="java.util.Map">
+        DELETE FROM ddt_user WHERE id = #{id}
+    </delete>
 </mapper>

@@ -5,7 +5,9 @@
 package com.ddt.core.service.impl;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,28 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User u) {
 		userMapper.updateUser(u);
+	}
+
+	@Override
+	public List<User> getRollBookUserList(long groupId, int limit, int offset) {
+		Map<String, Object> params = new HashMap<>();
+		
+		params.put("groupId", groupId);
+		params.put("limit", limit);
+		params.put("offset", offset);
+		return userMapper.getRollBookUserList(params);
+	}
+
+	@Override
+	public void deleteUserById(long uid) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", uid);
+		userMapper.deleteUserById(params);
+	}
+
+	@Override
+	public void insertWxUser(User user) {
+		userMapper.inserWxtUser(user);
 	}
 
 }

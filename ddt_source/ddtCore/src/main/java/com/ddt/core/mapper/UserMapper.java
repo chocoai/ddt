@@ -26,4 +26,10 @@ public interface UserMapper {
 	void insertUser(User user);
 
 	void updateUser(User u);
+
+	List<User> getRollBookUserList(Map<String, Object> params);
+
+	void deleteUserById(Map<String, Object> params);
+
+	void inserWxtUser(User user);
 }

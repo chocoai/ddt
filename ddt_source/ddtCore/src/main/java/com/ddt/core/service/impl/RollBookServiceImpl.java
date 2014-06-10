@@ -8,15 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ddt.core.mapper.RollBookMapper;
 import com.ddt.core.meta.RollBook;
 import com.ddt.core.meta.RollBookInfo;
+import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
 import com.ddt.core.service.RollBookService;
+import com.ddt.core.service.UserService;
 
 /**
  * RollBookServiceImpl.java
@@ -30,14 +33,18 @@ public class RollBookServiceImpl implements RollBookService {
 
 	@Autowired
 	private RollBookMapper rollBookMapper;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
-	public List<RollBook> getRollBookList(long userId, int limit, int offset) {
+	public List<RollBook> getRollBookList(long userId, String queryValue, int limit, int offset) {
 		Map<String, Object> params = new HashMap<>();
 		
 		params.put("userId", userId);
 		params.put("limit", limit);
 		params.put("offset", offset);
+		params.put("queryValue", queryValue);
 		
 		return rollBookMapper.getRollBookList(params);
 	}
@@ -76,42 +83,47 @@ public class RollBookServiceImpl implements RollBookService {
 	}
 
 	@Override
-	public int getRollBookCount(long userId) {
+	public int getRollBookCount(long userId, String queryValue) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("userId", userId);
+		params.put("queryValue", queryValue);
 		return rollBookMapper.getRollBookCount(params);
 	}
 
 	@Override
-	public boolean deleteRollBook(long rid) {
+	public boolean deleteRollBook(long rid, long userId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
+		params.put("userId", userId);
 		//删除点名记录
-		deleteRollBookInfo(rid);
+		deleteRollBookInfo(rid, userId);
 		//删除点名册名单
-		deleteRollBookUser(rid);
+		deleteRollBookUser(rid, userId);
 		//删除点名册
 		return rollBookMapper.deleteRollBook(params);
 	}
 
 	@Override
-	public boolean deleteRollBookInfo(long rid) {
+	public boolean deleteRollBookInfo(long rid, long userId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
+		params.put("userId", userId);
 		return rollBookMapper.deleteRollBookInfo(params);
 	}
 
 	@Override
-	public boolean deleteUserRollInfo(long rid) {
+	public boolean deleteUserRollInfo(long rid, long userId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
+		params.put("userId", userId);
 		return rollBookMapper.deleteUserRollInfo(params);
 	}
 
 	@Override
-	public boolean deleteRollBookUser(long rid) {
+	public boolean deleteRollBookUser(long rid, long userId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
+		params.put("userId", userId);
 		return rollBookMapper.deleteRollBookUser(params);
 	}
 
@@ -126,10 +138,25 @@ public class RollBookServiceImpl implements RollBookService {
 	@Override
 	public void addRollBook(RollBook rollBook) {
 		rollBookMapper.addRollBook(rollBook);
+		List<User> users = userService.getRollBookUserList(rollBook.getGroupId(), Integer.MAX_VALUE, 0);
+		
+		if (CollectionUtils.isNotEmpty(users)) {
+			for (User user : users) {
+				RollBookUser rollBookUser = new RollBookUser();
+				rollBookUser.setBookId(rollBook.getId());
+				rollBookUser.setUserId(user.getId());
+				rollBookMapper.addRollBookUser(rollBookUser);
+			}
+		}
 	}
 
 	@Override
 	public void updateRollBook(RollBook rollBook) {
 		rollBookMapper.updateRollBook(rollBook);
+	}
+
+	@Override
+	public void addRollBookInfo(RollBookInfo rollBookInfo) {
+		rollBookMapper.addRollBookInfo(rollBookInfo);
 	}
 }
