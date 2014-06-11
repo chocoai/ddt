@@ -244,7 +244,7 @@ public class RollBookController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("userdel")
-	public ModelAndView userdel(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView userDel(HttpServletRequest request, HttpServletResponse response) {
 		
 		long uid = ServletRequestUtils.getLongParameter(request, "uid", 0);
 		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
@@ -327,24 +327,6 @@ public class RollBookController extends BaseController {
 		List<UserRollInfo> userRollInfos = rollBookService.getUserRollInfoList(userId, rollInfoId, limit, offset);
 		
 		view.addObject("userRollInfos", userRollInfos);
-		view.addObject("page", page);
-		
-		return view;
-	}
-	
-	
-	/**
-	 * 删除点名册用户
-	 */
-	@RequestMapping("userdel")
-	public ModelAndView userDel(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
-		
-		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
-		long uid = ServletRequestUtils.getLongParameter(request, "uid", 0);
-		
-		userService.deleteUserById(uid);
-		
 		view.addObject("page", page);
 		
 		return view;
