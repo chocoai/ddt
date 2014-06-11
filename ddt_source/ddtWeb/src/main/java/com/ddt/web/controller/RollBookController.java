@@ -238,25 +238,51 @@ public class RollBookController extends BaseController {
 	}
 	
 	/**
+	 * 删除点名册用户
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("userdel")
+	public ModelAndView userdel(HttpServletRequest request, HttpServletResponse response) {
+		
+		long uid = ServletRequestUtils.getLongParameter(request, "uid", 0);
+		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		
+		long userId = getUserId();
+		
+		userService.deleteUserById(uid);
+		
+		RollBook rollBook = rollBookService.getRollBookById(rid, userId);
+		if (rollBook != null) {
+			rollBook.setUserCount(rollBook.getUserCount() - 1);
+			rollBookService.updateRollBook(rollBook);
+		}
+		
+		return new ModelAndView(new RedirectView("/rollbook/list?page=" + page));
+	}
+	
+	/**
 	 * 点名情况
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("rollinfo")
-	public ModelAndView rollInfo(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+	@RequestMapping("rolllist")
+	public ModelAndView rollList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = getBaseView("rollbook/rolllist");
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
-		long rollBookId = ServletRequestUtils.getLongParameter(request, "roll_book_id", 0);
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		int offset = (page - 1) * limit;
 		
 		long userId = getUserId();
 		
-		List<RollBookInfo> rollInfos = rollBookService.getRollInfoList(userId, rollBookId, limit, offset);
+		List<RollBook> rollBooks = rollBookService.getRollInfoList(userId, rollBookId, limit, offset);
 		
-		view.addObject("rollInfos", rollInfos);
+		view.addObject("rollBooks", rollBooks);
 		view.addObject("page", page);
 		
 		return view;
@@ -267,7 +293,7 @@ public class RollBookController extends BaseController {
 	 */
 	@RequestMapping("userrollinfo")
 	public ModelAndView userRollInfo(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+		ModelAndView view = getBaseView("rollbook/userrollinfo");
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);

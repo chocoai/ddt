@@ -8,37 +8,39 @@
 </head>
 <body>
 <div id="wrapper">
-    <#include "/common/head.ftl">
+     <#include "/common/head.ftl">
     <div id="out-content">
         <div id="content-box">
             <div class="content">
-            	<div class="querydiv">
-                    <span class="new">
-                    	<p class="query_btn"><a href="/rollbook/useradd?rid=${rid}"><input type="button" value="新增"></a></p>
-                    </span>
-                </div>
                 <div class="query_res">
                   <input type="hidden" id="cur_page">
                   <input type="hidden" id="show_per_page">
                   <table class="tableData">
                     <thead>
                         <tr class="">
-                            <th style="width:10%">微信号</th>
-                            <th style="width:16%">用户名</th>
-                            <th style="width:16%">手机号</th>
-                            <th style="width:11%">创建时间</th>
-                            <th style="width:20%">操作</th>
+                            <th style="width:10%">名称</th>
+                            <th style="width:16%">开始时间</th>
+                            <th style="width:16%">结束时间</th>
+                            <th style="width:16%">点名开始时间</th>
+                            <th style="width:16%">点名结束时间</th>
+                            <th style="width:11%">总人数</th>
+                            <th style="width:11%">随机码</th>
+                            <th style="width:20%" colspan=2>操作</th>
                         </tr>
                     </thead>
                     <tbody id="content_table">
-                    <#if users?? && users?size &gt; 0>
-                    	<#list users as user>
+                    <#if rollBooks?? && rollBooks?size &gt; 0>
+                    	<#list rollBooks as rollBook>
                     		<tr>
-	                            <td>${user.wxName!''}</td>
-	                            <td>${user.userName!''}</td>
-	                            <td>${user.mobile!''}</td>
-	                            <td>${user.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td><a href="/rollbook/userdel?uid=${user.id}&rid=${rid}&page=${page}">删除</a></td>
+	                            <td>${rollBook.name!''}</td>
+	                            <td>${rollBook.validStartTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td>${rollBook.validEndTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td>${rollBook.rollStartTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td>${rollBook.rollEndTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td>${rollBook.userCount!'0'}</td>
+	                            <td>${rollBook.rollCode!''}</td>
+	                            <td><a href="/rollbook/userrollinfo?rid=${rollBook.rollInfoId}">点名情况</a></td>
+	                            <td><a href="/rollbook/delrollinfo?rid=${rollBook.rollInfoId}&page=${page}">删除</a></td>
                         	</tr>
                     	</#list>
                     </#if>
@@ -57,11 +59,11 @@
             </div>
     
         </div>
-        <#include "/common/sidebar.ftl">
+         <#include "/common/sidebar.ftl">
     </div>
 </div>
 <div id="footer">
-    <#include "/common/footer.ftl">
+     <#include "/common/footer.ftl">
 </div>
 <script type="text/javascript">
     (function(){
