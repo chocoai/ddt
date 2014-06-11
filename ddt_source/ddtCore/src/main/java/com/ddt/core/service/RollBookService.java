@@ -24,7 +24,7 @@ public interface RollBookService {
 
 	List<User> getRollBookUserList(long userId, long rollBookId, int limit, int offset);
 
-	List<RollBookInfo> getRollInfoList(long userId, long rollBookId, int limit, int offset);
+	List<RollBook> getRollInfoList(long userId, long rollBookId, int limit, int offset);
 
 	List<UserRollInfo> getUserRollInfoList(long userId, long rollInfoId, int limit, int offset);
 

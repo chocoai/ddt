@@ -16,6 +16,8 @@ import java.util.Date;
 public class RollBook {
 	private long id;
 	
+	private long rollInfoId;
+	
 	private long userId;
 	
 	private String name;
@@ -40,6 +42,14 @@ public class RollBook {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getRollInfoId() {
+		return rollInfoId;
+	}
+
+	public void setRollInfoId(long rollInfoId) {
+		this.rollInfoId = rollInfoId;
 	}
 
 	public long getUserId() {

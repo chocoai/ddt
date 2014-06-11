@@ -93,4 +93,20 @@
         WHERE	id = #{rollBookId}
         		AND user_id = #{userId}
     </delete>
+    
+    <select id="getRollInfoList" parameterType="java.util.Map" resultType="RollBook">
+        SELECT	  a.id	id
+        		, b.id	rollInfoId
+        		, a.name	name
+        		, a.valid_start_time	validStartTime
+        		, a.valid_end_time		validEndTime
+        		, b.roll_start_time		rollStartTime
+        		, b.roll_end_time		rollEndTime
+        		, b.roll_code			rollCode
+        		, b.user_count			userCount
+        FROM	  ddt_roll_book		a
+        		, ddt_roll_book_info	b
+        WHERE	a.id = b.roll_book_id
+        		AND a.user_id = b.user_id
+    </select>
 </mapper>

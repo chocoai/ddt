@@ -26,7 +26,7 @@ public interface RollBookMapper {
 
 	List<User> getRollBookUserList(Map<String, Object> params);
 
-	List<RollBookInfo> getRollInfoList(Map<String, Object> params);
+	List<RollBook> getRollInfoList(Map<String, Object> params);
 
 	List<UserRollInfo> getUserRollInfoList(Map<String, Object> params);
 

@@ -61,7 +61,7 @@ public class RollBookServiceImpl implements RollBookService {
 	}
 
 	@Override
-	public List<RollBookInfo> getRollInfoList(long userId, long rollBookId, int limit, int offset) {
+	public List<RollBook> getRollInfoList(long userId, long rollBookId, int limit, int offset) {
 		Map<String, Object> params = new HashMap<>();
 		
 		params.put("userId", userId);
