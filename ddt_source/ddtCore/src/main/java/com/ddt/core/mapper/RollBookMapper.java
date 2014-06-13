@@ -32,13 +32,13 @@ public interface RollBookMapper {
 
 	int getRollBookCount(Map<String, Object> params);
 
-	boolean deleteRollBook(Map<String, Object> params);
+	Integer deleteRollBook(Map<String, Object> params);
 
-	boolean deleteRollBookInfo(Map<String, Object> params);
+	Integer deleteRollBookInfo(Map<String, Object> params);
 
-	boolean deleteUserRollInfo(Map<String, Object> params);
+	Integer deleteUserRollInfo(Map<String, Object> params);
 
-	boolean deleteRollBookUser(Map<String, Object> params);
+	Integer deleteRollBookUser(Map<String, Object> params);
 
 	RollBook getRollBookById(Map<String, Object> params);
 

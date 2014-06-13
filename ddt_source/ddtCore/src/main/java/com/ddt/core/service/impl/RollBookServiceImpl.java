@@ -100,7 +100,7 @@ public class RollBookServiceImpl implements RollBookService {
 		//删除点名册名单
 		deleteRollBookUser(rid, userId);
 		//删除点名册
-		return rollBookMapper.deleteRollBook(params);
+		return rollBookMapper.deleteRollBook(params) > 0;
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class RollBookServiceImpl implements RollBookService {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
 		params.put("userId", userId);
-		return rollBookMapper.deleteRollBookInfo(params);
+		return rollBookMapper.deleteRollBookInfo(params) > 0;
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class RollBookServiceImpl implements RollBookService {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
 		params.put("userId", userId);
-		return rollBookMapper.deleteUserRollInfo(params);
+		return rollBookMapper.deleteUserRollInfo(params) > 0;
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class RollBookServiceImpl implements RollBookService {
 		Map<String, Object> params = new HashMap<>();
 		params.put("rollBookId", rid);
 		params.put("userId", userId);
-		return rollBookMapper.deleteRollBookUser(params);
+		return rollBookMapper.deleteRollBookUser(params) > 0;
 	}
 
 	@Override
