@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
@@ -49,8 +50,13 @@ public class MenuTimer {
 	@Value("${wx.delete.url}")
 	private String deleteUrl;
 	
+	private static long expiredTime;
+	
+	private static String accessToken;
+	
+	@Scheduled(cron="0 0 * * * ?")
 	public void createMenu() {
-		String accessToken = getAccessToken();
+		getAccessToken();
 		StringBuffer get = new StringBuffer();
 		get.append(getUrl).append(accessToken);
 		
@@ -75,7 +81,7 @@ public class MenuTimer {
 	}
 	
 	public void deleteMenu() {
-		String accessToken = getAccessToken();
+		getAccessToken();
 		StringBuffer delete = new StringBuffer();
 		delete.append(deleteUrl).append(accessToken);
 		
@@ -83,17 +89,19 @@ public class MenuTimer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private String getAccessToken() {
+	private void getAccessToken() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(accessTokenUrl);
-		sb.append("&appid=").append(appid);
-		sb.append("&secret=").append(secret);
-		
-		String value = HttpUtils.getContent(sb.toString());
-		Gson gson = new Gson();
-		Map<String, Object> map = gson.fromJson(value, Map.class);
-		String accessToken = String.valueOf(map.get("access_token"));
-		return accessToken;
+		if (StringUtils.isBlank(accessToken) || System.currentTimeMillis() > expiredTime) {
+			sb.append(accessTokenUrl);
+			sb.append("&appid=").append(appid);
+			sb.append("&secret=").append(secret);
+			
+			String value = HttpUtils.getContent(sb.toString());
+			Gson gson = new Gson();
+			Map<String, Object> map = gson.fromJson(value, Map.class);
+			accessToken = String.valueOf(map.get("access_token"));
+			expiredTime = ((long) map.get("expires_in")) * 1000 + System.currentTimeMillis();
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
