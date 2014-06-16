@@ -47,7 +47,7 @@ public class EntranceController {
 	@Autowired
 	private UserService userService;
 	
-	@Value("${token}")
+	@Value("${wx.token}")
 	private String token;
 	
 	/**
