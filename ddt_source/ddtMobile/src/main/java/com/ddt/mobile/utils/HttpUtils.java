@@ -43,8 +43,8 @@ public class HttpUtils {
 			StatusLine line = response.getStatusLine();
 			
 			if (line.getStatusCode() == HttpStatus.SC_OK) {
-			
-				return EntityUtils.toString(response.getEntity());
+				String value = EntityUtils.toString(response.getEntity());
+				return value;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -66,8 +66,8 @@ public class HttpUtils {
 			StatusLine line = response.getStatusLine();
 			
 			if (line.getStatusCode() == HttpStatus.SC_OK) {
-			
-				return EntityUtils.toString(response.getEntity());
+				String v = EntityUtils.toString(response.getEntity());
+				return v;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

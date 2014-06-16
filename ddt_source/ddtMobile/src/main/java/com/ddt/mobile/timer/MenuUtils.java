@@ -16,7 +16,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
@@ -101,6 +100,7 @@ public class MenuUtils {
 	}
 	
 	public static void main(String[] args) {
+		getMenu();
 		createMenu();
 	}
 	
