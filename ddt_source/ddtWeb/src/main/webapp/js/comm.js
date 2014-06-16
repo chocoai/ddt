@@ -26,7 +26,7 @@
 
 			$.post("/login", {
 				username : _n,
-				password : _p,
+				password : _p
 			}, function(data) {
 				if (data.status == 1) {
 					window.location.href = "/rollbook/list";
