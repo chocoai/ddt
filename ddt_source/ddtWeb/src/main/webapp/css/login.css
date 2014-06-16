@@ -1,13 +1,41 @@
-html,body{margin:0;padding:0;height: 100%;}
-*{margin:0;padding:0;}
-.bodywrap{min-width: 960px;height: 100%;background: #dfdfdf;}
-.wrap{width: 1200px;margin:0 auto;background: #fff;}
-.header{width: 1200px;height: 100px;}
-.logo,.banner{float: left;}
+
+* {
+ margin: 0;
+ padding: 0;
+}
+html, body {
+ height: 100%;
+ text-align: center;
+ font: 12px/1.4 Verdana, sans-serif;
+ background: #efefef;
+ position: relative;
+}
+#wrapper {
+ min-width: 960px;
+ min-height: 100%;
+ margin: 0 auto;
+ width: 90%;
+ background: #fff;
+ 
+}
+* html #wrapper {
+ height: 100%;
+}
+.header{width: 100%;height: 100px;}
+.logo,.bannerwrap{float: left;}
+.bannerwrap{width: 100%;margin-left: -200px;}
 .logo{width: 200px;height: 100px;background: #9c0;}
-.banner{width: 1000px;height: 100px;background: #90c;}
-.footer{background:#3c0;clear: both;width: 1200px;height: 50px;}
-.main{position: relative;width: 1200px;height:72%;margin-top: 25px;clear: both;}
+.banner{margin-left: 200px;height: 100px;background: #90c;}
+
+
+#footer {
+ height: 50px;
+ background: #6c3;
+ width:100%;
+ margin: -50px auto 0;
+}
+
+.main{position: relative;width: 100%;height:72%;margin-top: 25px;clear: both;padding-bottom: 50px;}
 .main .loginbox{
 	margin: 50px auto;
 	width: 418px;
@@ -16,6 +44,11 @@ html,body{margin:0;padding:0;height: 100%;}
 }
 .main .lgnform{margin: 0 auto;width: 270px;height: 150px;margin-top: 55px;}
 .lgnform fieldset{border:0;padding: 0;}
+.lgnform legend{
+	font-size: 20px;
+letter-spacing: 3px;
+width: 55px;
+}
 .lgnform p{margin-top: 15px;}
 .lgnForm .inputTxt{width: 258px;height: 38px;border: 1px solid #ccc;border-radius: 2px;padding-left: 10px;font-size: 14px;color: #999;}
 .lgnForm .inputBtn{

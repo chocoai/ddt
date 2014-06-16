@@ -17,29 +17,24 @@
 </script>
 </head>
 <body>
-	<div class="bodywrap">
-		<div class="wrap">
-			<div class="header">
-				
-				<div class="logo"></div>
-				<div class="banner"></div>	
-			</div>
-			<div class="main">
-				<div class="loginbox">
-					<form name="lgnForm" class="lgnForm" id="lgnForm">
-			            <fieldset>
-			                <legend>登录</legend>
-			                <p><input type="text" name="username" id="uname" class="inputTxt" placeholder="用户名"></p>
-			                <p><input type="password" name="userpass" id="upwd" class="inputTxt" placeholder="密码"></p>
-			                <p><input type="button" class="inputBtn" value="登录" id="btn-login"></p>
-			            </fieldset>
-	        		</form>
-        		</div>
-			</div>
-			<div class="footer"></div>
-			
+	<div class="wrapper">
+		<div class="header">
+			<div class="logo"></div>
+			<div class="banner"></div>	
 		</div>
-		
+		<div class="main">
+			<div class="loginbox">
+				<form name="lgnForm" class="lgnForm" id="lgnForm">
+		            <fieldset>
+		                <legend>登录</legend>
+		                <p><input type="text" name="username" id="uname" class="inputTxt" placeholder="用户名"></p>
+		                <p><input type="password" name="userpass" id="upwd" class="inputTxt" placeholder="密码"></p>
+		                <p><input type="button" class="inputBtn" value="登录" id="btn-login"></p>
+		            </fieldset>
+        		</form>
+    		</div>
+		</div>
+		<div class="footer"></div>
 	</div>
 	
 </body>
