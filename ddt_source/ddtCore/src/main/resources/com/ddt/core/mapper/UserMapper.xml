@@ -49,7 +49,7 @@
 			SELECT LAST_INSERT_ID() AS id FROM dual
 		</selectKey>
 		INSERT INTO ddt_wx_user(id, user_name, wx_number, mobile, create_time)
-		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId}, NOW())
+		VALUES(#{id}, #{userName}, #{wxName}, #{mobile}, NOW())
     </insert>
     
     <select id="getUserRoles" parameterType="java.util.Map" resultType="Role">
