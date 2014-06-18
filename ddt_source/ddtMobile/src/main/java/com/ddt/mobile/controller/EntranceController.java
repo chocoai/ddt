@@ -104,11 +104,13 @@ public class EntranceController {
 				String eventKey = xpath.evaluate("/EventKey", document);
 				
 				//如果用户不存在，新增用户
-				User user = userService.getWxUserByName(fromUserName);
-				if (user == null) {
-					user = new User();
-					user.setWxName(fromUserName);
-					userService.insertWxUser(user);
+				if (StringUtils.isNotBlank(fromUserName)) {
+					User user = userService.getWxUserByName(fromUserName);
+					if (user == null) {
+						user = new User();
+						user.setWxName(fromUserName);
+						userService.insertWxUser(user);
+					}
 				}
 				
 				if (MsgType.EVENT.getValue().equals(msgType)) {

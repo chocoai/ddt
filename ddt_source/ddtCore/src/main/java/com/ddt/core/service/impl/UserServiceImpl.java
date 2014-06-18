@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void insertWxUser(User user) {
-		userMapper.inserWxtUser(user);
+		userMapper.inserWxUser(user);
 	}
 
 	@Override
