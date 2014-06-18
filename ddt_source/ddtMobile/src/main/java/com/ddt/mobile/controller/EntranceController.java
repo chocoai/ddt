@@ -87,100 +87,89 @@ public class EntranceController {
 			}
 		} else if ("post".equalsIgnoreCase(method)) {
 			//post请求普通微信用户发送信息
-			InputStream is = null;
-			try {
-				Map<String, String> map = DocumentUtils.parseXml(request);
-				//解析xml获取消息类型
-				String toUserName = map.get("ToUserName");
-				String fromUserName = map.get("FromUserName");
-				String msgType = map.get("MsgType");
-				String eventType = map.get("Event");
-				String eventKey = map.get("EventKey");
-				
-				//如果用户不存在，新增用户
-				if (StringUtils.isNotBlank(fromUserName)) {
-					User user = userService.getWxUserByName(fromUserName);
-					if (user == null) {
-						user = new User();
-						user.setWxName(fromUserName);
-						userService.insertWxUser(user);
-					}
+			Map<String, String> map = DocumentUtils.parseXml(request);
+			//解析xml获取消息类型
+			String toUserName = map.get("ToUserName");
+			String fromUserName = map.get("FromUserName");
+			String msgType = map.get("MsgType");
+			String eventType = map.get("Event");
+			String eventKey = map.get("EventKey");
+			
+			//如果用户不存在，新增用户
+			if (StringUtils.isNotBlank(fromUserName)) {
+				User user = userService.getWxUserByName(fromUserName);
+				if (user == null) {
+					user = new User();
+					user.setWxName(fromUserName);
+					userService.insertWxUser(user);
 				}
-				
-				if (MsgType.EVENT.getValue().equals(msgType)) {
-					if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
-						return null;
-					} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
-						view = new ModelAndView("msg/reply.text");
-						TextMsg textMsg = new TextMsg();
-						textMsg.setContent("欢迎使用爱点名！");
-						textMsg.setCreateTime(System.currentTimeMillis());
-						textMsg.setFromUser(toUserName);
-						textMsg.setMsgType(MsgType.TEXT);
-						textMsg.setToUser(fromUserName);
+			}
+			
+			if (MsgType.EVENT.getValue().equals(msgType)) {
+				if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
+					return null;
+				} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
+					view = new ModelAndView("msg/reply.text");
+					TextMsg textMsg = new TextMsg();
+					textMsg.setContent("欢迎使用爱点名！");
+					textMsg.setCreateTime(System.currentTimeMillis());
+					textMsg.setFromUser(toUserName);
+					textMsg.setMsgType(MsgType.TEXT);
+					textMsg.setToUser(fromUserName);
+					
+					view.addObject("textMsg", textMsg);
+					
+				} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
+					view = new ModelAndView("msg/reply.text");
+				} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
+					if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
 						
-						view.addObject("textMsg", textMsg);
+					} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
 						
-					} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
-						view = new ModelAndView("msg/reply.text");
-					} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
-						if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
-							
-						} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
-							
-						} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
-							
-						} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
-							
-						} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
-							
-						}
-					} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
-						view = new ModelAndView("msg/reply.text");
+					} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
+						
+					} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
+						
+					} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
+						
 					}
-				} else if (MsgType.IMAGE.getValue().equals(msgType)) {
-					view = new ModelAndView("msg/reply.text");
-				} else if (MsgType.LINK.getValue().equals(msgType)) {
-					view = new ModelAndView("msg/reply.text");
-				} else if (MsgType.LOCATION.getValue().equals(msgType)) {
-					view = new ModelAndView("msg/reply.text");
-				} else if (MsgType.TEXT.getValue().equals(msgType)) {
-					view = new ModelAndView("msg/reply.text");
-					String content = map.get("Content");
-					
-					if (StringUtils.isBlank(content)) {
-						return view;
-					}
-					String[] contentArray = content.split("+");
-					if (contentArray == null || contentArray.length < 2) {
-						return view;
-					}
-					
-					String userName = null;
-					String mobile = null;
-					String recommendName = null;
-					if (contentArray.length >= 2) {
-						userName = contentArray[0];
-						mobile = contentArray[1];
-						if (contentArray.length == 3) {
-							recommendName = contentArray[2];
-						}
-					}
-					
-					
-				} else if (MsgType.VIDEO.getValue().equals(msgType)) {
-					view = new ModelAndView("msg/reply.text");
-				} else if (MsgType.VOICE.getValue().equals(msgType)) {
+				} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
 					view = new ModelAndView("msg/reply.text");
 				}
-			} finally {
-				try {
-					if (is != null) {
-						is.close();
-					}
-				} catch (IOException e) {
-					log.error(e.getMessage(), e);
+			} else if (MsgType.IMAGE.getValue().equals(msgType)) {
+				view = new ModelAndView("msg/reply.text");
+			} else if (MsgType.LINK.getValue().equals(msgType)) {
+				view = new ModelAndView("msg/reply.text");
+			} else if (MsgType.LOCATION.getValue().equals(msgType)) {
+				view = new ModelAndView("msg/reply.text");
+			} else if (MsgType.TEXT.getValue().equals(msgType)) {
+				view = new ModelAndView("msg/reply.text");
+				String content = map.get("Content");
+				
+				if (StringUtils.isBlank(content)) {
+					return view;
 				}
+				String[] contentArray = content.split("+");
+				if (contentArray == null || contentArray.length < 2) {
+					return view;
+				}
+				
+				String userName = null;
+				String mobile = null;
+				String recommendName = null;
+				if (contentArray.length >= 2) {
+					userName = contentArray[0];
+					mobile = contentArray[1];
+					if (contentArray.length == 3) {
+						recommendName = contentArray[2];
+					}
+				}
+				
+				
+			} else if (MsgType.VIDEO.getValue().equals(msgType)) {
+				view = new ModelAndView("msg/reply.text");
+			} else if (MsgType.VOICE.getValue().equals(msgType)) {
+				view = new ModelAndView("msg/reply.text");
 			}
 		}
 		return view;
