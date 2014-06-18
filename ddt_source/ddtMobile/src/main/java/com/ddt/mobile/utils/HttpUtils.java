@@ -21,6 +21,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -56,11 +57,11 @@ public class HttpUtils {
 	public static String postContent(String uri, String value) {
 		try {
 			HttpClient client = new DefaultHttpClient();
-		
+			client.getParams().setParameter(HttpProtocolParams.HTTP_CONTENT_CHARSET,"UTF-8"); 
+			
 			HttpPost post = new HttpPost(uri);
-			
+			post.getParams().setParameter("charset", "UTF-8");
 			post.setEntity(new StringEntity(value));
-			
 			HttpResponse response = client.execute(post);
 			
 			StatusLine line = response.getStatusLine();

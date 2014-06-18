@@ -100,7 +100,6 @@ public class MenuUtils {
 	}
 	
 	public static void main(String[] args) {
-		getMenu();
 		createMenu();
 	}
 	
