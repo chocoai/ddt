@@ -8,12 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,17 +21,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
-import com.ddt.core.utils.DocumentUtils;
 import com.ddt.core.utils.EncryptUtils;
 import com.ddt.mobile.enums.EventType;
 import com.ddt.mobile.enums.MenuKey;
 import com.ddt.mobile.enums.MsgType;
 import com.ddt.mobile.msg.TextMsg;
+import com.ddt.mobile.utils.DocumentUtils;
 
 /**
  * EntranceController.java
@@ -93,15 +89,13 @@ public class EntranceController {
 			//post请求普通微信用户发送信息
 			InputStream is = null;
 			try {
-				is = request.getInputStream();
-				Document document = DocumentUtils.buildDocument(is);
-				XPath xpath = DocumentUtils.buildXpath();
+				Map<String, String> map = DocumentUtils.parseXml(request);
 				//解析xml获取消息类型
-				String toUserName = xpath.evaluate("/ToUserName", document);
-				String fromUserName = xpath.evaluate("/FromUserName", document);
-				String msgType = xpath.evaluate("/MsgType", document);
-				String eventType = xpath.evaluate("/Event", document);
-				String eventKey = xpath.evaluate("/EventKey", document);
+				String toUserName = map.get("ToUserName");
+				String fromUserName = map.get("FromUserName");
+				String msgType = map.get("MsgType");
+				String eventType = map.get("Event");
+				String eventKey = map.get("EventKey");
 				
 				//如果用户不存在，新增用户
 				if (StringUtils.isNotBlank(fromUserName)) {
@@ -152,7 +146,7 @@ public class EntranceController {
 					view = new ModelAndView("msg/reply.text");
 				} else if (MsgType.TEXT.getValue().equals(msgType)) {
 					view = new ModelAndView("msg/reply.text");
-					String content = xpath.evaluate("/Content", document);
+					String content = map.get("Content");
 					
 					if (StringUtils.isBlank(content)) {
 						return view;
@@ -179,14 +173,6 @@ public class EntranceController {
 				} else if (MsgType.VOICE.getValue().equals(msgType)) {
 					view = new ModelAndView("msg/reply.text");
 				}
-			} catch (ParserConfigurationException e) {
-				log.error(e.getMessage(), e);
-			} catch (SAXException e) {
-				log.error(e.getMessage(), e);
-			} catch (IOException e) {
-				log.error(e.getMessage(), e);
-			} catch (XPathExpressionException e) {
-				log.error(e.getMessage(), e);
 			} finally {
 				try {
 					if (is != null) {
