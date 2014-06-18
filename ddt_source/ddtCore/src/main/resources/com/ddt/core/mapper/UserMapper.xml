@@ -14,10 +14,25 @@
         , create_time	createTime
     </sql>
     
+    <sql id="wx_user_base_column">
+          id	id
+        , user_name	userName
+        , wx_number	wxName
+        , mobile	mobile
+        , create_time	createTime
+    </sql>
+    
     <select id="getUserByName" resultType="User" parameterType="string">
         SELECT
         <include refid="user_base_column"/>
         FROM	ddt_user
+        WHERE	user_name = #{username}
+    </select>
+    
+    <select id="getWxUserByName" resultType="User" parameterType="string">
+        SELECT
+        <include refid="wx_user_base_column"/>
+        FROM	ddt_wx_user
         WHERE	user_name = #{username}
     </select>
     
@@ -33,7 +48,7 @@
         <selectKey keyProperty="id" resultType="long">
 			SELECT LAST_INSERT_ID() AS id FROM dual
 		</selectKey>
-		INSERT INTO ddt_user(id, user_name, wx_number, mobile, create_time)
+		INSERT INTO ddt_wx_user(id, user_name, wx_number, mobile, create_time)
 		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId}, NOW())
     </insert>
     

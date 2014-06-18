@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService {
 		userMapper.inserWxtUser(user);
 	}
 
+	@Override
+	public User getWxUserByName(String fromUserName) {
+		return userMapper.getWxUserByName(Collections.singletonMap("username", (Object) fromUserName));
+	}
+
 }

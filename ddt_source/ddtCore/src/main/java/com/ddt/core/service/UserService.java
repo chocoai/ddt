@@ -32,4 +32,6 @@ public interface UserService {
 
 	void insertWxUser(User user);
 
+	User getWxUserByName(String fromUserName);
+
 }

@@ -32,4 +32,6 @@ public interface UserMapper {
 	void deleteUserById(Map<String, Object> params);
 
 	void inserWxtUser(User user);
+
+	User getWxUserByName(Map<String, Object> singletonMap);
 }

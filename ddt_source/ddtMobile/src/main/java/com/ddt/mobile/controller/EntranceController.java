@@ -31,6 +31,7 @@ import com.ddt.core.service.UserService;
 import com.ddt.core.utils.DocumentUtils;
 import com.ddt.core.utils.EncryptUtils;
 import com.ddt.mobile.enums.EventType;
+import com.ddt.mobile.enums.MenuKey;
 import com.ddt.mobile.enums.MsgType;
 import com.ddt.mobile.msg.TextMsg;
 
@@ -100,9 +101,10 @@ public class EntranceController {
 				String fromUserName = xpath.evaluate("/FromUserName", document);
 				String msgType = xpath.evaluate("/MsgType", document);
 				String eventType = xpath.evaluate("/Event", document);
+				String eventKey = xpath.evaluate("/EventKey", document);
 				
 				//如果用户不存在，新增用户
-				User user = userService.getUserByName(fromUserName);
+				User user = userService.getWxUserByName(fromUserName);
 				if (user == null) {
 					user = new User();
 					user.setWxName(fromUserName);
@@ -126,7 +128,17 @@ public class EntranceController {
 					} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
 						view = new ModelAndView("msg/reply.text");
 					} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
-						view = new ModelAndView("msg/reply.text");
+						if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
+							
+						} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
+							
+						} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
+							
+						} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
+							
+						} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
+							
+						}
 					} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
 						view = new ModelAndView("msg/reply.text");
 					}
@@ -165,10 +177,6 @@ public class EntranceController {
 				} else if (MsgType.VOICE.getValue().equals(msgType)) {
 					view = new ModelAndView("msg/reply.text");
 				}
-				
-				
-				buildResponseByMsgType(msgType, eventType, user);
-				
 			} catch (ParserConfigurationException e) {
 				log.error(e.getMessage(), e);
 			} catch (SAXException e) {
@@ -188,37 +196,5 @@ public class EntranceController {
 			}
 		}
 		return view;
-	}
-	
-	/**
-	 * 根据设置的信息类型构建数据
-	 * @param msgType
-	 * @param eventType
-	 * @param user
-	 */
-	private void buildResponseByMsgType(String msgType, String eventType, User user) {
-		if (MsgType.EVENT.getValue().equals(msgType)) {
-			if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
-				
-			} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
-				
-			} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
-				
-			} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
-				
-			}
-		} else if (MsgType.IMAGE.getValue().equals(msgType)) {
-			
-		} else if (MsgType.LINK.getValue().equals(msgType)) {
-			
-		} else if (MsgType.LOCATION.getValue().equals(msgType)) {
-			
-		} else if (MsgType.TEXT.getValue().equals(msgType)) {
-			
-		} else if (MsgType.VIDEO.getValue().equals(msgType)) {
-			
-		} else if (MsgType.VOICE.getValue().equals(msgType)) {
-			
-		}
 	}
 }
