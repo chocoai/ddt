@@ -108,7 +108,8 @@ public class EntranceController {
 				if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
 					return null;
 				} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
-					response.setContentType("application/xml;charset=utf-8");
+					response.setCharacterEncoding("UTF-8"); 
+			        response.setContentType("text/xml");
 					view = new ModelAndView("msg/reply.text");
 					TextMsg textMsg = new TextMsg();
 					textMsg.setContent("欢迎使用爱点名！");
