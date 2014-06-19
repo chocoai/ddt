@@ -20,8 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.ddt.core.meta.User;
+import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
 import com.ddt.core.utils.EncryptUtils;
 import com.ddt.mobile.enums.EventType;
@@ -42,6 +44,9 @@ public class EntranceController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RollBookService rollBookService;
 	
 	@Value("${wx.token}")
 	private String token;
@@ -123,16 +128,22 @@ public class EntranceController {
 				} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
 					view = new ModelAndView("msg/reply.text");
 				} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
+					//验证是否注册
+					if (!checkRegist(fromUserName)) {
+						//没有注册 返回注册页面
+						return view;
+					}
+					
 					if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
-						
+						return new ModelAndView(new RedirectView("/rollbook/myrollbook?wx=" + fromUserName));
 					} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
-						
+						return new ModelAndView(new RedirectView("/rollbook/rolled?wx=" + fromUserName));
 					} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
-						
+						return new ModelAndView(new RedirectView("/score/mall?wx=" + fromUserName));
 					} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
-						
+						return new ModelAndView(new RedirectView("/score/query?wx=" + fromUserName));
 					} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
-						
+						return new ModelAndView(new RedirectView("/score/sign?wx=" + fromUserName));
 					}
 				} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
 					view = new ModelAndView("msg/reply.text");
@@ -174,5 +185,9 @@ public class EntranceController {
 			}
 		}
 		return view;
+	}
+
+	private boolean checkRegist(String fromUserName) {
+		return true;
 	}
 }

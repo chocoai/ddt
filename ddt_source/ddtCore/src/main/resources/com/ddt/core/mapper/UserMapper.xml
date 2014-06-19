@@ -33,7 +33,7 @@
         SELECT
         <include refid="wx_user_base_column"/>
         FROM	ddt_wx_user
-        WHERE	user_name = #{username}
+        WHERE	wx_number = #{username}
     </select>
     
     <insert id="insertUser" parameterType="User" keyColumn="id" keyProperty="id">
