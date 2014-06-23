@@ -98,10 +98,10 @@ public class EntranceController {
 			String msgType = map.get("MsgType");
 			String eventType = map.get("Event");
 			String eventKey = map.get("EventKey");
-			
+			User user = null;
 			//如果用户不存在，新增用户
 			if (StringUtils.isNotBlank(fromUserName)) {
-				User user = userService.getWxUserByName(fromUserName);
+				user = userService.getWxUserByName(fromUserName);
 				if (user == null) {
 					user = new User();
 					user.setWxName(fromUserName);
@@ -131,6 +131,15 @@ public class EntranceController {
 					//验证是否注册
 					if (!checkRegist(fromUserName)) {
 						//没有注册 返回注册页面
+						view = new ModelAndView("msg/reply.text");
+						TextMsg textMsg = new TextMsg();
+						textMsg.setContent("请按照一下格式输入绑定用户信息：姓名+手机号码");
+						textMsg.setCreateTime(System.currentTimeMillis());
+						textMsg.setFromUser(toUserName);
+						textMsg.setMsgType(MsgType.TEXT);
+						textMsg.setToUser(fromUserName);
+						
+						view.addObject("textMsg", textMsg);
 						return view;
 					}
 					
@@ -176,7 +185,45 @@ public class EntranceController {
 						recommendName = contentArray[2];
 					}
 				}
+				User u = userService.getUserByMobile(mobile);
+				//用户不为空，手机号码已经被注册
+				if (u != null) {
+					TextMsg textMsg = new TextMsg();
+					textMsg.setContent("改手机号已被注册！");
+					textMsg.setCreateTime(System.currentTimeMillis());
+					textMsg.setFromUser(toUserName);
+					textMsg.setMsgType(MsgType.TEXT);
+					textMsg.setToUser(fromUserName);
+					
+					view.addObject("textMsg", textMsg);
+					return view;
+				}
 				
+				user.setUserName(userName);
+				user.setMobile(mobile);
+				userService.updateWxUser(user);
+				
+				User copyUser = userService.getUserByWithNullWx(userName);
+				boolean isAdd = false;
+				if (copyUser == null) {
+					copyUser = new User();
+					isAdd = true;
+				}
+				
+				copyUser.setUserName(userName);
+				copyUser.setMobile(mobile);
+				copyUser.setPassword(mobile);
+				copyUser.setWxName(fromUserName);
+				
+				if (isAdd) {
+					userService.insertUser(copyUser);
+				} else {
+					userService.updateUser(copyUser);
+				}
+				
+				if (StringUtils.isNotBlank(recommendName)) {
+					//TODO add recommend info
+				}
 				
 			} else if (MsgType.VIDEO.getValue().equals(msgType)) {
 				view = new ModelAndView("msg/reply.text");
@@ -188,6 +235,10 @@ public class EntranceController {
 	}
 
 	private boolean checkRegist(String fromUserName) {
+		User user = userService.getWxUserByName(fromUserName);
+		if (StringUtils.isBlank(user.getMobile())) {
+			return false;
+		}
 		return true;
 	}
 }

@@ -34,4 +34,10 @@ public interface UserService {
 
 	User getWxUserByName(String fromUserName);
 
+	User getUserByMobile(String mobile);
+
+	User getUserByWithNullWx(String userName);
+
+	void updateWxUser(User u);
+
 }

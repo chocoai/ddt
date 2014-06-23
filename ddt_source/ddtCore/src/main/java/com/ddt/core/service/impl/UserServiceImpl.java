@@ -77,4 +77,19 @@ public class UserServiceImpl implements UserService {
 		return userMapper.getWxUserByName(Collections.singletonMap("username", (Object) fromUserName));
 	}
 
+	@Override
+	public User getUserByMobile(String mobile) {
+		return userMapper.getUserByMobile(Collections.singletonMap("mobile", (Object) mobile));
+	}
+
+	@Override
+	public User getUserByWithNullWx(String userName) {
+		return userMapper.getUserByWithNullWx(Collections.singletonMap("username", (Object) userName));
+	}
+
+	@Override
+	public void updateWxUser(User u) {
+		userMapper.updateWxUser(u);
+	}
+
 }

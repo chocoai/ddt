@@ -34,4 +34,10 @@ public interface UserMapper {
 	void insertWxUser(User user);
 
 	User getWxUserByName(Map<String, Object> singletonMap);
+
+	User getUserByMobile(Map<String, Object> singletonMap);
+
+	User getUserByWithNullWx(Map<String, Object> singletonMap);
+
+	void updateWxUser(User u);
 }
