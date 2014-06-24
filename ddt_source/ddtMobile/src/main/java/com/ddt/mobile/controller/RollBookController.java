@@ -4,6 +4,7 @@
  */
 package com.ddt.mobile.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ddt.core.meta.RollBook;
+import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
+import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
+import com.ddt.mobile.utils.RamdomUtils;
 
 /**
  * RollBookController.java
@@ -32,6 +36,9 @@ public class RollBookController extends BaseController {
 	
 	@Autowired
 	private RollBookService rollBookService;
+	
+	@Autowired
+	private RollBookInfoService rollBookInfoService;
 	
 	/**
 	 * 获取点名册
@@ -84,7 +91,19 @@ public class RollBookController extends BaseController {
 	public ModelAndView start(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = new ModelAndView();
 		
+		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		User user = getUser(request);
+		
+		RollBook book = rollBookService.getRollBookById(rid, user.getId());
+		
+		RollBookInfo info = new RollBookInfo();
+		info.setRollBookId(book.getId());
+		info.setRollStartTime(new Date());
+		info.setRollUserCount(book.getUserCount());
+		info.setUserId(user.getId());
+		info.setRollCode(RamdomUtils.generateRamdomCode());
+		
+		rollBookInfoService.addRollBookInfo(info);
 		
 		return view;
 	}
@@ -100,6 +119,15 @@ public class RollBookController extends BaseController {
 		ModelAndView view = new ModelAndView();
 		
 		User user = getUser(request);
+		long rInfoId = ServletRequestUtils.getLongParameter(request, "rInfoId", 0);
+		
+		RollBookInfo info = rollBookInfoService.getRollInfoById(rInfoId, user.getId());
+		if (info == null) {
+			return null;
+		}
+		
+		info.setRollEndTime(new Date());
+		rollBookInfoService.updateRollBookInfo(info);
 		
 		return view;
 	}

@@ -26,30 +26,6 @@ import org.dom4j.io.SAXReader;
  */
 public class DocumentUtils {
 	
-//	public static Document buildDocument(InputStream is) throws ParserConfigurationException, SAXException, IOException {
-//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//		DocumentBuilder builder = factory.newDocumentBuilder();
-//		Document document = builder.parse(is);
-//		return document;
-//	}
-//	
-//	public static Document buildDocument(File file) throws ParserConfigurationException, SAXException, IOException {
-//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//		DocumentBuilder builder = factory.newDocumentBuilder();
-//		Document document = builder.parse(file);
-//		return document;
-//	}
-//	
-//	public static XPath buildXpath() {
-//		XPathFactory xPathFactory = XPathFactory.newInstance();
-//		XPath xpath = xPathFactory.newXPath();
-//		return xpath;
-//	}
-//	
-//	public static String selectNode(Document document, XPath xPath, String expression) throws XPathExpressionException {
-//		return xPath.evaluate(expression, document);
-//	}
-	
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> parseXml(HttpServletRequest request) {
 		
