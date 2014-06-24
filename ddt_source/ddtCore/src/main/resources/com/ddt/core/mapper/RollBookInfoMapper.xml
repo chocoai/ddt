@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ddt.core.mapper.RollBookInfoMapper">
+    
+    <sql id="roll_book_info_base_column">
+          id	id
+        , user_id	userId
+        , roll_book_id		rollBookId
+        , roll_start_time	rollStartTime
+        , roll_end_time		rollEndTime
+        , roll_code			rollCode
+        , user_count		rollUserCount
+    </sql>
+    
+    <select id="getRollInfoById" parameterType="java.util.Map" resultType="RollBookInfo">
+        SELECT
+        <include refid="roll_book_info_base_column"/>
+        FROM	ddt_roll_book_info
+        WHERE	id = #{rInfoId}
+        		AND user_id = #{userId}
+        
+    </select>
+    
+    <insert id="addRollBookInfo" parameterType="RollBookInfo" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long">
+            SELECT LAST_INSERT_ID() AS id FROM DUAL
+        </selectKey>
+        INSERT INTO ddt_roll_book_info(id, user_id, roll_book_id, roll_start_time, roll_end_time, roll_code, user_count)
+        VALUES(#{id}, #{userId}, #{rollBookId}, #{rollStartTime}, #{rollEndTime}, #{rollCode}, #{rollUserCount})
+    </insert>
+    
+     <delete id="deleteRollBookInfo" parameterType="java.util.Map">
+        DELETE FROM ddt_roll_book_info
+        WHERE	roll_book_id = #{rollBookId}
+        		AND user_id = #{userId}
+    </delete>
+    
+     <update id="updateRollBookInfo" parameterType="RollBookInfo">
+         UPDATE	ddt_roll_book_info
+         SET	roll_start_time = #{rollEndTime}
+         WHERE	id = #{id}
+     </update>
+</mapper>

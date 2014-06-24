@@ -7,7 +7,6 @@ package com.ddt.core.service;
 import java.util.List;
 
 import com.ddt.core.meta.RollBook;
-import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
 
@@ -32,8 +31,6 @@ public interface RollBookService {
 
 	boolean deleteRollBook(long rid, long userId);
 	
-	boolean deleteRollBookInfo(long rid, long userId);
-	
 	boolean deleteUserRollInfo(long rid, long userId);
 	
 	boolean deleteRollBookUser(long rid, long userId);
@@ -44,6 +41,6 @@ public interface RollBookService {
 
 	void updateRollBook(RollBook rollBook);
 
-	void addRollBookInfo(RollBookInfo rollBookInfo);
+	
 
 }

@@ -4,7 +4,10 @@
  */
 package com.ddt.core.meta;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  * RollBook.java 点名册
@@ -122,5 +125,18 @@ public class RollBook {
 
 	public void setGroupId(long groupId) {
 		this.groupId = groupId;
+	}
+	
+	public RollBook cloneRollBook() {
+		RollBook book = new RollBook();
+		try {
+			BeanUtils.copyProperties(book, this);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		return book;
 	}
 }

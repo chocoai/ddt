@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.ddt.core.mapper.RollBookMapper;
 import com.ddt.core.meta.RollBook;
-import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
+import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
 
@@ -36,6 +36,9 @@ public class RollBookServiceImpl implements RollBookService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RollBookInfoService rollBookInfoService;
 
 	@Override
 	public List<RollBook> getRollBookList(long userId, String queryValue, int limit, int offset) {
@@ -96,19 +99,11 @@ public class RollBookServiceImpl implements RollBookService {
 		params.put("rollBookId", rid);
 		params.put("userId", userId);
 		//删除点名记录
-		deleteRollBookInfo(rid, userId);
+		rollBookInfoService.deleteRollBookInfo(rid, userId);
 		//删除点名册名单
 		deleteRollBookUser(rid, userId);
 		//删除点名册
 		return rollBookMapper.deleteRollBook(params) > 0;
-	}
-
-	@Override
-	public boolean deleteRollBookInfo(long rid, long userId) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("rollBookId", rid);
-		params.put("userId", userId);
-		return rollBookMapper.deleteRollBookInfo(params) > 0;
 	}
 
 	@Override
@@ -153,10 +148,5 @@ public class RollBookServiceImpl implements RollBookService {
 	@Override
 	public void updateRollBook(RollBook rollBook) {
 		rollBookMapper.updateRollBook(rollBook);
-	}
-
-	@Override
-	public void addRollBookInfo(RollBookInfo rollBookInfo) {
-		rollBookMapper.addRollBookInfo(rollBookInfo);
 	}
 }
