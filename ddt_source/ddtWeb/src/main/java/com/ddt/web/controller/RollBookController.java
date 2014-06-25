@@ -29,6 +29,7 @@ import com.ddt.core.meta.RollBook;
 import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
+import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
 import com.ddt.core.utils.DateUtils;
@@ -49,6 +50,9 @@ public class RollBookController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RollBookInfoService rollBookInfoService;
 	
 	@RequestMapping("list")
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
@@ -213,7 +217,7 @@ public class RollBookController extends BaseController {
 		rollBookInfo.setRollBookId(rid);
 		rollBookInfo.setRollCode(rollCode);
 
-		rollBookService.addRollBookInfo(rollBookInfo);
+		rollBookInfoService.addRollBookInfo(rollBookInfo);
 		
 		return new ModelAndView(new RedirectView("/rollbook/rollinfo?roll_book_id=" + rid));
 	}

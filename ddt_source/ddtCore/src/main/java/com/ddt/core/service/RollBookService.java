@@ -41,6 +41,4 @@ public interface RollBookService {
 
 	void updateRollBook(RollBook rollBook);
 
-	
-
 }
