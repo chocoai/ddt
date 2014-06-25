@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ddt.core.mapper.RollBookInfoMapper;
 import com.ddt.core.meta.RollBookInfo;
@@ -20,6 +21,7 @@ import com.ddt.core.service.RollBookInfoService;
  * @version    1.0 2014-6-24
  * @since      1.0
  */
+@Service
 public class RollBookInfoServiceImpl implements RollBookInfoService {
 	
 	@Autowired
