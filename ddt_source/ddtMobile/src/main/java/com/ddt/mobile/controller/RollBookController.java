@@ -48,7 +48,7 @@ public class RollBookController extends BaseController {
 	 */
 	@RequestMapping("/myrollbook")
 	public ModelAndView rollBookList(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+		ModelAndView view = new ModelAndView("index");
 		
 		User user = getUser(request);
 		
