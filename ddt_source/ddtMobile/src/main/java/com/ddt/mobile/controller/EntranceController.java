@@ -131,6 +131,8 @@ public class EntranceController {
 					//验证是否注册
 					if (!checkRegist(fromUserName)) {
 						//没有注册 返回注册页面
+						response.setCharacterEncoding("UTF-8"); 
+				        response.setContentType("text/xml");
 						view = new ModelAndView("msg/reply.text");
 						TextMsg textMsg = new TextMsg();
 						textMsg.setContent("请按照一下格式输入绑定用户信息：姓名+手机号码");
