@@ -78,6 +78,8 @@ public class RollBookController extends BaseController {
 		
 		User user = getUser(request);
 		
+		List<RollBookInfo> infos = rollBookInfoService.getRollBookInfosByUserId(user.getId());
+		
 		return view;
 	}
 	

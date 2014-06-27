@@ -27,7 +27,7 @@ public class BaseController {
 	
 	public User getUser(HttpServletRequest request) {
 		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
-		User user = userService.getUserByName(wx);
+		User user = userService.getWxUserByName(wx);
 		return user;
 	}
 }

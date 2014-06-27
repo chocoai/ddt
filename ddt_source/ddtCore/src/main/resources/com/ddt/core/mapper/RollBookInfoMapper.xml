@@ -23,6 +23,13 @@
         
     </select>
     
+    <select id="getRollBookInfosByUserId" parameterType="java.util.Map" resultType="RollBookInfo">
+        SELECT
+        <include refid="roll_book_info_base_column"/>
+        FROM	ddt_roll_book_info
+        WHERE	user_id 
+    </select>
+    
     <insert id="addRollBookInfo" parameterType="RollBookInfo" keyColumn="id" keyProperty="id">
         <selectKey keyProperty="id" resultType="long">
             SELECT LAST_INSERT_ID() AS id FROM DUAL

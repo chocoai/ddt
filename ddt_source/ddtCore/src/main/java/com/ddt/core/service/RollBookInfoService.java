@@ -4,6 +4,8 @@
  */
 package com.ddt.core.service;
 
+import java.util.List;
+
 import com.ddt.core.meta.RollBookInfo;
 
 /**
@@ -22,4 +24,6 @@ public interface RollBookInfoService {
 	boolean deleteRollBookInfo(long rid, long userId);
 
 	void updateRollBookInfo(RollBookInfo info);
+
+	List<RollBookInfo> getRollBookInfosByUserId(long id);
 }

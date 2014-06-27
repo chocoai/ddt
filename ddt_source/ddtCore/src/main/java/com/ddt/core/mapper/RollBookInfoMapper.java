@@ -4,6 +4,7 @@
  */
 package com.ddt.core.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ddt.core.meta.RollBookInfo;
@@ -24,4 +25,6 @@ public interface RollBookInfoMapper {
 	Integer deleteRollBookInfo(Map<String, Object> params);
 
 	void updateRollBookInfo(RollBookInfo info);
+
+	List<RollBookInfo> getRollBookInfosByUserId(Map<String, Object> params);
 }
