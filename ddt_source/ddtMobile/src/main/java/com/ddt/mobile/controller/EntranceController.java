@@ -62,33 +62,7 @@ public class EntranceController {
 		String method = request.getMethod();
 		//get请求验证微信介入是否成功
 		if ("get".equalsIgnoreCase(method)) {
-			PrintWriter pw = null;
-			try {
-				pw = response.getWriter();
-				//获取参数信息
-				String signature = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "signature", ""));
-				String timestamp = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "timestamp", ""));
-				String nonce = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "nonce", ""));
-				String echostr = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "echostr", ""));
-				String[] valueArray = new String[]{token, timestamp, nonce};
-				//字典序排列
-				Arrays.sort(valueArray);
-				StringBuffer sb = new StringBuffer();
-				for (String value : valueArray) {
-					sb.append(value);
-				}
-				
-				String encryptValue = EncryptUtils.encrypt(sb.toString(), "sha1");
-				if (StringUtils.equalsIgnoreCase(signature, encryptValue)) {
-					pw.print(echostr);
-				}
-			} catch (IOException e) {
-				log.error(e.getMessage(), e);
-			} finally {
-				if (pw != null) {
-					pw.close();
-				}
-			}
+			getHandler(request, response);
 		} else if ("post".equalsIgnoreCase(method)) {
 			//post请求普通微信用户发送信息
 			Map<String, String> map = DocumentUtils.parseXml(request);
@@ -98,16 +72,8 @@ public class EntranceController {
 			String msgType = map.get("MsgType");
 			String eventType = map.get("Event");
 			String eventKey = map.get("EventKey");
-			User user = null;
-			//如果用户不存在，新增用户
-			if (StringUtils.isNotBlank(fromUserName)) {
-				user = userService.getWxUserByName(fromUserName);
-				if (user == null) {
-					user = new User();
-					user.setWxName(fromUserName);
-					userService.insertWxUser(user);
-				}
-			}
+			
+			User user = addUserIfNotExists(fromUserName);
 			
 			if (MsgType.EVENT.getValue().equals(msgType)) {
 				if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
@@ -234,6 +200,51 @@ public class EntranceController {
 			}
 		}
 		return view;
+	}
+
+	private User addUserIfNotExists(String fromUserName) {
+		User user = null;
+		//如果用户不存在，新增用户
+		if (StringUtils.isNotBlank(fromUserName)) {
+			user = userService.getWxUserByName(fromUserName);
+			if (user == null) {
+				user = new User();
+				user.setWxName(fromUserName);
+				userService.insertWxUser(user);
+			}
+		}
+		return user;
+	}
+
+	private void getHandler(HttpServletRequest request,
+			HttpServletResponse response) {
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			//获取参数信息
+			String signature = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "signature", ""));
+			String timestamp = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "timestamp", ""));
+			String nonce = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "nonce", ""));
+			String echostr = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "echostr", ""));
+			String[] valueArray = new String[]{token, timestamp, nonce};
+			//字典序排列
+			Arrays.sort(valueArray);
+			StringBuffer sb = new StringBuffer();
+			for (String value : valueArray) {
+				sb.append(value);
+			}
+			
+			String encryptValue = EncryptUtils.encrypt(sb.toString(), "sha1");
+			if (StringUtils.equalsIgnoreCase(signature, encryptValue)) {
+				pw.print(echostr);
+			}
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		} finally {
+			if (pw != null) {
+				pw.close();
+			}
+		}
 	}
 
 	private boolean checkRegist(String fromUserName) {

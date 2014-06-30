@@ -1,11 +1,11 @@
 <xml>
-	 <ToUserName><![CDATA[${toUser}]></ToUserName>
- 	 <FromUserName><![CDATA[${fromUser}]></FromUserName> 
+	 <ToUserName><![CDATA[${toUser}]]></ToUserName>
+ 	 <FromUserName><![CDATA[${fromUser}]]></FromUserName> 
  	 <CreateTime>${createTime}</CreateTime>
 	 <MsgType><![CDATA[music]]></MsgType>
 	 <Music>
-		 <Title><![CDATA[${title}]></Title>
-		 <Description><![CDATA[${description}]></Description>
+		 <Title><![CDATA[${title}]]></Title>
+		 <Description><![CDATA[${description}]]></Description>
 		 <MusicUrl><![CDATA[${musicUrl}]]></MusicUrl>
 		 <HQMusicUrl><![CDATA[${hqmusicUrl}]]></HQMusicUrl>
 	 </Music>
