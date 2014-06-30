@@ -101,7 +101,7 @@ public class EntranceController {
 				        response.setContentType("text/xml");
 						view = new ModelAndView("msg/reply.text");
 						TextMsg textMsg = new TextMsg();
-						textMsg.setContent("请按照一下格式输入绑定用户信息：姓名+手机号码");
+						textMsg.setContent("请按照以下格式输入绑定用户信息：姓名+手机号码");
 						textMsg.setCreateTime(System.currentTimeMillis());
 						textMsg.setFromUser(toUserName);
 						textMsg.setMsgType(MsgType.TEXT);
