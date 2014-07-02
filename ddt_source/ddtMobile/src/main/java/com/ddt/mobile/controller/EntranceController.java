@@ -58,106 +58,56 @@ public class EntranceController {
 	 */
 	@RequestMapping("/cgi-bin/platform")
 	public ModelAndView entrance(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = null;
 		String method = request.getMethod();
 		//get请求验证微信介入是否成功
 		if ("get".equalsIgnoreCase(method)) {
-			getHandler(request, response);
+			doGet(request, response);
 		} else if ("post".equalsIgnoreCase(method)) {
-			//post请求普通微信用户发送信息
-			Map<String, String> map = DocumentUtils.parseXml(request);
-			//解析xml获取消息类型
-			String toUserName = map.get("ToUserName");
-			String fromUserName = map.get("FromUserName");
-			String msgType = map.get("MsgType");
-			String eventType = map.get("Event");
-			String eventKey = map.get("EventKey");
-			
-			User user = addUserIfNotExists(fromUserName);
-			
-			if (MsgType.EVENT.getValue().equals(msgType)) {
-				if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
-					return null;
-				} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
+			return doPost(request, response);
+		}
+		return null;
+	}
+
+	private ModelAndView doPost(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = null;
+		//post请求普通微信用户发送信息
+		Map<String, String> map = DocumentUtils.parseXml(request);
+		//解析xml获取消息类型
+		String toUserName = map.get("ToUserName");
+		String fromUserName = map.get("FromUserName");
+		String msgType = map.get("MsgType");
+		String eventType = map.get("Event");
+		String eventKey = map.get("EventKey");
+		
+		User user = addUserIfNotExists(fromUserName);
+		
+		if (MsgType.EVENT.getValue().equals(msgType)) {
+			if (EventType.UNSUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
+				return null;
+			} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
+				response.setCharacterEncoding("UTF-8"); 
+		        response.setContentType("text/xml");
+				view = new ModelAndView("msg/reply.text");
+				TextMsg textMsg = new TextMsg();
+				textMsg.setContent("欢迎使用爱点名！");
+				textMsg.setCreateTime(System.currentTimeMillis());
+				textMsg.setFromUser(toUserName);
+				textMsg.setMsgType(MsgType.TEXT);
+				textMsg.setToUser(fromUserName);
+				
+				view.addObject("textMsg", textMsg);
+				
+			} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
+				view = new ModelAndView("msg/reply.text");
+			} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
+				//验证是否注册
+				if (!checkRegist(fromUserName)) {
+					//没有注册 返回注册页面
 					response.setCharacterEncoding("UTF-8"); 
 			        response.setContentType("text/xml");
 					view = new ModelAndView("msg/reply.text");
 					TextMsg textMsg = new TextMsg();
-					textMsg.setContent("欢迎使用爱点名！");
-					textMsg.setCreateTime(System.currentTimeMillis());
-					textMsg.setFromUser(toUserName);
-					textMsg.setMsgType(MsgType.TEXT);
-					textMsg.setToUser(fromUserName);
-					
-					view.addObject("textMsg", textMsg);
-					
-				} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
-					view = new ModelAndView("msg/reply.text");
-				} else if (EventType.CLICK.getType().equalsIgnoreCase(eventType)) {
-					//验证是否注册
-					if (!checkRegist(fromUserName)) {
-						//没有注册 返回注册页面
-						response.setCharacterEncoding("UTF-8"); 
-				        response.setContentType("text/xml");
-						view = new ModelAndView("msg/reply.text");
-						TextMsg textMsg = new TextMsg();
-						textMsg.setContent("请按照以下格式输入绑定用户信息：姓名+手机号码");
-						textMsg.setCreateTime(System.currentTimeMillis());
-						textMsg.setFromUser(toUserName);
-						textMsg.setMsgType(MsgType.TEXT);
-						textMsg.setToUser(fromUserName);
-						
-						view.addObject("textMsg", textMsg);
-						return view;
-					}
-					
-					if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
-						return new ModelAndView(new RedirectView("/rollbook/myrollbook?wx=" + fromUserName));
-					} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
-						return new ModelAndView(new RedirectView("/rollbook/rolled?wx=" + fromUserName));
-					} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
-						return new ModelAndView(new RedirectView("/score/mall?wx=" + fromUserName));
-					} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
-						return new ModelAndView(new RedirectView("/score/query?wx=" + fromUserName));
-					} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
-						return new ModelAndView(new RedirectView("/score/sign?wx=" + fromUserName));
-					}
-				} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
-					view = new ModelAndView("msg/reply.text");
-				}
-			} else if (MsgType.IMAGE.getValue().equals(msgType)) {
-				view = new ModelAndView("msg/reply.text");
-			} else if (MsgType.LINK.getValue().equals(msgType)) {
-				view = new ModelAndView("msg/reply.text");
-			} else if (MsgType.LOCATION.getValue().equals(msgType)) {
-				view = new ModelAndView("msg/reply.text");
-			} else if (MsgType.TEXT.getValue().equals(msgType)) {
-				view = new ModelAndView("msg/reply.text");
-				String content = map.get("Content");
-				
-				if (StringUtils.isBlank(content)) {
-					return view;
-				}
-				String[] contentArray = content.split("+");
-				if (contentArray == null || contentArray.length < 2) {
-					return view;
-				}
-				
-				String userName = null;
-				String mobile = null;
-				String recommendName = null;
-				if (contentArray.length >= 2) {
-					userName = contentArray[0];
-					mobile = contentArray[1];
-					if (contentArray.length == 3) {
-						recommendName = contentArray[2];
-					}
-				}
-				User u = userService.getUserByMobile(mobile);
-				//用户不为空，手机号码已经被注册
-				if (u != null) {
-					TextMsg textMsg = new TextMsg();
-					textMsg.setContent("改手机号已被注册！");
+					textMsg.setContent("请按照以下格式输入绑定用户信息：姓名+手机号码");
 					textMsg.setCreateTime(System.currentTimeMillis());
 					textMsg.setFromUser(toUserName);
 					textMsg.setMsgType(MsgType.TEXT);
@@ -167,37 +117,101 @@ public class EntranceController {
 					return view;
 				}
 				
-				user.setUserName(userName);
-				user.setMobile(mobile);
-				userService.updateWxUser(user);
-				
-				User copyUser = userService.getUserByWithNullWx(userName);
-				boolean isAdd = false;
-				if (copyUser == null) {
-					copyUser = new User();
-					isAdd = true;
+				if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
+					return new ModelAndView(new RedirectView("/rollbook/myrollbook?wx=" + fromUserName));
+				} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
+					return new ModelAndView(new RedirectView("/rollbook/rolled?wx=" + fromUserName));
+				} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
+					return new ModelAndView(new RedirectView("/score/mall?wx=" + fromUserName));
+				} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
+					return new ModelAndView(new RedirectView("/score/query?wx=" + fromUserName));
+				} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
+					return new ModelAndView(new RedirectView("/score/sign?wx=" + fromUserName));
 				}
-				
-				copyUser.setUserName(userName);
-				copyUser.setMobile(mobile);
-				copyUser.setPassword(mobile);
-				copyUser.setWxName(fromUserName);
-				
-				if (isAdd) {
-					userService.insertUser(copyUser);
-				} else {
-					userService.updateUser(copyUser);
-				}
-				
-				if (StringUtils.isNotBlank(recommendName)) {
-					//TODO add recommend info
-				}
-				
-			} else if (MsgType.VIDEO.getValue().equals(msgType)) {
-				view = new ModelAndView("msg/reply.text");
-			} else if (MsgType.VOICE.getValue().equals(msgType)) {
+			} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
 				view = new ModelAndView("msg/reply.text");
 			}
+		} else if (MsgType.IMAGE.getValue().equals(msgType)) {
+			view = new ModelAndView("msg/reply.text");
+		} else if (MsgType.LINK.getValue().equals(msgType)) {
+			view = new ModelAndView("msg/reply.text");
+		} else if (MsgType.LOCATION.getValue().equals(msgType)) {
+			view = new ModelAndView("msg/reply.text");
+		} else if (MsgType.TEXT.getValue().equals(msgType)) {
+			view = new ModelAndView("msg/reply.text");
+			String content = map.get("Content");
+			
+			if (StringUtils.isBlank(content)) {
+				return view;
+			}
+			String[] contentArray = content.split("+");
+			if (contentArray == null || contentArray.length < 2) {
+				return view;
+			}
+			
+			String userName = null;
+			String mobile = null;
+			String recommendName = null;
+			if (contentArray.length >= 2) {
+				userName = contentArray[0];
+				mobile = contentArray[1];
+				if (contentArray.length == 3) {
+					recommendName = contentArray[2];
+				}
+			}
+			User u = userService.getUserByMobile(mobile);
+			//用户不为空，手机号码已经被注册
+			if (u != null) {
+				TextMsg textMsg = new TextMsg();
+				textMsg.setContent("此手机号码已被注册！");
+				textMsg.setCreateTime(System.currentTimeMillis());
+				textMsg.setFromUser(toUserName);
+				textMsg.setMsgType(MsgType.TEXT);
+				textMsg.setToUser(fromUserName);
+				
+				view.addObject("textMsg", textMsg);
+				return view;
+			}
+			
+			user.setUserName(userName);
+			user.setMobile(mobile);
+			userService.updateWxUser(user);
+			
+			User copyUser = userService.getUserByWithNullWx(userName);
+			boolean isAdd = false;
+			if (copyUser == null) {
+				copyUser = new User();
+				isAdd = true;
+			}
+			
+			copyUser.setUserName(userName);
+			copyUser.setMobile(mobile);
+			copyUser.setPassword(mobile);
+			copyUser.setWxName(fromUserName);
+			
+			if (isAdd) {
+				userService.insertUser(copyUser);
+			} else {
+				userService.updateUser(copyUser);
+			}
+			
+			if (StringUtils.isNotBlank(recommendName)) {
+				//TODO add recommend info
+			}
+			
+			TextMsg textMsg = new TextMsg();
+			textMsg.setContent("注册成功，您可以访问www.idianming.com.cn登陆上传您的点名册，初始用户名和密码是您的注册手机号");
+			textMsg.setCreateTime(System.currentTimeMillis());
+			textMsg.setFromUser(toUserName);
+			textMsg.setMsgType(MsgType.TEXT);
+			textMsg.setToUser(fromUserName);
+			
+			view.addObject("textMsg", textMsg);
+			
+		} else if (MsgType.VIDEO.getValue().equals(msgType)) {
+			view = new ModelAndView("msg/reply.text");
+		} else if (MsgType.VOICE.getValue().equals(msgType)) {
+			view = new ModelAndView("msg/reply.text");
 		}
 		return view;
 	}
@@ -216,7 +230,7 @@ public class EntranceController {
 		return user;
 	}
 
-	private void getHandler(HttpServletRequest request,
+	private void doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		PrintWriter pw = null;
 		try {
