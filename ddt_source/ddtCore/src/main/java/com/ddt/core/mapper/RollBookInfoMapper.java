@@ -27,4 +27,8 @@ public interface RollBookInfoMapper {
 	void updateRollBookInfo(RollBookInfo info);
 
 	List<RollBookInfo> getRollBookInfosByUserId(Map<String, Object> params);
+
+	RollBookInfo getLatestRollInfoByRid(Map<String, Object> params);
+
+	RollBookInfo getRollBookInfoByRandCode(Map<String, Object> params);
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ddt.core.meta.Role;
+import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 
 /**
@@ -40,4 +41,8 @@ public interface UserMapper {
 	User getUserByWithNullWx(Map<String, Object> singletonMap);
 
 	void updateWxUser(User u);
+
+	RollBookUser getRollBookUser(Map<String, Object> params);
+
+	void insertRollBookUser(RollBookUser rollBookUser);
 }

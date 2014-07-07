@@ -12,6 +12,8 @@
         , roll_end_time		rollEndTime
         , roll_code			rollCode
         , user_count		rollUserCount
+        , x					x
+        , y					y
     </sql>
     
     <select id="getRollInfoById" parameterType="java.util.Map" resultType="RollBookInfo">
@@ -19,23 +21,38 @@
         <include refid="roll_book_info_base_column"/>
         FROM	ddt_roll_book_info
         WHERE	id = #{rInfoId}
+    </select>
+    
+    <select id="getLatestRollInfoByRid" parameterType="java.util.Map" resultType="RollBookInfo">
+        SELECT
+        <include refid="roll_book_info_base_column"/>
+        FROM	ddt_roll_book_info
+        WHERE	roll_book_id = #{rid}
         		AND user_id = #{userId}
-        
+        		AND roll_end_time = null
+        ORDER BY id desc LIMIT 1
+    </select>
+    
+    <select id="getRollBookInfoByRandCode" parameterType="java.util.Map" resultType="RollBookInfo">
+        SELECT
+        <include refid="roll_book_info_base_column"/>
+        FROM	ddt_roll_book_info
+        WHERE	roll_code = #{content}
     </select>
     
     <select id="getRollBookInfosByUserId" parameterType="java.util.Map" resultType="RollBookInfo">
         SELECT
         <include refid="roll_book_info_base_column"/>
         FROM	ddt_roll_book_info
-        WHERE	user_id 
+        WHERE	user_id = #{userId}
     </select>
     
     <insert id="addRollBookInfo" parameterType="RollBookInfo" keyColumn="id" keyProperty="id">
         <selectKey keyProperty="id" resultType="long">
             SELECT LAST_INSERT_ID() AS id FROM DUAL
         </selectKey>
-        INSERT INTO ddt_roll_book_info(id, user_id, roll_book_id, roll_start_time, roll_end_time, roll_code, user_count)
-        VALUES(#{id}, #{userId}, #{rollBookId}, #{rollStartTime}, #{rollEndTime}, #{rollCode}, #{rollUserCount})
+        INSERT INTO ddt_roll_book_info(id, user_id, roll_book_id, roll_start_time, roll_end_time, roll_code, user_count, x, y)
+        VALUES(#{id}, #{userId}, #{rollBookId}, #{rollStartTime}, #{rollEndTime}, #{rollCode}, #{rollUserCount}, #{x}, #{y})
     </insert>
     
      <delete id="deleteRollBookInfo" parameterType="java.util.Map">

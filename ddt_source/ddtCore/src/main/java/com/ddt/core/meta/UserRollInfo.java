@@ -22,7 +22,21 @@ public class UserRollInfo {
 	private Date rollTime;
 	
 	private String info;
-
+	
+	/**
+	 * 纬度
+	 */
+	private double x;
+	
+	/**
+	 * 经度
+	 */
+	private double y;
+	
+	/**
+	 * 距离
+	 */
+	private double distance = 100000;
 
 	public long getUserId() {
 		return userId;
@@ -54,5 +68,29 @@ public class UserRollInfo {
 
 	public void setRollTime(Date rollTime) {
 		this.rollTime = rollTime;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 }

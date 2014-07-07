@@ -34,11 +34,10 @@ public class RollBookInfoServiceImpl implements RollBookInfoService {
 	}
 
 	@Override
-	public RollBookInfo getRollInfoById(long rInfoId, long userId) {
+	public RollBookInfo getRollInfoById(long rInfoId) {
 		Map<String, Object> params = new HashMap<>();
 		
 		params.put("rInfoId", rInfoId);
-		params.put("userId", userId);
 		
 		return rollBookInfoMapper.getRollInfoById(params);
 	}
@@ -61,5 +60,20 @@ public class RollBookInfoServiceImpl implements RollBookInfoService {
 		Map<String, Object> params = new HashMap<>();
 		params.put("userId", userId);
 		return rollBookInfoMapper.getRollBookInfosByUserId(params);
+	}
+
+	@Override
+	public RollBookInfo getLatestRollInfoByRid(long rid, long userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("rid", rid);
+		params.put("userId", userId);
+		return rollBookInfoMapper.getLatestRollInfoByRid(params);
+	}
+
+	@Override
+	public RollBookInfo getRollBookInfoByRandCode(String content) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("content", content);
+		return rollBookInfoMapper.getRollBookInfoByRandCode(params);
 	}
 }

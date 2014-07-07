@@ -28,6 +28,16 @@ public class RollBookInfo {
 	private String rollCode;
 	
 	private int rollUserCount;
+	
+	/**
+	 * 纬度
+	 */
+	private double x;
+	
+	/**
+	 * 经度
+	 */
+	private double y;
 
 	public long getId() {
 		return id;
@@ -84,5 +94,21 @@ public class RollBookInfo {
 
 	public void setRollUserCount(int rollUserCount) {
 		this.rollUserCount = rollUserCount;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
 	}
 }

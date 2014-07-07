@@ -43,4 +43,6 @@ public interface StatusCode {
 	int NULL_NAME = -12;
 	
 	int NAME_EXISTS = -13;
+	
+	int ROLL_BOOK_NOT_EXISTS = -14;
 }

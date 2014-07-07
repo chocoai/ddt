@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.ddt.core.mapper.UserMapper;
 import com.ddt.core.meta.Role;
+import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.UserService;
 
@@ -90,6 +91,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateWxUser(User u) {
 		userMapper.updateWxUser(u);
+	}
+
+	@Override
+	public RollBookUser getRollBookUser(long rollBookId, long userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("rollBookId", rollBookId);
+		params.put("userId", userId);
+		return userMapper.getRollBookUser(params);
+	}
+
+	@Override
+	public void insertRollBookUser(RollBookUser rollBookUser) {
+		userMapper.insertRollBookUser(rollBookUser);
 	}
 
 }

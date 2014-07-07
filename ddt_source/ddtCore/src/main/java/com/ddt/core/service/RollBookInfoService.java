@@ -19,11 +19,15 @@ public interface RollBookInfoService {
 	
 	void addRollBookInfo(RollBookInfo rollBookInfo);
 
-	RollBookInfo getRollInfoById(long rInfoId, long userId);
+	RollBookInfo getRollInfoById(long rInfoId);
 	
 	boolean deleteRollBookInfo(long rid, long userId);
 
 	void updateRollBookInfo(RollBookInfo info);
 
 	List<RollBookInfo> getRollBookInfosByUserId(long id);
+
+	RollBookInfo getLatestRollInfoByRid(long rid, long id);
+
+	RollBookInfo getRollBookInfoByRandCode(String content);
 }

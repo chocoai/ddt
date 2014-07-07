@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ddt.core.constants.StatusCode;
+import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
@@ -61,7 +63,12 @@ public class UploadController extends BaseController {
 			return view;
 		}
 		
-		long groupId = 0;
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "id", 0);
+		if (rollBookId <= 0) {
+			view.addObject("status", StatusCode.ROLL_BOOK_NOT_EXISTS);
+			view.addObject("result", "点名册不存在");
+			return view;
+		}
 		int userCount = 0;
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -78,21 +85,20 @@ public class UploadController extends BaseController {
 					}
 					User u = new User();
 					u.setUserName(name);
-					if (groupId > 0) {
-						u.setGroupId(groupId);
-					}
 					userService.insertUser(u);
-					if (groupId == 0) {
-						groupId = u.getId();
-						u.setGroupId(u.getId());
-						userService.updateUser(u);
+					
+					RollBookUser rollBookUser = userService.getRollBookUser(rollBookId, u.getId());
+					if (rollBookUser == null) {
+						rollBookUser = new RollBookUser();
+						rollBookUser.setUserId(u.getId());
+						rollBookUser.setBookId(rollBookId);
+						userService.insertRollBookUser(rollBookUser);
 					}
 					userCount++;
 				}
 			}
 			view.addObject("status", StatusCode.OK);
 			view.addObject("result", "上传成功");
-			view.addObject("groupId", groupId);
 			view.addObject("userCount", userCount);
 		} catch (IOException e) {
 			logger.error(e);

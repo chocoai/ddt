@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ddt.core.mapper.UserRollInfoMapper">
+    
+    <sql id="user_roll_base_column">
+          roll_book_info_id	rollBookInfoId
+        , user_id	userId
+        , roll_time	rollTime
+        , roll_info	info
+        , x			x
+        , y			y
+        , distance	distance
+    </sql>
+    
+    <select id="getUserRollInfoByIds" parameterType="java.util.Map" resultType="UserRollInfo">
+        SELECT
+        <include refid="user_roll_base_column"/>
+        FROM	ddt_user_roll_info
+        WHERE	roll_book_info_id = #{infoId}
+        		AND user_id = #{userId}
+    </select>
+    
+    <insert id="addUserRollInfo" parameterType="UserRollInfo">
+        INSERT INTO ddt_user_roll_info (roll_book_info_id, user_id, roll_time, roll_info, x, y, distance)
+        VALUES(#{rollBookInfoId}, #{userId}, #{rollTime}, #{info}, #{x}, #{y}, #{distance})
+    </insert>
+</mapper>

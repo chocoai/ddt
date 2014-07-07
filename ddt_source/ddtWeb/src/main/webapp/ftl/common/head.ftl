@@ -4,7 +4,7 @@
           <p class="uname"><#if userSession??>${userSession.userName!''}</#if></p>
 
         </div>
-        <div class="logo"></div>
+        <div class="logo"><img src="/images/logo.jpg"></div>
         <div class="bannerwrap">
             <div class="banner"></div>
         </div>

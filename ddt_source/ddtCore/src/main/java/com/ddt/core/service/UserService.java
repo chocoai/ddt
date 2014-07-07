@@ -7,6 +7,7 @@ package com.ddt.core.service;
 import java.util.List;
 
 import com.ddt.core.meta.Role;
+import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 
 /**
@@ -39,5 +40,9 @@ public interface UserService {
 	User getUserByWithNullWx(String userName);
 
 	void updateWxUser(User u);
+
+	RollBookUser getRollBookUser(long rollBookId, long id);
+
+	void insertRollBookUser(RollBookUser rollBookUser);
 
 }

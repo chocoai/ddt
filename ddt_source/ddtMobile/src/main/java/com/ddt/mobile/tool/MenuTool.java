@@ -2,7 +2,7 @@
  * @(#)MenuTimer.java 2014-5-26
  *
  */
-package com.ddt.mobile.timer;
+package com.ddt.mobile.tool;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +31,7 @@ import com.google.gson.Gson;
  * @since      1.0
  */
 @Component
-public class MenuUtils {
+public class MenuTool {
 	
 	private static String appid = "wxde00310a2120b7f8";
 	
@@ -106,42 +106,42 @@ public class MenuUtils {
 	@Autowired
 	public void setAppid(@Value("${wx.appid}") String appid) {
 		if (StringUtils.isNotBlank(appid)) {
-			MenuUtils.appid = appid;
+			MenuTool.appid = appid;
 		}
 	}
 	
 	@Autowired
 	public void setSecret(@Value("${wx.secret}") String secret) {
 		if (StringUtils.isNotBlank(secret)) {
-			MenuUtils.secret = secret;
+			MenuTool.secret = secret;
 		}
 	}
 	
 	@Autowired
 	public void setAccessTokenUrl(@Value("${access.token.url}") String accessTokenUrl) {
 		if (StringUtils.isNotBlank(accessTokenUrl)) {
-			MenuUtils.accessTokenUrl = accessTokenUrl;
+			MenuTool.accessTokenUrl = accessTokenUrl;
 		}
 	}
 	
 	@Autowired
 	public void setCreateUrl(@Value("${wx.create.url}") String createUrl) {
 		if (StringUtils.isNotBlank(createUrl)) {
-			MenuUtils.createUrl = createUrl;
+			MenuTool.createUrl = createUrl;
 		}
 	}
 
 	@Autowired
 	public void setGetUrl(@Value("${wx.get.url}") String getUrl) {
 		if (StringUtils.isNotBlank(getUrl)) {
-			MenuUtils.getUrl = getUrl;
+			MenuTool.getUrl = getUrl;
 		}
 	}
 	
 	@Autowired
 	public void setDeleteUrl(@Value("${wx.delete.url}") String deleteUrl) {
 		if (StringUtils.isNotBlank(deleteUrl)) {
-			MenuUtils.deleteUrl = deleteUrl;
+			MenuTool.deleteUrl = deleteUrl;
 		}
 	}
 	

@@ -163,7 +163,6 @@ public class RollBookController extends BaseController {
 		String validStartDate = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "validStartDate", ""));
 		String validEndDate = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "validEndDate", ""));
 		int userCount = ServletRequestUtils.getIntParameter(request, "userCount", 0);
-		long groupId = ServletRequestUtils.getLongParameter(request, "groupId", 0); 
 		
 		long userId = getUserId();
 		
@@ -180,7 +179,6 @@ public class RollBookController extends BaseController {
 		rollBook.setUserId(userId);
 		rollBook.setValidStartTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, validStartDate));
 		rollBook.setValidEndTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, validEndDate));
-		rollBook.setGroupId(groupId);
 		
 		if (isAdd) {
 			rollBookService.addRollBook(rollBook);

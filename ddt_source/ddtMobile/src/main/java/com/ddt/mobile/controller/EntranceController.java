@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
+import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
 import com.ddt.core.utils.EncryptUtils;
@@ -47,6 +49,9 @@ public class EntranceController {
 	
 	@Autowired
 	private RollBookService rollBookService;
+	
+	@Autowired
+	private RollBookInfoService rollBookInfoService;
 	
 	@Value("${wx.token}")
 	private String token;
@@ -107,7 +112,7 @@ public class EntranceController {
 			        response.setContentType("text/xml");
 					view = new ModelAndView("msg/reply.text");
 					TextMsg textMsg = new TextMsg();
-					textMsg.setContent("请按照以下格式输入绑定用户信息：姓名+手机号码");
+					textMsg.setContent("请按照以下格式输入绑定用户信息：姓名+手机号码+密码");
 					textMsg.setCreateTime(System.currentTimeMillis());
 					textMsg.setFromUser(toUserName);
 					textMsg.setMsgType(MsgType.TEXT);
@@ -144,69 +149,30 @@ public class EntranceController {
 			if (StringUtils.isBlank(content)) {
 				return view;
 			}
-			String[] contentArray = content.split("+");
-			if (contentArray == null || contentArray.length < 2) {
-				return view;
-			}
 			
-			String userName = null;
-			String mobile = null;
-			String recommendName = null;
-			if (contentArray.length >= 2) {
-				userName = contentArray[0];
-				mobile = contentArray[1];
-				if (contentArray.length == 3) {
-					recommendName = contentArray[2];
+			if (content.indexOf("+") > 0) {
+				registerUser(view, user, content, fromUserName, toUserName);
+			} else {
+				RollBookInfo info = rollBookInfoService.getRollBookInfoByRandCode(content);
+				if (info == null) {
+					TextMsg textMsg = new TextMsg();
+					textMsg.setContent("验证码不存在！");
+					textMsg.setCreateTime(System.currentTimeMillis());
+					textMsg.setFromUser(toUserName);
+					textMsg.setMsgType(MsgType.TEXT);
+					textMsg.setToUser(fromUserName);
+					
+					view.addObject("textMsg", textMsg);
+					return view;
+				} else {
+					TextMsg textMsg = new TextMsg();
+					textMsg.setContent("点击<a href=\"http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName + "&infoId=" + info.getId() + "\">这里</a>，开始我的点名之旅。");
+					textMsg.setCreateTime(System.currentTimeMillis());
+					textMsg.setFromUser(toUserName);
+					textMsg.setMsgType(MsgType.TEXT);
+					textMsg.setToUser(fromUserName);
 				}
 			}
-			User u = userService.getUserByMobile(mobile);
-			//用户不为空，手机号码已经被注册
-			if (u != null) {
-				TextMsg textMsg = new TextMsg();
-				textMsg.setContent("此手机号码已被注册！");
-				textMsg.setCreateTime(System.currentTimeMillis());
-				textMsg.setFromUser(toUserName);
-				textMsg.setMsgType(MsgType.TEXT);
-				textMsg.setToUser(fromUserName);
-				
-				view.addObject("textMsg", textMsg);
-				return view;
-			}
-			
-			user.setUserName(userName);
-			user.setMobile(mobile);
-			userService.updateWxUser(user);
-			
-			User copyUser = userService.getUserByWithNullWx(userName);
-			boolean isAdd = false;
-			if (copyUser == null) {
-				copyUser = new User();
-				isAdd = true;
-			}
-			
-			copyUser.setUserName(userName);
-			copyUser.setMobile(mobile);
-			copyUser.setPassword(mobile);
-			copyUser.setWxName(fromUserName);
-			
-			if (isAdd) {
-				userService.insertUser(copyUser);
-			} else {
-				userService.updateUser(copyUser);
-			}
-			
-			if (StringUtils.isNotBlank(recommendName)) {
-				//TODO add recommend info
-			}
-			
-			TextMsg textMsg = new TextMsg();
-			textMsg.setContent("注册成功，您可以访问www.idianming.com.cn登陆上传您的点名册，初始用户名和密码是您的注册手机号");
-			textMsg.setCreateTime(System.currentTimeMillis());
-			textMsg.setFromUser(toUserName);
-			textMsg.setMsgType(MsgType.TEXT);
-			textMsg.setToUser(fromUserName);
-			
-			view.addObject("textMsg", textMsg);
 			
 		} else if (MsgType.VIDEO.getValue().equals(msgType)) {
 			view = new ModelAndView("msg/reply.text");
@@ -214,6 +180,67 @@ public class EntranceController {
 			view = new ModelAndView("msg/reply.text");
 		}
 		return view;
+	}
+
+	private void registerUser(ModelAndView view, User user, String content, String fromUserName, String toUserName) {
+		String[] contentArray = content.split("+");
+		if (contentArray == null || contentArray.length != 3) {
+			return;
+		}
+		
+		String userName = null;
+		String mobile = null;
+		String password = null;
+		if (contentArray.length == 3) {
+			userName = contentArray[0];
+			mobile = contentArray[1];
+			password = contentArray[2];
+		}
+		User u = userService.getUserByMobile(mobile);
+		//用户不为空，手机号码已经被注册
+		if (u != null) {
+			TextMsg textMsg = new TextMsg();
+			textMsg.setContent("此手机号码已被注册！");
+			textMsg.setCreateTime(System.currentTimeMillis());
+			textMsg.setFromUser(toUserName);
+			textMsg.setMsgType(MsgType.TEXT);
+			textMsg.setToUser(fromUserName);
+			
+			view.addObject("textMsg", textMsg);
+			return;
+		}
+		
+		user.setUserName(userName);
+		user.setMobile(mobile);
+		userService.updateWxUser(user);
+		
+		User copyUser = userService.getUserByWithNullWx(userName);
+		boolean isAdd = false;
+		if (copyUser == null) {
+			copyUser = new User();
+			isAdd = true;
+		}
+		
+		copyUser.setUserName(userName);
+		copyUser.setMobile(mobile);
+		copyUser.setPassword(password);
+		copyUser.setWxName(fromUserName);
+		
+		if (isAdd) {
+			userService.insertUser(copyUser);
+		} else {
+			userService.updateUser(copyUser);
+		}
+		
+		TextMsg textMsg = new TextMsg();
+		textMsg.setContent("注册成功，您可以访问<a href=\"www.idianming.com.cn\">www.idianming.com.cn</a>登陆上传您的点名册，初始用户名和密码是您的注册手机号");
+		textMsg.setCreateTime(System.currentTimeMillis());
+		textMsg.setFromUser(toUserName);
+		textMsg.setMsgType(MsgType.TEXT);
+		textMsg.setToUser(fromUserName);
+		
+		view.addObject("textMsg", textMsg);
+		
 	}
 
 	private User addUserIfNotExists(String fromUserName) {

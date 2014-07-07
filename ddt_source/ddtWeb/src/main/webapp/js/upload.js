@@ -20,6 +20,8 @@ $(function() {
 		}
 	});
 	$('#uploadfile').click(function(e) {
+		var __id = $("#id").val();
+		uploader.settings.multipart_params = {channelType:__id};
 		uploader.start();
 		e.preventDefault();
 	});

@@ -19,8 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ddt.core.meta.RollBook;
 import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
+import com.ddt.core.meta.UserRollInfo;
 import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
+import com.ddt.core.service.UserRollInfoService;
+import com.ddt.core.utils.DateUtils;
+import com.ddt.mobile.location.Location;
+import com.ddt.mobile.tool.LocationTool;
 import com.ddt.mobile.utils.RamdomUtils;
 
 /**
@@ -40,6 +45,9 @@ public class RollBookController extends BaseController {
 	@Autowired
 	private RollBookInfoService rollBookInfoService;
 	
+	@Autowired
+	private UserRollInfoService userRollInfoService;
+	
 	/**
 	 * 获取点名册
 	 * @param request
@@ -48,7 +56,7 @@ public class RollBookController extends BaseController {
 	 */
 	@RequestMapping("/myrollbook")
 	public ModelAndView rollBookList(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView("index");
+		ModelAndView view = new ModelAndView("roll.list");
 		
 		User user = getUser(request);
 		
@@ -74,11 +82,76 @@ public class RollBookController extends BaseController {
 	 */
 	@RequestMapping("/rolled")
 	public ModelAndView rolled(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+		ModelAndView view = new ModelAndView("rolled");
 		
 		User user = getUser(request);
 		
-		List<RollBookInfo> infos = rollBookInfoService.getRollBookInfosByUserId(user.getId());
+		long infoId = ServletRequestUtils.getLongParameter(request, "infoId", 0);
+		
+		RollBookInfo info = rollBookInfoService.getRollInfoById(infoId);
+		
+		if (info != null) {
+			RollBook book = rollBookService.getRollBookById(info.getRollBookId(), info.getId());
+			view.addObject("book", book);
+		}
+		
+		view.addObject("info", info);
+		view.addObject("userId", user.getId());
+		
+		return view;
+	}
+	
+	/**
+	 * 我被点名
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/userRolled")
+	public ModelAndView userRolled(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView("info");
+		
+		long infoId = ServletRequestUtils.getLongParameter(request, "infoId", 0);
+		long userId = ServletRequestUtils.getLongParameter(request, "userId", 0);
+		
+		RollBookInfo info = rollBookInfoService.getRollInfoById(infoId);
+		
+		long current = System.currentTimeMillis();
+		
+		if (info != null) {
+			if (info.getRollEndTime() != null && current > info.getRollEndTime().getTime()) {
+				view.addObject("result", "本次点名已经结束");
+			}
+			if (current < info.getRollStartTime().getTime()) {
+				view.addObject("result", "本次点名未开始");
+			}
+			
+			UserRollInfo userRollInfo = userRollInfoService.getUserRollInfoByIds(infoId, userId);
+			if (userRollInfo != null) {
+				view.addObject("result", "您已在" + DateUtils.parseDateToString(DateUtils.DATE_TIME_FORMAT, userRollInfo.getRollTime()) + "参与本次点名，不能重复点名");
+			} else {
+				userRollInfo = new UserRollInfo();
+				userRollInfo.setRollBookInfoId(infoId);
+				userRollInfo.setUserId(userId);
+				userRollInfo.setRollTime(new Date());
+				
+				//计算经纬度
+				String ip = getIpAddr(request);
+				Location location = LocationTool.getLocation(ip);
+				
+				if (location != null) {
+					userRollInfo.setX(Double.valueOf(location.getContentX()));
+					userRollInfo.setY(Double.valueOf(location.getContentY()));
+					double distance = LocationTool.getDistance(info.getX(), info.getY(), userRollInfo.getX(), userRollInfo.getY());
+					userRollInfo.setDistance(distance);
+				}
+				
+				userRollInfoService.addUserRollInfo(userRollInfo);
+			}
+			
+		} else {
+			view.addObject("result", "点名册不存在");
+		}
 		
 		return view;
 	}
@@ -91,12 +164,29 @@ public class RollBookController extends BaseController {
 	 */
 	@RequestMapping("/start")
 	public ModelAndView start(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
+		ModelAndView view = new ModelAndView("start.end");
+		view.addObject("flag", 0);
 		
 		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		User user = getUser(request);
 		
 		RollBook book = rollBookService.getRollBookById(rid, user.getId());
+		
+		if (book == null) {
+			return null;
+		}
+		
+		long current = System.currentTimeMillis();
+		
+		if (current < book.getValidStartTime().getTime()) {
+			view.addObject("msg", "点名册尚未开始");
+			return view;
+		}
+		
+		if (current > book.getValidEndTime().getTime()) {
+			view.addObject("msg", "点名册已结束点名");
+			return view;
+		}
 		
 		RollBookInfo info = new RollBookInfo();
 		info.setRollBookId(book.getId());
@@ -105,7 +195,19 @@ public class RollBookController extends BaseController {
 		info.setUserId(user.getId());
 		info.setRollCode(RamdomUtils.generateRamdomCode());
 		
+		//计算经纬度
+		String ip = getIpAddr(request);
+		Location location = LocationTool.getLocation(ip);
+		
+		if (location != null) {
+			info.setX(Double.valueOf(location.getContentX()));
+			info.setY(Double.valueOf(location.getContentY()));
+		}
+		
 		rollBookInfoService.addRollBookInfo(info);
+		
+		view.addObject("info", info);
+		view.addObject("book", book);
 		
 		return view;
 	}
@@ -118,18 +220,41 @@ public class RollBookController extends BaseController {
 	 */
 	@RequestMapping("/end")
 	public ModelAndView end(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = new ModelAndView();
-		
+		ModelAndView view = new ModelAndView("start.end");
+		view.addObject("flag", 1);
 		User user = getUser(request);
-		long rInfoId = ServletRequestUtils.getLongParameter(request, "rInfoId", 0);
+		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		
-		RollBookInfo info = rollBookInfoService.getRollInfoById(rInfoId, user.getId());
+		
+		RollBook book = rollBookService.getRollBookById(rid, user.getId());
+		
+		if (book == null) {
+			return null;
+		}
+		
+		long current = System.currentTimeMillis();
+		
+		if (current < book.getValidStartTime().getTime()) {
+			view.addObject("msg", "点名册尚未开始");
+			return view;
+		}
+		
+		if (current > book.getValidEndTime().getTime()) {
+			view.addObject("msg", "点名册已结束点名");
+			return view;
+		}
+		
+		RollBookInfo info = rollBookInfoService.getLatestRollInfoByRid(rid, user.getId());
 		if (info == null) {
 			return null;
 		}
 		
 		info.setRollEndTime(new Date());
+		info.setRollCode("");
 		rollBookInfoService.updateRollBookInfo(info);
+		
+		view.addObject("info", info);
+		view.addObject("book", book);
 		
 		return view;
 	}

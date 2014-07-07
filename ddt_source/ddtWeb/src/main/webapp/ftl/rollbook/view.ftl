@@ -31,7 +31,7 @@
                             <p><span>开始时间：</span><input type="text" name="validStartDate" id="start_datepicker" onClick="WdatePicker()" value="<#if rollBook??>${rollBook.validStartTime?string('yyyy-MM-dd')}</#if>"></p>
                             <p><span>结束时间：</span><input type="text" name="validEndDate" id="end_datepicker" onClick="WdatePicker()" value="<#if rollBook??>${rollBook.validEndTime?string('yyyy-MM-dd')}</#if>"></p>
                             <p><span>总人数：</span><input type="text" name="userCount" id="userCount" value="<#if rollBook??>${rollBook.userCount!'0'}</#if>"></p>
-                            <div style="display:<#if rollBook?? && rollBook.id &gt; 0>none<#else>block</#if>"> 
+                            <div style="display:<#if rollBook?? && rollBook.id &gt; 0>block<#else>none</#if>"> 
 	                            <p class="upfile" id="container">
 	                                <input type='text' name='textfield' id='textfield' class='txt' />  
 	                                <a id="pickfile" href="javascript:void(0)">选择文件</a>

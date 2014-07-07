@@ -109,4 +109,17 @@
     <delete id="deleteUserById" parameterType="java.util.Map">
         DELETE FROM ddt_user WHERE id = #{id}
     </delete>
+    
+    <select id="getRollBookUser" parameterType="java.util.Map" resultType="RollBookUser">
+        SELECT	  book_id		bookId
+        		, user_id		userId
+        FROM	ddt_roll_book_user
+        WHERE	book_id = #{rollBookId}
+        		AND user_id = #{userId} 
+    </select>
+    
+    <insert id="insertRollBookUser" parameterType="RollBookUser">
+        INSERT INTO ddt_roll_book_user(book_id, user_id)
+        VALUES(#{bookId}, #{userId})
+    </insert>
 </mapper>
