@@ -30,12 +30,12 @@
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
      http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 	
-    <context:property-placeholder location="classpath:db.properties"/>
+    <context:property-placeholder location="classpath:db.properties,classpath:wx.properties,classpath:baidu.properties"/>
 
     <bean id="master" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
       <property name="driverClassName"> 
             <value>${db.driver}</value> 
-        </property> 
+        </property>
         <property name="url"> 
             <value>${db.url}</value> 
         </property> 

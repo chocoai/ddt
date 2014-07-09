@@ -2,7 +2,7 @@
  * @(#)Location.java 2014-7-7
  *
  */
-package com.ddt.mobile.location;
+package com.ddt.core.location;
 
 /**
  * Location.java

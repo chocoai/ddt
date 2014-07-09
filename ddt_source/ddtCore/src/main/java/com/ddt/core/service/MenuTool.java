@@ -2,7 +2,7 @@
  * @(#)MenuTimer.java 2014-5-26
  *
  */
-package com.ddt.mobile.tool;
+package com.ddt.core.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
 
-import com.ddt.mobile.utils.HttpUtils;
+import com.ddt.core.utils.HttpUtils;
 import com.google.gson.Gson;
 
 /**

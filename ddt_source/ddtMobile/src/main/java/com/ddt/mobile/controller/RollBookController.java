@@ -16,16 +16,16 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ddt.core.location.Location;
 import com.ddt.core.meta.RollBook;
 import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
 import com.ddt.core.meta.UserRollInfo;
+import com.ddt.core.service.LocationTool;
 import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserRollInfoService;
 import com.ddt.core.utils.DateUtils;
-import com.ddt.mobile.location.Location;
-import com.ddt.mobile.tool.LocationTool;
 import com.ddt.mobile.utils.RamdomUtils;
 
 /**

@@ -2,14 +2,14 @@
  * @(#)LocationTool.java 2014-7-4
  *
  */
-package com.ddt.mobile.tool;
+package com.ddt.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.ddt.mobile.location.Location;
-import com.ddt.mobile.utils.HttpUtils;
+import com.ddt.core.location.Location;
+import com.ddt.core.utils.HttpUtils;
 import com.google.gson.Gson;
 
 /**

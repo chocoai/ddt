@@ -2,7 +2,7 @@
  * @(#)HttpUtils.java 2014-5-26
  *
  */
-package com.ddt.mobile.utils;
+package com.ddt.core.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
