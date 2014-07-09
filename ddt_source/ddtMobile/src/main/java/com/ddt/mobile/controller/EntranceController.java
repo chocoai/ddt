@@ -91,14 +91,8 @@ public class EntranceController {
 			} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
 				response.setCharacterEncoding("UTF-8"); 
 		        response.setContentType("text/xml");
-				TextMsg textMsg = new TextMsg();
-				textMsg.setContent("欢迎使用爱点名！");
-				textMsg.setCreateTime(System.currentTimeMillis());
-				textMsg.setFromUser(toUserName);
-				textMsg.setMsgType(MsgType.TEXT);
-				textMsg.setToUser(fromUserName);
-				
-				view.addObject("textMsg", textMsg);
+		        String welcome = "欢迎使用爱点名！";
+				buildTextMsg(view, toUserName, fromUserName, welcome);
 				
 			} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
 				view = new ModelAndView("msg/reply.text");

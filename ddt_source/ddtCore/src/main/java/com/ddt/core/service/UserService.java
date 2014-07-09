@@ -47,4 +47,6 @@ public interface UserService {
 
 	void deleteRollBookUserById(long bookId, long userId);
 
+	User getUserByWxNumber(String wx);
+
 }

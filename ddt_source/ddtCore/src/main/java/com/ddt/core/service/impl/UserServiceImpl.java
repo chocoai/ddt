@@ -114,4 +114,11 @@ public class UserServiceImpl implements UserService {
 		userMapper.deleteRollBookUserById(params);
 	}
 
+	@Override
+	public User getUserByWxNumber(String wx) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("wx", wx);
+		return userMapper.getUserByWxNumber(wx);
+	}
+
 }

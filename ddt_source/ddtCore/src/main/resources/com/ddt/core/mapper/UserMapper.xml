@@ -29,6 +29,13 @@
         WHERE	user_name = #{username}
     </select>
     
+    <select id="getUserByWxNumber" resultType="User" parameterType="java.util.Map">
+        SELECT
+        <include refid="user_base_column"/>
+        FROM	ddt_user
+        WHERE	wx_number = #{wx}
+    </select>
+    
     <select id="getWxUserByName" resultType="User" parameterType="java.util.Map">
         SELECT
         <include refid="wx_user_base_column"/>
