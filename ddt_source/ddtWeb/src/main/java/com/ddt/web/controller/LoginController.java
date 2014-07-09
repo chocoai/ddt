@@ -64,10 +64,10 @@ public class LoginController {
 //			return view;
 //		}
 		
-		String username = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "username", ""));
+		String mobile = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "username", ""));
 		String password = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "password", ""));
 		try {
-			User c = userService.getUserByName(username);
+			User c = userService.getUserByMobile(mobile);
 			if (c == null) {
 				view.addObject("status", StatusCode.USER_NAME_NOT_EXISTS);
 				view.addObject("result", "用户名不存在");
@@ -76,16 +76,16 @@ public class LoginController {
 			
 			Subject subject = SecurityUtils.getSubject();
 			if (!subject.isAuthenticated()) {
-				login(subject, username, password);
+				login(subject, mobile, password);
 			} else {
 				SessionVariable sessionVariable = (SessionVariable) subject.getPrincipal();
 				if (sessionVariable == null) {
-					login(subject, username, password);
+					login(subject, mobile, password);
 				} else {
 					User user = sessionVariable.getUser();
-					if (!user.getUserName().equalsIgnoreCase(username)) {
+					if (!user.getMobile().equalsIgnoreCase(mobile)) {
 						subject.logout();
-						login(subject, username, password);
+						login(subject, mobile, password);
 					}
 				}
 			}
