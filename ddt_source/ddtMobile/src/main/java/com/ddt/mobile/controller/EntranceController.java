@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.ddt.core.meta.RollBookInfo;
 import com.ddt.core.meta.User;
@@ -74,7 +73,7 @@ public class EntranceController {
 	}
 
 	private ModelAndView doPost(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView view = null;
+		ModelAndView view = new ModelAndView("msg/reply.text");;
 		//post请求普通微信用户发送信息
 		Map<String, String> map = DocumentUtils.parseXml(request);
 		//解析xml获取消息类型
@@ -92,7 +91,6 @@ public class EntranceController {
 			} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
 				response.setCharacterEncoding("UTF-8"); 
 		        response.setContentType("text/xml");
-				view = new ModelAndView("msg/reply.text");
 				TextMsg textMsg = new TextMsg();
 				textMsg.setContent("欢迎使用爱点名！");
 				textMsg.setCreateTime(System.currentTimeMillis());
@@ -110,28 +108,25 @@ public class EntranceController {
 					//没有注册 返回注册页面
 					response.setCharacterEncoding("UTF-8"); 
 			        response.setContentType("text/xml");
-					view = new ModelAndView("msg/reply.text");
-					TextMsg textMsg = new TextMsg();
-					textMsg.setContent("请按照以下格式输入绑定用户信息：姓名+手机号码+密码");
-					textMsg.setCreateTime(System.currentTimeMillis());
-					textMsg.setFromUser(toUserName);
-					textMsg.setMsgType(MsgType.TEXT);
-					textMsg.setToUser(fromUserName);
-					
-					view.addObject("textMsg", textMsg);
-					return view;
+			        String c = "请按照以下格式输入绑定用户信息：姓名+手机号码+密码";
+					return buildTextMsg(view, toUserName, fromUserName, c);
 				}
 				
 				if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/rollbook/myrollbook?wx=" + fromUserName));
+					String reply = "<a href=\"http://mobile.idianming.com.cn/rollbook/myrollbook?wx=" + fromUserName + "\">点击查看我的点名列表</a>";
+					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName));
+					String reply = "<a href=\"http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName + "\">点击进入，开始点名</a>";
+					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/score/mall?wx=" + fromUserName));
+					String reply = "<a href=\"http://mobile.idianming.com.cn/score/mall?wx=" + fromUserName + "\">点击进入积分商城</a>";
+					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/score/query?wx=" + fromUserName));
+					String reply = "<a href=\"http://mobile.idianming.com.cn/score/query?wx=" + fromUserName + "\">点击查看我的积分</a>";
+					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/score/sign?wx=" + fromUserName));
+					String reply = "<a href=\"http://mobile.idianming.com.cn/score/sign?wx=" + fromUserName + "\">点击签到</a>";
+					buildTextMsg(view, toUserName, fromUserName, reply);
 				}
 			} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
 				view = new ModelAndView("msg/reply.text");
@@ -155,22 +150,11 @@ public class EntranceController {
 			} else {
 				RollBookInfo info = rollBookInfoService.getRollBookInfoByRandCode(content);
 				if (info == null) {
-					TextMsg textMsg = new TextMsg();
-					textMsg.setContent("验证码不存在！");
-					textMsg.setCreateTime(System.currentTimeMillis());
-					textMsg.setFromUser(toUserName);
-					textMsg.setMsgType(MsgType.TEXT);
-					textMsg.setToUser(fromUserName);
-					
-					view.addObject("textMsg", textMsg);
-					return view;
+					String text = "验证码不存在！";
+					return buildTextMsg(view, toUserName, fromUserName, text);
 				} else {
-					TextMsg textMsg = new TextMsg();
-					textMsg.setContent("点击<a href=\"http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName + "&infoId=" + info.getId() + "\">这里</a>，开始我的点名之旅。");
-					textMsg.setCreateTime(System.currentTimeMillis());
-					textMsg.setFromUser(toUserName);
-					textMsg.setMsgType(MsgType.TEXT);
-					textMsg.setToUser(fromUserName);
+					String text = "点击<a href=\"http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName + "&infoId=" + info.getId() + "\">这里</a>，开始我的点名之旅。";
+					return buildTextMsg(view, toUserName, fromUserName, text);
 				}
 			}
 			
@@ -179,6 +163,18 @@ public class EntranceController {
 		} else if (MsgType.VOICE.getValue().equals(msgType)) {
 			view = new ModelAndView("msg/reply.text");
 		}
+		return view;
+	}
+
+	private ModelAndView buildTextMsg(ModelAndView view, String toUserName, String fromUserName, String text) {
+		TextMsg textMsg = new TextMsg();
+		textMsg.setContent(text);
+		textMsg.setCreateTime(System.currentTimeMillis());
+		textMsg.setFromUser(toUserName);
+		textMsg.setMsgType(MsgType.TEXT);
+		textMsg.setToUser(fromUserName);
+		
+		view.addObject("textMsg", textMsg);
 		return view;
 	}
 
@@ -199,14 +195,8 @@ public class EntranceController {
 		User u = userService.getUserByMobile(mobile);
 		//用户不为空，手机号码已经被注册
 		if (u != null) {
-			TextMsg textMsg = new TextMsg();
-			textMsg.setContent("此手机号码已被注册！");
-			textMsg.setCreateTime(System.currentTimeMillis());
-			textMsg.setFromUser(toUserName);
-			textMsg.setMsgType(MsgType.TEXT);
-			textMsg.setToUser(fromUserName);
-			
-			view.addObject("textMsg", textMsg);
+			String text = "此手机号码已被注册！";
+			buildTextMsg(view, toUserName, fromUserName, text);
 			return;
 		}
 		
@@ -232,14 +222,8 @@ public class EntranceController {
 			userService.updateUser(copyUser);
 		}
 		
-		TextMsg textMsg = new TextMsg();
-		textMsg.setContent("注册成功，您可以访问<a href=\"www.idianming.com.cn\">www.idianming.com.cn</a>登陆上传您的点名册，用户名是您的注册手机号");
-		textMsg.setCreateTime(System.currentTimeMillis());
-		textMsg.setFromUser(toUserName);
-		textMsg.setMsgType(MsgType.TEXT);
-		textMsg.setToUser(fromUserName);
-		
-		view.addObject("textMsg", textMsg);
+		String c = "注册成功，您可以访问<a href=\"www.idianming.com.cn\">www.idianming.com.cn</a>登陆上传您的点名册，用户名是您的注册手机号";
+		buildTextMsg(view, toUserName, fromUserName, c);
 		
 	}
 
