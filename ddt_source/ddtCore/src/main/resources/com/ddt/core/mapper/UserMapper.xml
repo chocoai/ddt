@@ -57,7 +57,7 @@
 			SELECT LAST_INSERT_ID() AS id FROM dual
 		</selectKey>
 		INSERT INTO ddt_user(id, user_name, password, wx_number, mobile, group_id, create_time)
-		VALUES(#{id}, #{userName}, #{password}, #{wxName}, #{mobile}, #{groupId}, NOW())
+		VALUES(#{id}, #{userName}, md5(#{password}), #{wxName}, #{mobile}, #{groupId}, NOW())
     </insert>
     
      <insert id="insertWxUser" parameterType="User" keyColumn="id" keyProperty="id">
@@ -80,7 +80,7 @@
     <update id="updateUser" parameterType="User">
         UPDATE	  ddt_user
         SET		  user_name = #{userName}
-        		, password = #{password}
+        		, password = md5(#{password})
 		        , wx_number = #{wxName}
 		        , mobile = #{mobile}
 		        , group_id = #{groupId}

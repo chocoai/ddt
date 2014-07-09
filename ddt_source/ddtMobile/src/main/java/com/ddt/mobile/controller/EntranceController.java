@@ -183,7 +183,7 @@ public class EntranceController {
 	}
 
 	private void registerUser(ModelAndView view, User user, String content, String fromUserName, String toUserName) {
-		String[] contentArray = content.split("+");
+		String[] contentArray = content.split("\\+");
 		if (contentArray == null || contentArray.length != 3) {
 			return;
 		}
