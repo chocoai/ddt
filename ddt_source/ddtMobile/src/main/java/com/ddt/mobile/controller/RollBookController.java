@@ -143,9 +143,9 @@ public class RollBookController extends BaseController {
 				Location location = LocationTool.getLocation(ip);
 				
 				if (location != null) {
-					userRollInfo.setX(Double.valueOf(location.getContentX()));
-					userRollInfo.setY(Double.valueOf(location.getContentY()));
-					double distance = LocationTool.getDistance(info.getX(), info.getY(), userRollInfo.getX(), userRollInfo.getY());
+					userRollInfo.setX(location.getContentX());
+					userRollInfo.setY(location.getContentY());
+					double distance = LocationTool.getDistance(Double.valueOf(info.getX()), Double.valueOf(info.getY()), Double.valueOf(userRollInfo.getX()), Double.valueOf(userRollInfo.getY()));
 					userRollInfo.setDistance(distance);
 				}
 				
@@ -203,8 +203,8 @@ public class RollBookController extends BaseController {
 		Location location = LocationTool.getLocation(ip);
 		
 		if (location != null) {
-			info.setX(Double.valueOf(location.getContentX()));
-			info.setY(Double.valueOf(location.getContentY()));
+			info.setX(location.getContentX());
+			info.setY(location.getContentY());
 		}
 		
 		rollBookInfoService.addRollBookInfo(info);

@@ -26,12 +26,12 @@ public class UserRollInfo {
 	/**
 	 * 纬度
 	 */
-	private double x;
+	private String x;
 	
 	/**
 	 * 经度
 	 */
-	private double y;
+	private String y;
 	
 	/**
 	 * 距离
@@ -70,19 +70,19 @@ public class UserRollInfo {
 		this.rollTime = rollTime;
 	}
 
-	public double getX() {
+	public String getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(String x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public String getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(String y) {
 		this.y = y;
 	}
 
