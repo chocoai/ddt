@@ -106,4 +106,12 @@ public class UserServiceImpl implements UserService {
 		userMapper.insertRollBookUser(rollBookUser);
 	}
 
+	@Override
+	public void deleteRollBookUserById(long bookId, long userId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("bookId", bookId);
+		params.put("userId", userId);
+		userMapper.deleteRollBookUserById(params);
+	}
+
 }

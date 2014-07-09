@@ -129,4 +129,10 @@
         INSERT INTO ddt_roll_book_user(book_id, user_id)
         VALUES(#{bookId}, #{userId})
     </insert>
+    
+    <delete id="deleteRollBookUserById" parameterType="java.util.Map">
+        DELETE 	FROM ddt_roll_book_user
+        WHERE	book_id = #{bookId}
+        		AND user_id = #{userId}
+    </delete>
 </mapper>

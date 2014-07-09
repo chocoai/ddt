@@ -45,4 +45,6 @@ public interface UserMapper {
 	RollBookUser getRollBookUser(Map<String, Object> params);
 
 	void insertRollBookUser(RollBookUser rollBookUser);
+
+	void deleteRollBookUserById(Map<String, Object> params);
 }

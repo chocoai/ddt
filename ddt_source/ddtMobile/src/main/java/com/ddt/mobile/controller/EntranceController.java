@@ -123,15 +123,15 @@ public class EntranceController {
 				}
 				
 				if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("/rollbook/myrollbook?wx=" + fromUserName));
+					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/rollbook/myrollbook?wx=" + fromUserName));
 				} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("/rollbook/rolled?wx=" + fromUserName));
+					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName));
 				} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("/score/mall?wx=" + fromUserName));
+					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/score/mall?wx=" + fromUserName));
 				} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("/score/query?wx=" + fromUserName));
+					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/score/query?wx=" + fromUserName));
 				} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
-					return new ModelAndView(new RedirectView("/score/sign?wx=" + fromUserName));
+					return new ModelAndView(new RedirectView("http://mobile.idianming.com.cn/score/sign?wx=" + fromUserName));
 				}
 			} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {
 				view = new ModelAndView("msg/reply.text");

@@ -254,7 +254,8 @@ public class RollBookController extends BaseController {
 		
 		long userId = getUserId();
 		
-		userService.deleteUserById(uid);
+		userService.deleteRollBookUserById(rid, uid);
+		
 		
 		RollBook rollBook = rollBookService.getRollBookById(rid, userId);
 		if (rollBook != null) {

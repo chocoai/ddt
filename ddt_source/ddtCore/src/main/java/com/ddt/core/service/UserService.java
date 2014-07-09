@@ -45,4 +45,6 @@ public interface UserService {
 
 	void insertRollBookUser(RollBookUser rollBookUser);
 
+	void deleteRollBookUserById(long bookId, long userId);
+
 }
