@@ -96,10 +96,17 @@
     </update>
     
     <select id="getRollBookUserList" parameterType="java.util.Map" resultType="User">
-        SELECT
-        <include refid="user_base_column"/>
-        FROM	ddt_user
-        WHERE	group_id = #{groupId}
+        SELECT    a.id	id
+        		, a.user_name	userName
+		        , a.password	password
+		        , a.wx_number	wxName
+		        , a.mobile	mobile
+		        , a.group_id	groupId
+		        , a.create_time	createTime
+        FROM	  ddt_user a
+        		, ddt_roll_book_user b
+        WHERE	a.id = b.user_id
+        		AND b.book_id = #{rollBookId}
         <if test="limit > 0">
             LIMIT #{limit}
             OFFSET	#{offset}

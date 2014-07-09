@@ -97,7 +97,7 @@ public class RollBookController extends BaseController {
 			return null;
 		}
 		
-		List<User> users = userService.getRollBookUserList(rollBook.getGroupId(), limit, offset);
+		List<User> users = userService.getRollBookUserList(rollBookId, limit, offset);
 		
 		view.addObject("users", users);
 		view.addObject("page", page);

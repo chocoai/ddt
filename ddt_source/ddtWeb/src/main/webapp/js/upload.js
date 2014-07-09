@@ -21,7 +21,7 @@ $(function() {
 	});
 	$('#uploadfile').click(function(e) {
 		var __id = $("#id").val();
-		uploader.settings.multipart_params = {channelType:__id};
+		uploader.settings.multipart_params = {id:__id};
 		uploader.start();
 		e.preventDefault();
 	});

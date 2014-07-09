@@ -52,10 +52,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getRollBookUserList(long groupId, int limit, int offset) {
+	public List<User> getRollBookUserList(long rollBookId, int limit, int offset) {
 		Map<String, Object> params = new HashMap<>();
 		
-		params.put("groupId", groupId);
+		params.put("rollBookId", rollBookId);
 		params.put("limit", limit);
 		params.put("offset", offset);
 		return userMapper.getRollBookUserList(params);
