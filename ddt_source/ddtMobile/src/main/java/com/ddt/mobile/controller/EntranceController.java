@@ -233,7 +233,7 @@ public class EntranceController {
 		}
 		
 		TextMsg textMsg = new TextMsg();
-		textMsg.setContent("注册成功，您可以访问<a href=\"www.idianming.com.cn\">www.idianming.com.cn</a>登陆上传您的点名册，初始用户名和密码是您的注册手机号");
+		textMsg.setContent("注册成功，您可以访问<a href=\"www.idianming.com.cn\">www.idianming.com.cn</a>登陆上传您的点名册，用户名是您的注册手机号");
 		textMsg.setCreateTime(System.currentTimeMillis());
 		textMsg.setFromUser(toUserName);
 		textMsg.setMsgType(MsgType.TEXT);
