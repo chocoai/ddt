@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -58,6 +59,7 @@ public class RollBookController extends BaseController {
 	public ModelAndView rollBookList(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = new ModelAndView("roll.list");
 		
+		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
 		User user = getUser(request);
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
@@ -68,6 +70,7 @@ public class RollBookController extends BaseController {
 		int count = rollBookService.getRollBookCount(user.getId(), "");
 		
 		view.addObject("rollBooks", list);
+		view.addObject("wx", wx);
 		view.addObject("page", page);
 		view.addObject("totalPage", (int) Math.ceil(count * 1.0 / limit));
 		

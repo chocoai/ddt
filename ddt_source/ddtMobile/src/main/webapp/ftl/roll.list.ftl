@@ -31,8 +31,8 @@
 						<#list rollBooks as rollBook>
 							<tr>
 								<td class="goodinfo">${rollBook.name}</td>
-								<td class="goodinfo"><a href="/rollbook/start?rid=${rollBook.id}">开始点名</a></td>
-								<td class="goodinfo"><a href="/rollbook/end?rid=${rollBook.id}">结束点名</a></td>
+								<td class="goodinfo"><a href="/rollbook/start?wx=${wx}&rid=${rollBook.id}">开始点名</a></td>
+								<td class="goodinfo"><a href="/rollbook/end?wx=${wx}&rid=${rollBook.id}">结束点名</a></td>
 							</tr>
 						</#list>
 					</#if>
