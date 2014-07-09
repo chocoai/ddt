@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ddt.core.constants.StatusCode;
+import com.ddt.core.meta.RollBook;
 import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.RollBookService;
@@ -69,7 +70,14 @@ public class UploadController extends BaseController {
 			view.addObject("result", "点名册不存在");
 			return view;
 		}
-		int userCount = 0;
+		
+		RollBook rollBook = rollBookService.getRollBookById(rollBookId, user.getId());
+		if (rollBook == null) {
+			view.addObject("status", StatusCode.ROLL_BOOK_NOT_EXISTS);
+			view.addObject("result", "点名册不存在");
+			return view;
+		}
+		int userCount = rollBook.getUserCount();
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 			int sheetNum = workbook.getNumberOfSheets();
@@ -97,6 +105,10 @@ public class UploadController extends BaseController {
 					userCount++;
 				}
 			}
+			
+			rollBook.setUserCount(userCount);
+			rollBookService.updateRollBook(rollBook);
+			
 			view.addObject("status", StatusCode.OK);
 			view.addObject("result", "上传成功");
 			view.addObject("userCount", userCount);
