@@ -216,6 +216,64 @@ public class RollBookController extends BaseController {
 	}
 	
 	/**
+	 * 点名情况
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("rolllist")
+	public ModelAndView rollList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView("roll.info.list");
+		
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
+		int offset = (page - 1) * limit;
+		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
+		
+		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
+		User user = getUser(request);
+		
+		List<RollBook> rollBooks = rollBookService.getRollInfoList(user.getId(), rid, limit, offset);
+		
+		view.addObject("rollBooks", rollBooks);
+		view.addObject("page", page);
+		view.addObject("wx", wx);
+		return view;
+	}
+	
+	/**
+	 * 查看点名册名单
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("userlist")
+	public ModelAndView userList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView("user.list");
+		
+		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
+		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
+		long rollBookId = ServletRequestUtils.getLongParameter(request, "rid", 0);
+		int offset = (page - 1) * limit;
+		
+		User user = getUser(request);
+		
+		RollBook rollBook = rollBookService.getRollBookById(rollBookId, user.getId());
+		if (rollBook == null) {
+			return null;
+		}
+		
+		List<User> users = userService.getRollBookUserList(rollBookId, limit, offset);
+		
+		view.addObject("users", users);
+		view.addObject("page", page);
+		view.addObject("rid", rollBookId);
+		
+		
+		return view;
+	}
+	
+	/**
 	 * 结束点名
 	 * @param request
 	 * @param response
@@ -228,8 +286,12 @@ public class RollBookController extends BaseController {
 		User user = getUser(request);
 		long rid = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		
+		RollBookInfo info = rollBookInfoService.getRollInfoById(rid);
+		if (info == null) {
+			return null;
+		}
 		
-		RollBook book = rollBookService.getRollBookById(rid, user.getId());
+		RollBook book = rollBookService.getRollBookById(info.getRollBookId(), user.getId());
 		
 		if (book == null) {
 			return null;
@@ -245,11 +307,6 @@ public class RollBookController extends BaseController {
 		if (current > book.getValidEndTime().getTime()) {
 			view.addObject("msg", "点名册已结束点名");
 			return view;
-		}
-		
-		RollBookInfo info = rollBookInfoService.getLatestRollInfoByRid(rid, user.getId());
-		if (info == null) {
-			return null;
 		}
 		
 		info.setRollEndTime(new Date());

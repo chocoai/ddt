@@ -22,7 +22,7 @@
 			<div class="pointswrap">
 
 				<div class="leftpoint">
-					<p>点名册列表</p>
+					<p>点名点名情况</p>
 				</div>
 			</div>	
 			<div class="goodslist">
@@ -31,8 +31,12 @@
 						<#list rollBooks as rollBook>
 							<tr>
 								<td class="goodinfo">${rollBook.name}</td>
-								<td class="goodinfo"><a href="/rollbook/start?wx=${wx}&rid=${rollBook.id}">开始点名</a></td>
-								<td class="goodinfo"><a href="/rollbook/rolllist?wx=${wx}&rid=${rollBook.id}">点名记录</a></td>
+								<td class="goodinfo"><#if rollBook.rollStartTime??>${rollBook.rollStartTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+								<td class="goodinfo"><#if rollBook.rollEndTime??>${rollBook.rollEndTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+								<td class="goodinfo">${rollBook.rollCode!''}</td>
+								<td class="goodinfo">${rollBook.userCount!'0'}</td>
+								<td class="goodinfo"><a href="/rollbook/userlist?wx=${wx}&rid=${rollBook.rollInfoId}">名单</a></td>
+								<td class="goodinfo"><a href="/rollbook/end?wx=${wx}&rid=${rollBook.rollInfoId}">结束点名</a></td>
 							</tr>
 						</#list>
 					</#if>

@@ -22,18 +22,19 @@
 			<div class="pointswrap">
 
 				<div class="leftpoint">
-					<p>点名册列表</p>
+					<p>点名册用户列表</p>
 				</div>
 			</div>	
 			<div class="goodslist">
 				<table class="goodstable">
-					<#if rollBooks?? && rollBooks?size &gt; 0>
-						<#list rollBooks as rollBook>
+					<#if users?? && users?size &gt; 0>
+						<#list users as user>
 							<tr>
-								<td class="goodinfo">${rollBook.name}</td>
-								<td class="goodinfo"><a href="/rollbook/start?wx=${wx}&rid=${rollBook.id}">开始点名</a></td>
-								<td class="goodinfo"><a href="/rollbook/rolllist?wx=${wx}&rid=${rollBook.id}">点名记录</a></td>
-							</tr>
+	                            <td>${user.wxName!''}</td>
+	                            <td>${user.userName!''}</td>
+	                            <td>${user.mobile!''}</td>
+	                            <td><a href="/rollbook/remark?uid=${user.id}&rid=${rid}&page=${page}">备注</a></td>
+                        	</tr>
 						</#list>
 					</#if>
 				</table>
