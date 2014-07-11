@@ -10,15 +10,6 @@
         , password	password
         , wx_number	wxName
         , mobile	mobile
-        , group_id	groupId
-        , create_time	createTime
-    </sql>
-    
-    <sql id="wx_user_base_column">
-          id	id
-        , user_name	userName
-        , wx_number	wxName
-        , mobile	mobile
         , create_time	createTime
     </sql>
     
@@ -38,7 +29,7 @@
     
     <select id="getWxUserByName" resultType="User" parameterType="java.util.Map">
         SELECT
-        <include refid="wx_user_base_column"/>
+        <include refid="user_base_column"/>
         FROM	ddt_wx_user
         WHERE	wx_number = #{username}
     </select>
@@ -63,8 +54,8 @@
         <selectKey keyProperty="id" resultType="long">
 			SELECT LAST_INSERT_ID() AS id FROM dual
 		</selectKey>
-		INSERT INTO ddt_user(id, user_name, password, wx_number, mobile, group_id, create_time)
-		VALUES(#{id}, #{userName}, md5(#{password}), #{wxName}, #{mobile}, #{groupId}, NOW())
+		INSERT INTO ddt_user(id, user_name, password, wx_number, mobile, create_time)
+		VALUES(#{id}, #{userName}, md5(#{password}), #{wxName}, #{mobile}, NOW())
     </insert>
     
      <insert id="insertWxUser" parameterType="User" keyColumn="id" keyProperty="id">
@@ -90,7 +81,6 @@
         		, password = md5(#{password})
 		        , wx_number = #{wxName}
 		        , mobile = #{mobile}
-		        , group_id = #{groupId}
 		WHERE	id = #{id}
     </update>
     
@@ -109,7 +99,6 @@
 		        , a.password	password
 		        , a.wx_number	wxName
 		        , a.mobile	mobile
-		        , a.group_id	groupId
 		        , a.create_time	createTime
         FROM	  ddt_user a
         		, ddt_roll_book_user b
