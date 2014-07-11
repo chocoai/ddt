@@ -35,7 +35,7 @@ public interface UserService {
 
 	User getWxUserByName(String fromUserName);
 
-	User getUserByMobile(String mobile);
+	User getWxUserByMobile(String mobile);
 
 	User getUserByWithNullWx(String userName);
 
@@ -48,5 +48,7 @@ public interface UserService {
 	void deleteRollBookUserById(long bookId, long userId);
 
 	User getUserByWxNumber(String wx);
+
+	User getUserByNameAndInfoId(String userName, long infoId);
 
 }

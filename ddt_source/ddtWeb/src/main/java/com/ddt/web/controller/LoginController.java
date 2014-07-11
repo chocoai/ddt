@@ -67,7 +67,7 @@ public class LoginController {
 		String mobile = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "username", ""));
 		String password = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "password", ""));
 		try {
-			User c = userService.getUserByMobile(mobile);
+			User c = userService.getWxUserByMobile(mobile);
 			if (c == null) {
 				view.addObject("status", StatusCode.USER_NAME_NOT_EXISTS);
 				view.addObject("result", "用户名不存在");

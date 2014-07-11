@@ -43,7 +43,7 @@
         WHERE	wx_number = #{username}
     </select>
     
-    <select id="getUserByMobile" resultType="User" parameterType="java.util.Map">
+    <select id="getWxUserByMobile" resultType="User" parameterType="java.util.Map">
         SELECT
         <include refid="user_base_column"/>
         FROM	ddt_user
@@ -99,6 +99,7 @@
         SET		  user_name = #{userName}
 		        , wx_number = #{wxName}
 		        , mobile = #{mobile}
+		        , password = md5(#{password})
 		WHERE	id = #{id}
     </update>
     
@@ -142,4 +143,22 @@
         WHERE	book_id = #{bookId}
         		AND user_id = #{userId}
     </delete>
+    
+    <select id="getUserByNameAndInfoId" parameterType="java.util.Map" resultType="User">
+        SELECT    a.id	id
+        		, a.user_name	userName
+		        , a.password	password
+		        , a.wx_number	wxName
+		        , a.mobile	mobile
+		        , a.create_time	createTime
+		FROM	  ddt_user a
+				, ddt_roll_book_info b
+				, ddt_roll_book_user c
+		WHERE	a.user_name = #{userName}
+				AND a.id = d.user_id
+				AND c.book_id = b.roll_book_id
+				AND b.id = #{infoId}
+				LIMIT 1
+					
+    </select>
 </mapper>

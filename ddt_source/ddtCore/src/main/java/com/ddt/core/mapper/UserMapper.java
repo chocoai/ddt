@@ -36,7 +36,7 @@ public interface UserMapper {
 
 	User getWxUserByName(Map<String, Object> singletonMap);
 
-	User getUserByMobile(Map<String, Object> singletonMap);
+	User getWxUserByMobile(Map<String, Object> singletonMap);
 
 	User getUserByWithNullWx(Map<String, Object> singletonMap);
 
@@ -49,4 +49,6 @@ public interface UserMapper {
 	void deleteRollBookUserById(Map<String, Object> params);
 
 	User getUserByWxNumber(String wx);
+
+	User getUserByNameAndInfoId(Map<String, Object> params);
 }

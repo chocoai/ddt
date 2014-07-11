@@ -87,6 +87,7 @@ public class RollBookController extends BaseController {
 	public ModelAndView rolled(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = new ModelAndView("rolled");
 		
+		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
 		User user = getUser(request);
 		
 		long infoId = ServletRequestUtils.getLongParameter(request, "infoId", 0);
@@ -98,10 +99,43 @@ public class RollBookController extends BaseController {
 			view.addObject("book", book);
 		}
 		
+		//user表没有绑定
+		User u = userService.getUserByWxNumber(user.getWxName());
+		
+		if (u == null) {
+			view.addObject("bind", 1);
+		}
+		
 		view.addObject("info", info);
 		view.addObject("userId", user.getId());
+		view.addObject("wx", wx);
 		
 		return view;
+	}
+	
+	/**
+	 * 绑定
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/bind")
+	public ModelAndView bind(HttpServletRequest request, HttpServletResponse response) {
+		
+		User user = getUser(request);
+		long infoId = ServletRequestUtils.getLongParameter(request, "infoId", 0);
+		User u = userService.getUserByNameAndInfoId(user.getUserName(), infoId);
+		
+		if (u == null) {
+			return null;
+		}
+		
+		u.setMobile(user.getMobile());
+		u.setWxName(user.getWxName());
+		
+		userService.updateUser(u);
+		
+		return userRolled(request, response);
 	}
 	
 	/**
@@ -115,7 +149,10 @@ public class RollBookController extends BaseController {
 		ModelAndView view = new ModelAndView("info");
 		
 		long infoId = ServletRequestUtils.getLongParameter(request, "infoId", 0);
-		long userId = ServletRequestUtils.getLongParameter(request, "userId", 0);
+		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
+		
+		User user = userService.getUserByWxNumber(wx);
+		long userId = user.getId();
 		
 		RollBookInfo info = rollBookInfoService.getRollInfoById(infoId);
 		

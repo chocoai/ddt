@@ -80,7 +80,7 @@ public class JdbcAuthenticationRealm extends AuthorizingRealm {
             throw new AccountException("用户名不能为空");
         }
         
-        User user = userService.getUserByMobile(username);
+        User user = userService.getWxUserByMobile(username);
         
         if (user == null) {
             throw new UnknownAccountException("用户不存在");

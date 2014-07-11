@@ -14,7 +14,13 @@
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
 	function rolled(infoId, userId) {
-		$.get("userRolled", {infoId:infoId, userId:userId}, function(data){
+		$.get("userRolled", {infoId:infoId, userId:userId, wx:${wx}}, function(data){
+			alert(data.result);
+		}, "json");
+	}
+	
+	function bind(infoId, userId) {
+		$.get("bind", {infoId:infoId, userId:userId, wx:${wx}}, function(data){
 			alert(data.result);
 		}, "json");
 	}
@@ -38,7 +44,12 @@
 						<tr>
 							<td class="goodinfo">${book.name!''}</td>
 							<td>
+								<#if bind == 1>
+								<a href="javascript:bind(${info.id}, ${userId})">绑定并点名</a>
+								<#else>
 								<a href="javascript:rolled(${info.id}, ${userId})">点名</a>
+								</#if>
+								
 							</td>
 						</tr>
 					</#if>

@@ -186,7 +186,7 @@ public class EntranceController {
 			mobile = contentArray[1];
 			password = contentArray[2];
 		}
-		User u = userService.getUserByMobile(mobile);
+		User u = userService.getWxUserByMobile(mobile);
 		//用户不为空，手机号码已经被注册
 		if (u != null) {
 			String text = "此手机号码已被注册！";
@@ -196,25 +196,8 @@ public class EntranceController {
 		
 		user.setUserName(userName);
 		user.setMobile(mobile);
+		user.setPassword(password);
 		userService.updateWxUser(user);
-		
-		User copyUser = userService.getUserByWithNullWx(userName);
-		boolean isAdd = false;
-		if (copyUser == null) {
-			copyUser = new User();
-			isAdd = true;
-		}
-		
-		copyUser.setUserName(userName);
-		copyUser.setMobile(mobile);
-		copyUser.setPassword(password);
-		copyUser.setWxName(fromUserName);
-		
-		if (isAdd) {
-			userService.insertUser(copyUser);
-		} else {
-			userService.updateUser(copyUser);
-		}
 		
 		String c = "注册成功，您可以访问<a href=\"www.idianming.com.cn\">www.idianming.com.cn</a>登陆上传您的点名册，用户名是您的注册手机号";
 		buildTextMsg(view, toUserName, fromUserName, c);

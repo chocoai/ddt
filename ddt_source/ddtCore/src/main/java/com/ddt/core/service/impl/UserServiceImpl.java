@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserByMobile(String mobile) {
-		return userMapper.getUserByMobile(Collections.singletonMap("mobile", (Object) mobile));
+	public User getWxUserByMobile(String mobile) {
+		return userMapper.getWxUserByMobile(Collections.singletonMap("mobile", (Object) mobile));
 	}
 
 	@Override
@@ -119,6 +119,14 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> params = new HashMap<>();
 		params.put("wx", wx);
 		return userMapper.getUserByWxNumber(wx);
+	}
+
+	@Override
+	public User getUserByNameAndInfoId(String userName, long infoId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("userName", userName);
+		params.put("infoId", infoId);
+		return userMapper.getUserByNameAndInfoId(params);
 	}
 
 }
