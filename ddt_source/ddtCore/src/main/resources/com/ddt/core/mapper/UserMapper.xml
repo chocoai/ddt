@@ -46,7 +46,7 @@
     <select id="getWxUserByMobile" resultType="User" parameterType="java.util.Map">
         SELECT
         <include refid="user_base_column"/>
-        FROM	ddt_user
+        FROM	ddt_wx_user
         WHERE	mobile = #{mobile}
     </select>
     
