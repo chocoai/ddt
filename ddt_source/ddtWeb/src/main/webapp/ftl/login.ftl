@@ -18,10 +18,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<div class="header">
-			<div class="logo"></div>
-			<div class="banner"></div>	
-		</div>
+		<#include "/common/head.ftl">
 		<div class="main">
 			<div class="loginbox">
 				<form name="lgnForm" class="lgnForm" id="lgnForm">
@@ -34,7 +31,9 @@
         		</form>
     		</div>
 		</div>
-		<div class="footer"></div>
+		<div id="footer">
+		     <#include "/common/footer.ftl">
+		</div>
 	</div>
 	
 </body>

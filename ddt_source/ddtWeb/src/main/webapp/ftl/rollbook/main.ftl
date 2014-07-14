@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="wrapper">
-     <#include "/common/head.ftl">
+    <#include "/common/head.ftl">
     <div id="out-content">
         <div id="content-box">
             <div class="content">
@@ -30,16 +30,13 @@
                   <input type="hidden" id="cur_page">
                   <input type="hidden" id="show_per_page">
                   <table class="tableData">
-                    <thead>
-                        <tr class="">
-                            <th style="width:10%">名称</th>
-                            <th style="width:16%">开始时间</th>
-                            <th style="width:16%">结束时间</th>
-                            <th style="width:11%">总人数</th>
-                            <th style="width:20%" colspan=5>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="content_table">
+                    <tr class="">
+                        <th style="width:10%">名称</th>
+                        <th style="width:16%">开始时间</th>
+                        <th style="width:16%">结束时间</th>
+                        <th style="width:11%">总人数</th>
+                        <th style="width:20%" colspan=5>操作</th>
+                    </tr>
                     <#if rollBooks?? && rollBooks?size &gt; 0>
                     	<#list rollBooks as rollBook>
                     		<tr>
@@ -55,7 +52,6 @@
                         	</tr>
                     	</#list>
                     </#if>
-                    </tbody>
                   </table>
                   <div id="page_nav">
                     <a href="">首页</a>
