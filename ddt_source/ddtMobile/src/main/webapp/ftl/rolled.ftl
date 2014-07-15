@@ -14,13 +14,13 @@
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
 	function rolled(infoId, userId) {
-		$.get("userRolled", {infoId:infoId, userId:userId, wx:${wx}}, function(data){
+		$.get("userRolled", {infoId:infoId, userId:userId, wx:"${wx}"}, function(data){
 			alert(data.result);
 		}, "json");
 	}
 	
 	function bind(infoId, userId) {
-		$.get("bind", {infoId:infoId, userId:userId, wx:${wx}}, function(data){
+		$.get("bind", {infoId:infoId, userId:userId, wx:"${wx}"}, function(data){
 			alert(data.result);
 		}, "json");
 	}
