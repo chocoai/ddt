@@ -104,6 +104,8 @@ public class RollBookController extends BaseController {
 		
 		if (u == null) {
 			view.addObject("bind", 1);
+		} else {
+			view.addObject("bind", 0);
 		}
 		
 		view.addObject("info", info);
@@ -187,6 +189,7 @@ public class RollBookController extends BaseController {
 				}
 				
 				userRollInfoService.addUserRollInfo(userRollInfo);
+				view.addObject("result", "完成点名");
 			}
 			
 		} else {
