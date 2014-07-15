@@ -12,35 +12,26 @@
     <div id="out-content">
         <div id="content-box">
             <div class="content">
-            	<div class="querydiv">
-                    <span class="new">
-                    	<p class="query_btn"><a href="/rollbook/useradd?rid=${rid}"><input type="button" value="新增"></a></p>
-                    </span>
-                </div>
                 <div class="query_res">
                   <input type="hidden" id="cur_page">
                   <input type="hidden" id="show_per_page">
                   <table class="tableData">
-                    <thead>
-                        <tr class="">
-                            <th style="width:25%">用户名</th>
-                            <th style="width:25%">手机号</th>
-                            <th style="width:25%">点名时间</th>
-                            <th style="width:25%">距离(米)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="content_table">
-                    <#if userRollInfos?? && userRollInfos?size &gt; 0>
-                    	<#list userRollInfos as user>
-                    		<tr>
+                    <tr class="">
+                        <th style="width:25%">用户名</th>
+                        <th style="width:25%">手机号</th>
+                        <th style="width:25%">点名时间</th>
+                        <th style="width:25%">距离(米)</th>
+                    </tr>
+	                <#if userRollInfos?? && userRollInfos?size &gt; 0>
+	                	<#list userRollInfos as user>
+	                		<tr>
 	                            <td>${user.username!''}</td>
 	                            <td>${user.mobile!''}</td>
 	                            <td><#if user.rollTime??>${user.rollTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
 	                            <td>${user.distance}</td>
-                        	</tr>
-                    	</#list>
-                    </#if>
-                    </tbody>
+	                    	</tr>
+	                	</#list>
+	                </#if>
                   </table>
                   <div id="page_nav">
                     <a href="">首页</a>
