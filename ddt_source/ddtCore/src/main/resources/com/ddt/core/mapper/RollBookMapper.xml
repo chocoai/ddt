@@ -96,4 +96,16 @@
         WHERE	a.id = b.roll_book_id
         		AND a.user_id = b.user_id
     </select>
+    
+    <select id="getUserRollInfoList" parameterType="java.util.Map" resultType="UserRollInfo">
+        SELECT	
+        FROM	  ddt_user_roll_info a
+        		, ddt_roll_book_info b
+        WHERE	a.roll_book_info_id = b.id
+        		AND b.id = #{rollBookId}
+        		AND b.user_id = #{userId}
+        <if test="limit > 0">
+            LIMIT #{offset}, #{limit}
+        </if>
+    </select>
 </mapper>
