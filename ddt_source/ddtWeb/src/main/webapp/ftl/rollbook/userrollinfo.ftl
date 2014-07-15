@@ -23,22 +23,20 @@
                   <table class="tableData">
                     <thead>
                         <tr class="">
-                            <th style="width:10%">微信号</th>
-                            <th style="width:16%">用户名</th>
-                            <th style="width:16%">手机号</th>
-                            <th style="width:11%">创建时间</th>
-                            <th style="width:20%">操作</th>
+                            <th style="width:25%">用户名</th>
+                            <th style="width:25%">手机号</th>
+                            <th style="width:25%">点名时间</th>
+                            <th style="width:25%">距离(米)</th>
                         </tr>
                     </thead>
                     <tbody id="content_table">
-                    <#if users?? && users?size &gt; 0>
-                    	<#list users as user>
+                    <#if userRollInfos?? && userRollInfos?size &gt; 0>
+                    	<#list userRollInfos as user>
                     		<tr>
-	                            <td>${user.wxName!''}</td>
-	                            <td>${user.userName!''}</td>
+	                            <td>${user.username!''}</td>
 	                            <td>${user.mobile!''}</td>
-	                            <td>${user.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td><a href="/rollbook/userdel?uid=${user.id}&rid=${rid}&page=${page}">删除</a></td>
+	                            <td><#if user.rollTime??>${user.rollTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+	                            <td>${user.distance}</td>
                         	</tr>
                     	</#list>
                     </#if>

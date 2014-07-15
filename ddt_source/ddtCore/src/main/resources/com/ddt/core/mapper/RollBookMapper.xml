@@ -98,12 +98,17 @@
     </select>
     
     <select id="getUserRollInfoList" parameterType="java.util.Map" resultType="UserRollInfo">
-        SELECT	
-        FROM	  ddt_user_roll_info a
-        		, ddt_roll_book_info b
-        WHERE	a.roll_book_info_id = b.id
-        		AND b.id = #{rollBookId}
+        SELECT	  a.roll_book_info_id	rollBookInfoId
+        		, c.user_name			username
+        		, c.mobile				mobile
+        		, c.id 					user_id
+        		, a.distance			distance
+        		, a.roll_time			rollTime
+        FROM	ddt_roll_book_info b LEFT JOIN ddt_user_roll_info a ON a.roll_book_info_id = b.id
+        		, ddt_user 	c
+        WHERE	b.id = #{rollBookId}
         		AND b.user_id = #{userId}
+        		AND a.user_id = c.id
         <if test="limit > 0">
             LIMIT #{offset}, #{limit}
         </if>

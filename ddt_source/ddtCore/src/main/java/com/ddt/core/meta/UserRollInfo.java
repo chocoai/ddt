@@ -19,6 +19,10 @@ public class UserRollInfo {
 	
 	private long userId;
 	
+	private String username;
+	
+	private String mobile;
+	
 	private Date rollTime;
 	
 	private String info;
@@ -44,6 +48,22 @@ public class UserRollInfo {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getInfo() {
