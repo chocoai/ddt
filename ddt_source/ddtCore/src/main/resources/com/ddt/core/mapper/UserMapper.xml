@@ -151,10 +151,9 @@
 				, ddt_roll_book_info b
 				, ddt_roll_book_user c
 		WHERE	a.user_name = #{userName}
-				AND a.id = d.user_id
+				AND a.id = c.user_id
 				AND c.book_id = b.roll_book_id
 				AND b.id = #{infoId}
 				LIMIT 1
-					
     </select>
 </mapper>
