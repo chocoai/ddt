@@ -33,10 +33,10 @@
                     	<#list rollBooks as rollBook>
                     		<tr>
 	                            <td>${rollBook.name!''}</td>
-	                            <td>${rollBook.validStartTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td>${rollBook.validEndTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td>${rollBook.rollStartTime?string('yyyy-MM-dd HH:mm:ss')}</td>
-	                            <td>${rollBook.rollEndTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+	                            <td><#if rollBook.validStartTime??>${rollBook.validStartTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+	                            <td><#if rollBook.validEndTime??>${rollBook.validEndTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+	                            <td><#if rollBook.rollStartTime??>${rollBook.rollStartTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+	                            <td><#if rollBook.rollEndTime??>${rollBook.rollEndTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
 	                            <td>${rollBook.userCount!'0'}</td>
 	                            <td>${rollBook.rollCode!''}</td>
 	                            <td><a href="/rollbook/userrollinfo?rid=${rollBook.rollInfoId}">点名情况</a></td>
