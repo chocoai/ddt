@@ -51,4 +51,6 @@ public interface UserService {
 
 	User getUserByNameAndInfoId(String userName, long infoId);
 
+	User getWxUserByWxNumber(String wx);
+
 }

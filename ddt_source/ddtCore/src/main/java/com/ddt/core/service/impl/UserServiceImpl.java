@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
 	public User getUserByWxNumber(String wx) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("wx", wx);
-		return userMapper.getUserByWxNumber(wx);
+		return userMapper.getUserByWxNumber(params);
 	}
 
 	@Override
@@ -127,6 +127,13 @@ public class UserServiceImpl implements UserService {
 		params.put("userName", userName);
 		params.put("infoId", infoId);
 		return userMapper.getUserByNameAndInfoId(params);
+	}
+
+	@Override
+	public User getWxUserByWxNumber(String wx) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("wx", wx);
+		return userMapper.getWxUserByWxNumber(params);
 	}
 
 }

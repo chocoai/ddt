@@ -48,7 +48,9 @@ public interface UserMapper {
 
 	void deleteRollBookUserById(Map<String, Object> params);
 
-	User getUserByWxNumber(String wx);
+	User getUserByWxNumber(Map<String, Object> params);
 
 	User getUserByNameAndInfoId(Map<String, Object> params);
+
+	User getWxUserByWxNumber(Map<String, Object> params);
 }

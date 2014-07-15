@@ -208,7 +208,7 @@ public class EntranceController {
 		User user = null;
 		//如果用户不存在，新增用户
 		if (StringUtils.isNotBlank(fromUserName)) {
-			user = userService.getWxUserByName(fromUserName);
+			user = userService.getWxUserByWxNumber(fromUserName);
 			if (user == null) {
 				user = new User();
 				user.setWxName(fromUserName);
@@ -250,7 +250,7 @@ public class EntranceController {
 	}
 
 	private boolean checkRegist(String fromUserName) {
-		User user = userService.getWxUserByName(fromUserName);
+		User user = userService.getWxUserByWxNumber(fromUserName);
 		if (StringUtils.isBlank(user.getMobile())) {
 			return false;
 		}

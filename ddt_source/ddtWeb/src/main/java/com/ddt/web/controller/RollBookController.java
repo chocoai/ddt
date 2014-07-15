@@ -72,6 +72,7 @@ public class RollBookController extends BaseController {
 		view.addObject("query", queryValue);
 		view.addObject("page", page);
 		view.addObject("totalPage", (int) Math.round(count * 1.0 / limit));
+		view.addObject("pageUrl", "/rollbook/list?query=" + queryValue);
 		return view;
 	}
 	
