@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -170,7 +171,24 @@ public class RollBookController extends BaseController {
 			
 			UserRollInfo userRollInfo = userRollInfoService.getUserRollInfoByIds(infoId, userId);
 			if (userRollInfo != null) {
-				view.addObject("result", "您已在" + DateUtils.parseDateToString(DateUtils.DATE_TIME_FORMAT, userRollInfo.getRollTime()) + "参与本次点名，不能重复点名");
+				if (userRollInfo.getRollTime() != null) {
+					view.addObject("result", "您已在" + DateUtils.parseDateToString(DateUtils.DATE_TIME_FORMAT, userRollInfo.getRollTime()) + "参与本次点名，不能重复点名");
+				} else {
+					userRollInfo.setRollTime(new Date());
+					//计算经纬度
+					String ip = getIpAddr(request);
+					Location location = LocationTool.getLocation(ip);
+					
+					if (location != null) {
+						userRollInfo.setX(location.getContentX());
+						userRollInfo.setY(location.getContentY());
+						double distance = LocationTool.getDistance(Double.valueOf(info.getX()), Double.valueOf(info.getY()), Double.valueOf(userRollInfo.getX()), Double.valueOf(userRollInfo.getY()));
+						userRollInfo.setDistance(distance);
+					}
+					
+					userRollInfoService.updateUserRollInfo(userRollInfo);
+					view.addObject("result", "完成点名");
+				}
 			} else {
 				userRollInfo = new UserRollInfo();
 				userRollInfo.setRollBookInfoId(infoId);
@@ -248,6 +266,16 @@ public class RollBookController extends BaseController {
 		}
 		
 		rollBookInfoService.addRollBookInfo(info);
+		
+		List<User> users = userService.getRollBookUserList(rid, Integer.MAX_VALUE, 0);
+		if (CollectionUtils.isNotEmpty(users)) {
+			for (User u : users) {
+				UserRollInfo userRollInfo = new UserRollInfo();
+				userRollInfo.setRollBookInfoId(info.getId());
+				userRollInfo.setUserId(u.getId());
+				userRollInfoService.addUserRollInfo(userRollInfo);
+			}
+		}
 		
 		view.addObject("info", info);
 		view.addObject("book", book);

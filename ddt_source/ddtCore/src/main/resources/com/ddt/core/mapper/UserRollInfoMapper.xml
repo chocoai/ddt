@@ -26,4 +26,15 @@
         INSERT INTO ddt_user_roll_info (roll_book_info_id, user_id, roll_time, roll_info, x, y, distance)
         VALUES(#{rollBookInfoId}, #{userId}, #{rollTime}, #{info}, #{x}, #{y}, #{distance})
     </insert>
+    
+    <insert id="updateUserRollInfo" parameterType="UserRollInfo">
+        UPDATE	  ddt_user_roll_info 
+        SET	 	  roll_time = #{rollTime}
+        		, roll_info = #{info}
+        		, x = #{x}
+        		, y = #{y}
+        		, distance = #{distance}
+        WHERE	roll_book_info_id = #{rollBookInfoId}
+        		AND user_id = #{userId}
+    </insert>
 </mapper>

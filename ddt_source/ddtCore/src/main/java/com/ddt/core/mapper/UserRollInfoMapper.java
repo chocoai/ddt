@@ -21,4 +21,6 @@ public interface UserRollInfoMapper {
 
 	void addUserRollInfo(UserRollInfo userRollInfo);
 
+	void updateUserRollInfo(UserRollInfo userRollInfo);
+
 }

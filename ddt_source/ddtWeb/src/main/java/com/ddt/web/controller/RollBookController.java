@@ -301,7 +301,7 @@ public class RollBookController extends BaseController {
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 1);
 		int limit = ServletRequestUtils.getIntParameter(request, "limit", 20);
-		long rollInfoId = ServletRequestUtils.getLongParameter(request, "roll_info_id", 0);
+		long rollInfoId = ServletRequestUtils.getLongParameter(request, "rid", 0);
 		int offset = (page - 1) * limit;
 		
 		long userId = getUserId();

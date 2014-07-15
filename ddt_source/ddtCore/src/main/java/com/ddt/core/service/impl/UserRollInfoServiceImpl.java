@@ -43,4 +43,9 @@ public class UserRollInfoServiceImpl implements UserRollInfoService {
 		userRollInfoMapper.addUserRollInfo(userRollInfo);
 	}
 
+	@Override
+	public void updateUserRollInfo(UserRollInfo userRollInfo) {
+		userRollInfoMapper.updateUserRollInfo(userRollInfo);
+	}
+
 }
