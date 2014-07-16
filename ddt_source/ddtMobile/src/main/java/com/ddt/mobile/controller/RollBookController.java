@@ -88,7 +88,7 @@ public class RollBookController extends BaseController {
 	public ModelAndView rolled(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = new ModelAndView("rolled");
 		
-		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
+ 		String wx = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "wx", ""));
 		User user = getUser(request);
 		
 		long infoId = ServletRequestUtils.getLongParameter(request, "infoId", 0);
@@ -96,7 +96,7 @@ public class RollBookController extends BaseController {
 		RollBookInfo info = rollBookInfoService.getRollInfoById(infoId);
 		
 		if (info != null) {
-			RollBook book = rollBookService.getRollBookById(info.getRollBookId(), info.getId());
+			RollBook book = rollBookService.getRollBookById(info.getRollBookId(), info.getUserId());
 			view.addObject("book", book);
 		}
 		
