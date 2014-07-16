@@ -110,7 +110,7 @@ public class EntranceController {
 					String reply = "<a href=\"http://mobile.idianming.com.cn/rollbook/myrollbook?wx=" + fromUserName + "\">点击查看我的点名列表</a>";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
-					String reply = "<a href=\"http://mobile.idianming.com.cn/rollbook/rolled?wx=" + fromUserName + "\">点击进入，开始点名</a>";
+					String reply = "回复code，获取指定点名册进行点名。";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
 					String reply = "<a href=\"http://mobile.idianming.com.cn/score/mall?wx=" + fromUserName + "\">点击进入积分商城</a>";
