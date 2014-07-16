@@ -12,7 +12,7 @@
 <meta content="telephone=no" name="format-detection" />
 <link type="text/css" rel="stylesheet" href="/css/main.css"  />
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-<script src="text/javascript">
+<script type="text/javascript">
 	function showDiv(uid) {
 		$("#reason_" + uid).css("display", "block");
 		$("#remark_" + uid).css("display", "none");
