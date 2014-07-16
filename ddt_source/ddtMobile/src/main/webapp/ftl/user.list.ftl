@@ -11,6 +11,25 @@
 <!--告诉设备忽略将页面中的数字识别为电话号码-->
 <meta content="telephone=no" name="format-detection" />
 <link type="text/css" rel="stylesheet" href="/css/main.css"  />
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script src="text/javascript">
+	function showDiv(uid) {
+		$("#reason_" + uid).css("display", "block");
+		$("#remark_" + uid).css("display", "none");
+	}
+	
+	function cancelDiv(uid) {
+		$("#reason_" + uid).css("display", "none");
+		$("#remark_" + uid).css("display", "block");
+	}
+	
+	function remark(uid, rid) {
+		var reasonVal = $("#selectValue_" + uid).val();
+		$.get("remark",{uid:uid, rid:rid, reason:reasonVal}, function(data){
+			alert(data.result);
+		},"json");
+	}
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -30,10 +49,24 @@
 					<#if users?? && users?size &gt; 0>
 						<#list users as user>
 							<tr>
-	                            <td>${user.wxName!''}</td>
-	                            <td>${user.userName!''}</td>
+	                            <td>${user.username!''}</td>
 	                            <td>${user.mobile!''}</td>
-	                            <td><a href="/rollbook/remark?uid=${user.id}&rid=${rid}&page=${page}">备注</a></td>
+	                            <td><#if user.rollTime??>${user.rollTime?string('yyyy-MM-dd HH:mm:ss')}</#if></td>
+	                            <td>${user.distance}</td>
+	                            <td>${user.info!''}</td>
+	                            <td>
+	                            	<div style="display:none" id="reason_${user.userId}">
+	                            		<select id="selectValue_${user.userId}">
+	                            			<option value="事假">事假</option>
+	                            			<option value="病假">病假</option>
+	                            		</select>
+	                            		<a href="javascript:remark(${user.userId},${user.rollBookInfoId})">确定</a>
+	                            		<a href="javascript:cancelDiv(${user.userId})">取消</a>
+	                            	</div>
+	                            	<div id="remark_${user.userId}">
+	                            		<a href="javascript:showDiv(${user.userId})">备注</a>
+	                            	</div>
+	                            </td>
                         	</tr>
 						</#list>
 					</#if>

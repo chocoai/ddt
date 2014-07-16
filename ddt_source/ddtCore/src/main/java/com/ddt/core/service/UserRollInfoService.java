@@ -20,5 +20,4 @@ public interface UserRollInfoService {
 	void addUserRollInfo(UserRollInfo userRollInfo);
 
 	void updateUserRollInfo(UserRollInfo userRollInfo);
-
 }

@@ -95,6 +95,8 @@
         		, ddt_roll_book_info	b
         WHERE	a.id = b.roll_book_id
         		AND a.user_id = b.user_id
+        		AND a.id = #{rollBookId}
+        		AND a.user_id = #{userId}
     </select>
     
     <select id="getUserRollInfoList" parameterType="java.util.Map" resultType="UserRollInfo">

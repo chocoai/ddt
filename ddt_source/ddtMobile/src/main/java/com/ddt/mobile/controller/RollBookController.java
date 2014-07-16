@@ -331,13 +331,42 @@ public class RollBookController extends BaseController {
 			return null;
 		}
 		
-		List<User> users = userService.getRollBookUserList(rollBookId, limit, offset);
+		List<UserRollInfo> userRollInfos = rollBookService.getUserRollInfoList(user.getId(), rollBookId, limit, offset);
 		
-		view.addObject("users", users);
+		view.addObject("users", userRollInfos);
 		view.addObject("page", page);
-		view.addObject("rid", rollBookId);
 		
+		return view;
+	}
+	
+	/**
+	 * 查看点名册名单
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("remark")
+	public ModelAndView remark(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView view = new ModelAndView("info");
 		
+		int userId = ServletRequestUtils.getIntParameter(request, "uid", 0);
+		long infoId = ServletRequestUtils.getLongParameter(request, "rid", 0);
+		String reason = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "reason", ""));
+		
+		if (StringUtils.isBlank(reason)) {
+			view.addObject("result", "请选择原因！");
+			return view;
+		}
+		
+		UserRollInfo userRollInfo = userRollInfoService.getUserRollInfoByIds(infoId, userId);
+		if (userRollInfo == null) {
+			view.addObject("result", "请选择原因！");
+			return view;
+		}
+		
+		userRollInfo.setInfo(reason);
+		userRollInfoService.updateUserRollInfo(userRollInfo);
+		view.addObject("result", "备注成功");
 		return view;
 	}
 	

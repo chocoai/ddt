@@ -40,7 +40,7 @@ public class UserRollInfo {
 	/**
 	 * 距离
 	 */
-	private double distance = 100000;
+	private double distance = -1;
 
 	public long getUserId() {
 		return userId;
