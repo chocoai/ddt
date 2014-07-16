@@ -326,10 +326,10 @@ public class RollBookController extends BaseController {
 		
 		User user = getUser(request);
 		
-		RollBook rollBook = rollBookService.getRollBookById(rollBookId, user.getId());
-		if (rollBook == null) {
-			return null;
-		}
+//		RollBook rollBook = rollBookService.getRollBookById(rollBookId, user.getId());
+//		if (rollBook == null) {
+//			return null;
+//		}
 		
 		List<UserRollInfo> userRollInfos = rollBookService.getUserRollInfoList(user.getId(), rollBookId, limit, offset);
 		

@@ -103,7 +103,7 @@
         SELECT	  a.roll_book_info_id	rollBookInfoId
         		, c.user_name			username
         		, c.mobile				mobile
-        		, c.id 					user_id
+        		, c.id 					userId
         		, a.distance			distance
         		, a.roll_time			rollTime
         FROM	ddt_roll_book_info b LEFT JOIN ddt_user_roll_info a ON a.roll_book_info_id = b.id
