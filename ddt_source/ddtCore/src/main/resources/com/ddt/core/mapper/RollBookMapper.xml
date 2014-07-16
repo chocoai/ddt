@@ -106,6 +106,7 @@
         		, c.id 					userId
         		, a.distance			distance
         		, a.roll_time			rollTime
+        		, a.roll_info			info
         FROM	ddt_roll_book_info b LEFT JOIN ddt_user_roll_info a ON a.roll_book_info_id = b.id
         		, ddt_user 	c
         WHERE	b.id = #{rollInfoId}
