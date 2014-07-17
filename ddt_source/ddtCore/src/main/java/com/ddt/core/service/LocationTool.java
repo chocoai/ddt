@@ -42,8 +42,8 @@ public class LocationTool {
 	
 	/**
 	 * 计算2点经纬度距离 单位为千米，返回结果为米
-	 * @param lat1
-	 * @param lng1
+	 * @param lat1 纬度
+	 * @param lng1 经度
 	 * @param lat2
 	 * @param lng2
 	 * @return
