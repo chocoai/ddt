@@ -29,7 +29,7 @@ public class LocationTool {
 	
 	public static Location getLocation(String ip) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(url).append("?ak=").append(ak).append("&ip=").append(ip);
+		sb.append(url).append("?ak=").append(ak).append("&ip=").append(ip).append("&coor=bd09ll");
 		String content = HttpUtils.getContent(sb.toString());
 		Gson gson = new Gson();
 		Location location = gson.fromJson(content, Location.class);
@@ -79,7 +79,6 @@ public class LocationTool {
 	}
 	
 	public static void main(String[] args) {
-		Location location = getLocation("42.121.106.45");
-		System.out.println(location.getStatus());
+		System.out.println(getDistance(3515188.13, 13382905.27, 3581369.51, 13443135.59));
 	}
 }
