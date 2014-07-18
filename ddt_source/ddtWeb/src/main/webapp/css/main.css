@@ -66,7 +66,7 @@ html, body {
 .querydiv,.file_box{position: relative;height:32px;margin: 3px 10px;border: 0;}
 .query_value, #textfield{height: 27px;width: 500px;}
 .keyword{position: absolute;top: 5px;left: 10px;color: #999;height: 27px;line-height: 23px;}
-#go{width: 80px;height: 30px;background: #6c3;cursor: pointer;border: 1px solid #3c0;border-radius: 3px;color: #fff;font-size: 15px;letter-spacing: 3px;}
+.go{width: 80px;height: 30px;background: #6c3;cursor: pointer;border: 1px solid #3c0;border-radius: 3px;color: #fff;font-size: 15px;letter-spacing: 3px;}
 .input, .query_btn{float: left;}
 .query_res{margin: 10px;}
 .query_btn{margin-left: 10px;height: 30px;width: 80px;}

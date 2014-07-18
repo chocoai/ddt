@@ -20,10 +20,10 @@
                           <label for="query" id="for_query" class="keyword">查询条件</label>
                         </p>
                         <p class="query_btn">
-                          <input type="submit" id="go" alt="Search" title="Search" value="查询"/>
+                          <input type="submit" class="go" alt="Search" title="Search" value="查询"/>
                         </p>
                         <span class="new">
-                        	<p class="query_btn"><a href="/rollbook/view"><input type="button" value="新增" id="go"></a></p>
+                        	<p class="query_btn"><a href="/rollbook/view"><input type="button" value="新增" class="go"></a></p>
                         </span> 
                     </form> 
                 </div>
