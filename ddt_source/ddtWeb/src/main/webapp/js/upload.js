@@ -21,7 +21,22 @@ $(function() {
 	});
 	$('#uploadfile').click(function(e) {
 		var __id = $("#id").val();
-		uploader.settings.multipart_params = {id:__id};
+		var __name = $("#name").val();
+		if (__name == null || $.trim(__name) == '') {
+			return;
+		}
+		
+		var __start = $("#start_datepicker").val();
+		if (__start == null || $.trim(__start) == '') {
+			return;
+		}
+		
+		var __end = $("#end_datepicker").val();
+		if (__end == null || $.trim(__end) == '') {
+			return;
+		}
+		
+		uploader.settings.multipart_params = {id:__id, name:__name, validStartDate:__start, validEndDate:__end};
 		uploader.start();
 		e.preventDefault();
 	});

@@ -110,19 +110,19 @@ public class EntranceController {
 				}
 				
 				if (MenuKey.KEY_I_CLICK.getValue().equalsIgnoreCase(eventKey)) {
-					String reply = "<a href=\"http://mobile.idianming.com.cn/rollbook/myrollbook?wx=" + fromUserName + "\">点击查看我的点名列表</a>";
+					String reply = "点击查看我的<a href=\"http://mobile.idianming.com.cn/rollbook/myrollbook?wx=" + fromUserName + "\">点名列表</a>";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_I_CLICKED.getValue().equalsIgnoreCase(eventKey)) {
 					String reply = "回复code，获取指定点名册进行点名。";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SCORE_MALL.getValue().equalsIgnoreCase(eventKey)) {
-					String reply = "<a href=\"http://mobile.idianming.com.cn/score/mall?wx=" + fromUserName + "\">点击进入积分商城</a>";
+					String reply = "点击进入<a href=\"http://mobile.idianming.com.cn/score/mall?wx=" + fromUserName + "\">积分商城</a>";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SCORE_QUERY.getValue().equalsIgnoreCase(eventKey)) {
-					String reply = "<a href=\"http://mobile.idianming.com.cn/score/query?wx=" + fromUserName + "\">点击查看我的积分</a>";
+					String reply = "点击查看<a href=\"http://mobile.idianming.com.cn/score/query?wx=" + fromUserName + "\">我的积分</a>";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				} else if (MenuKey.KEY_SIGN.getValue().equalsIgnoreCase(eventKey)) {
-					String reply = "<a href=\"http://mobile.idianming.com.cn/score/sign?wx=" + fromUserName + "\">点击签到</a>";
+					String reply = "点击<a href=\"http://mobile.idianming.com.cn/score/sign?wx=" + fromUserName + "\">签到</a>";
 					buildTextMsg(view, toUserName, fromUserName, reply);
 				}
 			} else if (EventType.LOCATION.getType().equalsIgnoreCase(eventType)) {

@@ -30,6 +30,7 @@ import com.ddt.core.meta.RollBookUser;
 import com.ddt.core.meta.User;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
+import com.ddt.core.utils.DateUtils;
 
 /**
  * UploadController.java
@@ -64,7 +65,35 @@ public class UploadController extends BaseController {
 			view.addObject("result", "上传文件不能为空");
 			return view;
 		}
-
+		
+		long rid = ServletRequestUtils.getLongParameter(request, "id", 0);
+		String name = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "name", ""));
+		String validStartDate = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "validStartDate", ""));
+		String validEndDate = StringUtils.trim(ServletRequestUtils.getStringParameter(request, "validEndDate", ""));
+		int userCount = ServletRequestUtils.getIntParameter(request, "userCount", 0);
+		
+		long userId = user.getId();
+		
+		boolean isAdd = false;
+		
+		RollBook rollBook = rollBookService.getRollBookById(rid, userId);
+		if (rollBook == null) {
+			rollBook = new RollBook();
+			isAdd = true;
+		}
+		
+		rollBook.setName(name);
+		rollBook.setUserCount(userCount);
+		rollBook.setUserId(userId);
+		rollBook.setValidStartTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, validStartDate));
+		rollBook.setValidEndTime(DateUtils.parseStringToDate(DateUtils.DATE_FORMAT, validEndDate));
+		
+		if (isAdd) {
+			rollBookService.addRollBook(rollBook);
+		} else {
+			rollBookService.updateRollBook(rollBook);
+		}
+		
 		long rollBookId = ServletRequestUtils
 				.getLongParameter(request, "id", 0);
 		if (rollBookId <= 0) {
@@ -73,14 +102,6 @@ public class UploadController extends BaseController {
 			return view;
 		}
 
-		RollBook rollBook = rollBookService.getRollBookById(rollBookId,
-				user.getId());
-		if (rollBook == null) {
-			view.addObject("status", StatusCode.ROLL_BOOK_NOT_EXISTS);
-			view.addObject("result", "点名册不存在");
-			return view;
-		}
-		int userCount = rollBook.getUserCount();
 		Workbook workbook = initWorkbook(file);
 		int sheetNum = workbook.getNumberOfSheets();
 		for (int i = 0; i < sheetNum; i++) {
@@ -89,12 +110,12 @@ public class UploadController extends BaseController {
 			for (int j = 1; j <= rowNum; j++) {
 				Row row = sheet.getRow(j);
 				Cell cell = row.getCell(0);
-				String name = cell.getStringCellValue();
-				if (StringUtils.isBlank(name)) {
+				String username = cell.getStringCellValue();
+				if (StringUtils.isBlank(username)) {
 					continue;
 				}
 				User u = new User();
-				u.setUserName(name);
+				u.setUserName(username);
 				userService.insertUser(u);
 
 				RollBookUser rollBookUser = userService.getRollBookUser(
