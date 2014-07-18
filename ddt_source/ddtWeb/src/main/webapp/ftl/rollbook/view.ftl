@@ -38,7 +38,7 @@
 	                            </p>
                             </div>
                             <div class="btns">
-                                <p class="save"><a href="javascript:void(0)" class="submit" id="<#if rollBook?? && rollBook.id &gt; 0>uploadfile<#else>save_check</#if>"><span>提交</span></a></p>
+                                <p class="save"><a href="javascript:void(0)" class="submit" id="<#if rollBook?? && rollBook.id &gt; 0>save_check<#else>uploadfile</#if>"><span>提交</span></a></p>
                                 <p class="close"><a href="/rollbook/template" class="close_btn"><span>模板下载</span></a></p>
                             </div>
                         </fieldset>
