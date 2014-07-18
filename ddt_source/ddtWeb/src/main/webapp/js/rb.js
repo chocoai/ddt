@@ -15,11 +15,6 @@ $(function() {
 			return;
 		}
 		
-		var _name = $("#name").val();
-		if (_name == null || $.trim(_name) == '') {
-			return;
-		}
-		
 		document.roll_book_form.submit();
 	});
 	
