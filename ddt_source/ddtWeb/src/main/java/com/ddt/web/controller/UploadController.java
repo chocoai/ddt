@@ -94,14 +94,6 @@ public class UploadController extends BaseController {
 			rollBookService.updateRollBook(rollBook);
 		}
 		
-		long rollBookId = ServletRequestUtils
-				.getLongParameter(request, "id", 0);
-		if (rollBookId <= 0) {
-			view.addObject("status", StatusCode.ROLL_BOOK_NOT_EXISTS);
-			view.addObject("result", "点名册不存在");
-			return view;
-		}
-
 		Workbook workbook = initWorkbook(file);
 		int sheetNum = workbook.getNumberOfSheets();
 		for (int i = 0; i < sheetNum; i++) {
@@ -119,11 +111,11 @@ public class UploadController extends BaseController {
 				userService.insertUser(u);
 
 				RollBookUser rollBookUser = userService.getRollBookUser(
-						rollBookId, u.getId());
+						rollBook.getId(), u.getId());
 				if (rollBookUser == null) {
 					rollBookUser = new RollBookUser();
 					rollBookUser.setUserId(u.getId());
-					rollBookUser.setBookId(rollBookId);
+					rollBookUser.setBookId(rollBook.getId());
 					userService.insertRollBookUser(rollBookUser);
 				}
 				userCount++;

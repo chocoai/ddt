@@ -22,10 +22,10 @@
                         <p class="query_btn">
                           <input type="submit" class="go" alt="Search" title="Search" value="查询"/>
                         </p>
-                        <span class="new">
-                        	<p class="query_btn"><a href="/rollbook/view"><input type="button" value="新增" class="go"></a></p>
-                        </span> 
-                    </form> 
+                    </form>
+                    <span class="new">
+                    	<p class="query_btn"><input type="button" value="新增" onclick="window.location.href='/rollbook/view'" class="go"></p>
+                    </span>
                 </div>
                 <div class="query_res">
                   <input type="hidden" id="cur_page">
