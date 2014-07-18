@@ -18,7 +18,10 @@
 </head>
 <body>
 	<div class="wrapper">
-		<#include "/common/head.ftl">
+		<div class="logo"><img src="/images/logo.jpg" height="100%"></div>
+        <div class="bannerwrap">
+            <div class="banner"></div>
+        </div>
 		<div class="main">
 			<div class="loginbox">
 				<form name="lgnForm" class="lgnForm" id="lgnForm">
