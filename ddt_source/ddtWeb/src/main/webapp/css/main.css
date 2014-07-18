@@ -27,7 +27,7 @@ html, body {
  height: 30px;
 }
 .exit,.uname{float: right;color: #fff;font-weight: 700;width: 100px;height: 30px;line-height: 30px;margin:0;}
-.exit a:link,a:visited{text-decoration: none;color: #fff;}
+.exit{text-decoration: none;color: #fff;}
 .logo,.bannerwrap{float: left;}
 .logo{width: 200px;height: 100px;background: #9c0;}
 .bannerwrap{width: 100%;margin-left: -200px;}
