@@ -32,6 +32,9 @@ import com.ddt.mobile.enums.MenuKey;
 import com.ddt.mobile.enums.MsgType;
 import com.ddt.mobile.msg.TextMsg;
 import com.ddt.mobile.utils.DocumentUtils;
+import com.ddt.mobile.utils.ReplyUtils;
+
+import constants.ReplyConstants;
 
 /**
  * EntranceController.java
@@ -91,7 +94,7 @@ public class EntranceController {
 			} else if (EventType.SUBSCRIBE.getType().equalsIgnoreCase(eventType)) {
 				response.setCharacterEncoding("UTF-8"); 
 		        response.setContentType("text/xml");
-		        String welcome = "欢迎使用爱点名！";
+		        String welcome = ReplyUtils.get(ReplyConstants.SUBSCRIBE);
 				buildTextMsg(view, toUserName, fromUserName, welcome);
 				
 			} else if (EventType.SCAN.getType().equalsIgnoreCase(eventType)) {
@@ -102,7 +105,7 @@ public class EntranceController {
 					//没有注册 返回注册页面
 					response.setCharacterEncoding("UTF-8"); 
 			        response.setContentType("text/xml");
-			        String c = "请按照以下格式输入绑定用户信息：姓名+手机号码+密码";
+			        String c = ReplyUtils.get(ReplyConstants.REGISTER_TIPS);
 					return buildTextMsg(view, toUserName, fromUserName, c);
 				}
 				

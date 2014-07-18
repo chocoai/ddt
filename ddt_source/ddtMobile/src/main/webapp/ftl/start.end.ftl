@@ -36,7 +36,7 @@
 					${msg!''}
 				<#else>
 					<#if flag == 0>
-						您与${info.rollStartTime?string('yyyy-MM-dd HH:mm:ss')}开始对${book.name!''}点名，点名随机码为：${info.rollCode!''}
+						您与${info.rollStartTime?string('yyyy-MM-dd HH:mm:ss')}开始对${book.name!''}点名，请将随机码：${info.rollCode!''}告知“被点名人”
 					<#else>
 						您与${info.rollEndTime?string('yyyy-MM-dd HH:mm:ss')}结束对${book.name!''}点名
 					</#if>
