@@ -56,7 +56,9 @@
 				</table>
 			</div>
 	</div>
-	<div class="footer"></div>
+	<div class="footer">
+		<#include "/common/footer.ftl">
+	</div>
 </div>
 </body>
 </html>
