@@ -59,6 +59,7 @@
 	                            		<select id="selectValue_${user.userId}">
 	                            			<option value="事假">事假</option>
 	                            			<option value="病假">病假</option>
+	                            			<option value="未带手机">未带手机</option>
 	                            		</select>
 	                            		<a href="javascript:remark(${user.userId},${user.rollBookInfoId})">确定</a>
 	                            		<a href="javascript:cancelDiv(${user.userId})">取消</a>
