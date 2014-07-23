@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,7 @@ import com.ddt.core.service.RollBookInfoService;
 import com.ddt.core.service.RollBookService;
 import com.ddt.core.service.UserService;
 import com.ddt.core.utils.EncryptUtils;
+import com.ddt.mobile.constants.ReplyConstants;
 import com.ddt.mobile.enums.EventType;
 import com.ddt.mobile.enums.MenuKey;
 import com.ddt.mobile.enums.MsgType;
@@ -34,7 +37,6 @@ import com.ddt.mobile.msg.TextMsg;
 import com.ddt.mobile.utils.DocumentUtils;
 import com.ddt.mobile.utils.ReplyUtils;
 
-import constants.ReplyConstants;
 
 /**
  * EntranceController.java
@@ -188,7 +190,20 @@ public class EntranceController {
 			userName = contentArray[0];
 			mobile = contentArray[1];
 			password = contentArray[2];
+		} else {
+			String text = "输入注册信息有误。";
+			buildTextMsg(view, toUserName, fromUserName, text);
+			return;
 		}
+		
+		Pattern pattern = Pattern.compile("1[3,4,5,6,7,8,9]\\d{9}");
+		Matcher matcher = pattern.matcher(mobile);
+		if (!matcher.matches()) {
+			String text = "手机号码格式无效！";
+			buildTextMsg(view, toUserName, fromUserName, text);
+			return;
+		}
+		
 		User u = userService.getWxUserByMobile(mobile);
 		//用户不为空，手机号码已经被注册
 		if (u != null) {

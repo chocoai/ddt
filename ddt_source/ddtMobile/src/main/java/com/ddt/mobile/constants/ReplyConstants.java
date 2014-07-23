@@ -2,7 +2,7 @@
  * @(#)ReplyConstants.java 2014-7-18
  *
  */
-package constants;
+package com.ddt.mobile.constants;
 
 /**
  * ReplyConstants.java

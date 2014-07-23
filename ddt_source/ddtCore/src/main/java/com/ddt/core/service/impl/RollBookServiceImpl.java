@@ -149,4 +149,13 @@ public class RollBookServiceImpl implements RollBookService {
 	public void updateRollBook(RollBook rollBook) {
 		rollBookMapper.updateRollBook(rollBook);
 	}
+
+	@Override
+	public int getUserRollInfoCount(long userId, long rollInfoId, boolean unrolled) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("rollInfoId", rollInfoId);
+		params.put("userId", userId);
+		params.put("unrolled", unrolled);
+		return rollBookMapper.getUserRollInfoCount(params);
+	}
 }

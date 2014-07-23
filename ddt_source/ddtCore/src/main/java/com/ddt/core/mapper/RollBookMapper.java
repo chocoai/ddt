@@ -45,5 +45,7 @@ public interface RollBookMapper {
 
 	void addRollBookUser(RollBookUser rollBookUser);
 
+	int getUserRollInfoCount(Map<String, Object> params);
+
 
 }

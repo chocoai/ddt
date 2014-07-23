@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
 
+import com.ddt.core.utils.FreeMarkerUtils;
 import com.ddt.core.utils.HttpUtils;
 import com.google.gson.Gson;
 
@@ -44,6 +47,8 @@ public class MenuTool {
 	private static String getUrl = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=";
 	
 	private static String deleteUrl = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=";
+	
+	private static String broadcastUrl = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=";
 	
 	private static long expiredTime;
 	
@@ -81,6 +86,19 @@ public class MenuTool {
 		delete.append(deleteUrl).append(accessToken);
 		
 		HttpUtils.getContent(delete.toString());
+	}
+	
+	public static void broadcastMsg(List<String> openIdList, String content) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("openIdList", openIdList);
+		map.put("content", content);
+		String postData = FreeMarkerUtils.parse("broadcast.ftl", map);
+		
+		getAccessToken();
+		StringBuffer broadcast = new StringBuffer();
+		broadcast.append(broadcastUrl).append(accessToken);
+		
+		HttpUtils.postContent(broadcast.toString(), postData);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -145,4 +163,10 @@ public class MenuTool {
 		}
 	}
 	
+	@Autowired
+	public void setBroadcastUrl(@Value("${wx.broadcast.url}") String broadcastUrl) {
+		if (StringUtils.isNotBlank(broadcastUrl)) {
+			MenuTool.broadcastUrl = broadcastUrl;
+		}
+	}
 }

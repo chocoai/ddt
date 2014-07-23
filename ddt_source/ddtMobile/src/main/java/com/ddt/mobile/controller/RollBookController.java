@@ -326,15 +326,14 @@ public class RollBookController extends BaseController {
 		
 		User user = getUser(request);
 		
-//		RollBook rollBook = rollBookService.getRollBookById(rollBookId, user.getId());
-//		if (rollBook == null) {
-//			return null;
-//		}
-		
 		List<UserRollInfo> userRollInfos = rollBookService.getUserRollInfoList(user.getId(), rollBookId, limit, offset);
+		int count = rollBookService.getUserRollInfoCount(user.getId(), rollBookId, false);
+		int unrolledCount = rollBookService.getUserRollInfoCount(user.getId(), rollBookId, true);
 		
 		view.addObject("users", userRollInfos);
 		view.addObject("page", page);
+		view.addObject("count", count);
+		view.addObject("unrolledCount", unrolledCount);
 		
 		return view;
 	}

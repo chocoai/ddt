@@ -14,7 +14,7 @@ package com.ddt.mobile.enums;
  */
 public enum EventType {
 	
-	SUBSCRIBE("subscribe"), UNSUBSCRIBE("unsubscribe"), CLICK("click"), SCAN("scan"), VIEW("view"), LOCATION("location");
+	SUBSCRIBE("subscribe"), UNSUBSCRIBE("unsubscribe"), CLICK("click"), SCAN("scan"), VIEW("view"), LOCATION("location"), MASSSENDJOBFINISH("MASSSENDJOBFINISH");
 	
 	private String type;
 	
