@@ -35,14 +35,54 @@ html, body {
  margin: -50px auto 0;
 }
 
-.main{position: relative;width: 100%;height:72%;margin-top: 25px;clear: both;padding-bottom: 50px;}
-.main .loginbox{
-	margin: 50px auto;
-	width: 418px;
-	height: 303px;
-	border: 1px solid #ccc;
+.main{position: relative;width: 100%;margin-top: 25px;clear: both;padding-bottom: 50px;}
+
+.main-inner {
+    width: 1000px;
+    height: 600px;
+    overflow: visible;
+    margin: 0 auto;
+    position: relative;
+    clear: both;
+    background-image: url(http://mimg.127.net/index/163/themes/140717_qnyh_cnt.jpg);
+    background-position: 50% 0%;
+    background-repeat: no-repeat no-repeat;
 }
-.main .lgnform{margin: 0 auto;width: 270px;height: 150px;margin-top: 55px;}
+
+.main .loginbox{
+    width: 360px;
+    height: 240px;
+    padding: 13px 14px 15px;
+    top: 62px;
+    left: 50%;
+    margin-left: 90px;
+    text-align: left;
+    position: absolute;
+    z-index:2;
+    background: #fff;
+}
+
+.main .theme-bg {
+    display: block;
+    position: absolute;
+    width: 605px;
+    height: 600px;
+    left: 0px;
+    top: 0px;
+    cursor: pointer;
+}
+
+.main .theme-ctrl {
+    position: absolute;
+    right: 100px;
+    bottom: 12px;
+}
+
+.main .lgnform{
+    margin: 0 auto;
+    width: 270px;
+    height: 150px;
+}
 .lgnform fieldset{border:0;padding: 0;}
 .lgnform legend{
 	font-size: 20px;
@@ -63,4 +103,22 @@ width: 55px;
 	letter-spacing: 3px;
 	line-height: 33px;
 	cursor: pointer;
+}
+
+/**icons**/
+.ddt-icon {
+    background: url("../images/bg.png") no-repeat;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.icon-prev {
+    background-position: 0 -457px;
+    margin-right: 7px;
+}
+
+.icon-next {
+   background-position: -35px -457px ;
 }
