@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import constants.ReplyConstants;
+import com.ddt.mobile.constants.ReplyConstants;
+
 
 /**
  * ReplyUtils.java

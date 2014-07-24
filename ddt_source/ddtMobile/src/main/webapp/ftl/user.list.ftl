@@ -41,7 +41,7 @@
 			<div class="pointswrap">
 
 				<div class="leftpoint">
-					<p>点名册用户列表</p>
+					<p>点名册用户列表,共${count}人， 其中${unrolledCount}未参与点名</p>
 				</div>
 			</div>	
 			<div class="goodslist">

@@ -41,4 +41,6 @@ public interface RollBookService {
 
 	void updateRollBook(RollBook rollBook);
 
+	int getUserRollInfoCount(long id, long rollBookId, boolean unrolled);
+
 }
