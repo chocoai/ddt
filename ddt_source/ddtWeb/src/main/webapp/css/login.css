@@ -10,14 +10,16 @@ html, body {
  background: #efefef;
  position: relative;
 }
-#wrapper {
- min-width: 960px;
- min-height: 100%;
- margin: 0 auto;
- width: 90%;
- background: #fff;
- 
+
+.wrapper {
+    min-width: 960px;
+    min-height: 100%;
+    margin: 0 auto;
+    width: 90%;
+    background: #fff;
+    position: relative;
 }
+
 * html #wrapper {
  height: 100%;
 }
@@ -26,14 +28,6 @@ html, body {
 .bannerwrap{width: 100%;margin-left: -200px;}
 .logo{width: 200px;height: 100px;background: #9c0;}
 .banner{margin-left: 200px;height: 100px;background: #90c;}
-
-
-#footer {
- height: 50px;
- background: #6c3;
- width:100%;
- margin: -50px auto 0;
-}
 
 .main{position: relative;width: 100%;margin-top: 25px;clear: both;padding-bottom: 50px;}
 
@@ -75,7 +69,7 @@ html, body {
 .main .theme-ctrl {
     position: absolute;
     right: 100px;
-    bottom: 12px;
+    bottom: 25px;
 }
 
 .main .lgnform{
@@ -105,9 +99,28 @@ width: 55px;
 	cursor: pointer;
 }
 
+.footer {
+    height: 50px;
+    background: #6c3;
+    width:100%;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    margin-top: 20px;
+}
+
+.footer .qrcode {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: 90px;
+}
+
 /**icons**/
 .ddt-icon {
-    background: url("../images/bg.png") no-repeat;
+    background: url("../images/bg.png") 0 0 no-repeat;
     display: inline-block;
     width: 25px;
     height: 25px;
@@ -122,3 +135,4 @@ width: 55px;
 .icon-next {
    background-position: -35px -457px ;
 }
+
